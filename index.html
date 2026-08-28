@@ -1,97 +1,64 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coder-app-name</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    <title>P.K Creative Agency | Websites, Branding & Digital Experiences</title>
+    <meta
+      name="description"
+      content="P.K Creative Agency helps businesses build powerful websites, memorable brands, and modern digital experiences. Turning ideas into digital experiences."
     />
-    <style>
-      /* 内联样式确保主题色立即生效，避免闪烁 */
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-      }
-      html.light,
-      html.light body {
-        background-color: #ffffff !important;
-        color: #000000;
-      }
-      html.dark,
-      html.dark body {
-        background-color: #1a1a1a !important;
-        color: #ffffff;
-      }
-    </style>
-    <script>
-      // 在 React 加载前立即设置主题，避免闪烁
-      (function () {
-        const isInIframe = window.self !== window.top;
+    <meta name="keywords" content="creative agency, website development, UI/UX design, branding, digital solutions, P.K Creative" />
+    <meta name="theme-color" content="#06070d" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://pkcreative.agency/" />
 
-        function applyThemeToDOM(theme) {
-          document.documentElement.classList.remove("light", "dark");
-          document.documentElement.classList.add(theme);
-          document.documentElement.setAttribute("data-theme", theme);
-        }
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="P.K Creative Agency" />
+    <meta property="og:title" content="P.K Creative Agency | Websites, Branding & Digital Experiences" />
+    <meta
+      property="og:description"
+      content="We build digital experiences that help businesses grow — websites, brands, and products crafted with intent."
+    />
+    <meta property="og:url" content="https://pkcreative.agency/" />
+    <meta
+      property="og:image"
+      content="https://image.qwenlm.ai/generated-images/f244d4c7-6896-466a-8bb5-083c020f95a4/_result.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="P.K Creative Agency | Websites, Branding & Digital Experiences" />
+    <meta
+      name="twitter:description"
+      content="Turning ideas into digital experiences. Websites, branding, UI/UX and digital solutions for ambitious brands."
+    />
 
-        if (isInIframe) {
-          // 监听父窗口主动推送的主题消息
-          window.addEventListener("message", function (event) {
-            if (event.data && typeof event.data.theme === "string") {
-              const theme = event.data.theme;
-              if (theme === "light" || theme === "dark") {
-                applyThemeToDOM(theme);
-              }
-            }
-          });
-        } else {
-          // 非 iframe 环境，使用默认 light 主题
-          applyThemeToDOM("light");
-        }
-      })();
-    </script>
-      <script>
-      (function () {
-        if (window.self === window.top) return;
-        var reported = {};
-        window.addEventListener("error", function (event) {
-          // 资源加载失败的 error 事件没有 message，此处仅上报 JS 运行时错误
-          if (!event || !event.message) return;
-          var key =
-            event.message + "|" + (event.filename || "") + "|" + (event.lineno || 0);
-          if (reported[key]) return; // 相同错误只上报一次，避免渲染循环刷屏
-          reported[key] = true;
-          try {
-            window.parent.postMessage(
-              {
-                type: "sandbox-runtime-error",
-                payload: {
-                  message: String(event.message).slice(0, 500),
-                  filename: event.filename || "",
-                  lineno: event.lineno || 0,
-                  colno: event.colno || 0,
-                  stack:
-                    event.error && event.error.stack
-                      ? String(event.error.stack).slice(0, 2000)
-                      : ""
-                }
-              },
-              "*"
-            );
-          } catch (e) {
-            /* 上报失败不影响页面运行 */
-          }
-        });
-      })();
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230a0c16'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%238b7cff'/%3E%3Cstop offset='1' stop-color='%234ea2ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='32' y='43' font-family='Arial, sans-serif' font-size='27' font-weight='700' fill='url(%23g)' text-anchor='middle'%3EPK%3C/text%3E%3C/svg%3E"
+    />
+
+    <!-- Fonts: Syne (display) + Manrope (body) + JetBrains Mono (labels) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "P.K Creative Agency",
+        "url": "https://pkcreative.agency/",
+        "description": "Creative digital agency building websites, brands and digital experiences for ambitious businesses.",
+        "slogan": "Turning Ideas Into Digital Experiences"
+      }
     </script>
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
