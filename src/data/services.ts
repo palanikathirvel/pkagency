@@ -1,83 +1,112 @@
-import { Globe2, PenTool, Megaphone, Fingerprint, Rocket, type LucideIcon } from "lucide-react";
+import {
+  Globe,
+  PenTool,
+  Megaphone,
+  Layers,
+  Rocket,
+  type LucideIcon,
+} from "lucide-react";
 
-export type Service = {
-  id: string;
+export interface Service {
+  slug: string;
   icon: LucideIcon;
   title: string;
-  blurb: string;
+  short: string;
+  description: string;
   features: string[];
-  /** Tailwind class fragments — kept here so cards can be tinted per service */
-  tint: {
-    text: string;
-    chip: string;
-    gradient: string;
-    shadow: string;
-  };
-};
+  deliverables: string[];
+  gradient: string; // tailwind gradient classes for the icon tile
+  glow: string; // rgba glow used on hover
+  bestFor: string;
+}
 
 export const services: Service[] = [
   {
-    id: "web-development",
-    icon: Globe2,
+    slug: "website-development",
+    icon: Globe,
     title: "Website Development",
-    blurb: "High-performance websites and web apps engineered to turn visitors into customers.",
+    short:
+      "Fast, responsive, conversion-ready websites — from landing pages to full web applications.",
+    description:
+      "We engineer websites that load fast, rank well and turn visitors into customers. Every build is responsive by default, SEO-friendly and crafted around your business goals.",
     features: [
       "Business websites",
       "Portfolio websites",
-      "Landing pages",
+      "High-converting landing pages",
       "E-commerce websites",
       "Custom web applications",
     ],
-    tint: {
-      text: "text-royal",
-      chip: "bg-royal/10 text-royal border-royal/25",
-      gradient: "from-royal to-cobalt",
-      shadow: "group-hover:shadow-royal/20",
-    },
+    deliverables: [
+      "Responsive build",
+      "CMS setup",
+      "SEO foundation",
+      "Analytics & tracking",
+      "Launch support",
+    ],
+    gradient: "from-royal to-cobalt",
+    glow: "rgba(139,124,255,0.4)",
+    bestFor: "Businesses that need a website that actually works for them.",
   },
   {
-    id: "ui-ux",
+    slug: "ui-ux-design",
     icon: PenTool,
     title: "UI/UX Design",
-    blurb: "Intuitive, research-driven interfaces that feel effortless and look unforgettable.",
+    short:
+      "Modern, intuitive interfaces designed around your users — from wireframe to clickable prototype.",
+    description:
+      "Great products feel effortless. We design clean, user-centred interfaces for web and mobile, validating ideas with wireframes and interactive prototypes before a single line of code.",
     features: [
       "Modern website UI",
       "Mobile app UI",
       "Dashboard design",
-      "Wireframes",
+      "Wireframes & user flows",
       "Interactive prototypes",
     ],
-    tint: {
-      text: "text-cobalt",
-      chip: "bg-cobalt/10 text-cobalt border-cobalt/25",
-      gradient: "from-cobalt to-royal",
-      shadow: "group-hover:shadow-cobalt/20",
-    },
+    deliverables: [
+      "UX research & flows",
+      "Wireframes",
+      "Hi-fi UI screens",
+      "Design system",
+      "Clickable prototype",
+    ],
+    gradient: "from-cobalt to-flare",
+    glow: "rgba(78,162,255,0.4)",
+    bestFor: "Startups and product teams who care about user experience.",
   },
   {
-    id: "social-creative",
+    slug: "social-media-design",
     icon: Megaphone,
     title: "Social Media & Creative Design",
-    blurb: "Scroll-stopping creative for every platform your audience lives on.",
+    short:
+      "Scroll-stopping creatives for Instagram, LinkedIn and campaigns that keep your brand visible.",
+    description:
+      "Consistent, on-brand creatives that make people stop scrolling. We design posts, banners and campaign visuals that carry your brand voice across every platform.",
     features: [
       "Instagram creatives",
       "LinkedIn creatives",
       "Marketing banners",
-      "Posters",
+      "Posters & campaign art",
       "Brand visuals",
     ],
-    tint: {
-      text: "text-flare",
-      chip: "bg-flare/10 text-flare border-flare/25",
-      gradient: "from-flare to-royal",
-      shadow: "group-hover:shadow-flare/20",
-    },
+    deliverables: [
+      "Post & story templates",
+      "Campaign creatives",
+      "Ad banners",
+      "Content calendars",
+      "Highlight covers",
+    ],
+    gradient: "from-flare to-royal",
+    glow: "rgba(255,110,199,0.4)",
+    bestFor: "Creators and brands building an active online presence.",
   },
   {
-    id: "branding",
-    icon: Fingerprint,
+    slug: "branding",
+    icon: Layers,
     title: "Branding",
-    blurb: "Identities with substance — built to be recognized, trusted and remembered.",
+    short:
+      "Memorable identities — logos, color systems and guidelines that make your brand unmistakable.",
+    description:
+      "Your brand is more than a logo. We craft complete identity systems — marks, colour, typography and voice — with guidelines that keep everything consistent as you grow.",
     features: [
       "Logo design",
       "Brand identity",
@@ -85,30 +114,44 @@ export const services: Service[] = [
       "Typography",
       "Brand guidelines",
     ],
-    tint: {
-      text: "text-cobalt",
-      chip: "bg-cobalt/10 text-cobalt border-cobalt/25",
-      gradient: "from-cobalt to-flare",
-      shadow: "group-hover:shadow-cobalt/20",
-    },
+    deliverables: [
+      "Logo suite & marks",
+      "Colour & type system",
+      "Stationery design",
+      "Brand guideline book",
+      "Social kit",
+    ],
+    gradient: "from-royal to-flare",
+    glow: "rgba(139,124,255,0.45)",
+    bestFor: "New ventures and rebrands that need to look established.",
   },
   {
-    id: "digital-solutions",
+    slug: "digital-solutions",
     icon: Rocket,
     title: "Digital Solutions",
-    blurb: "Automation, dashboards and custom tooling that move your business forward.",
+    short:
+      "Custom tools, automations and dashboards that remove busywork and scale with your business.",
+    description:
+      "Beyond websites — we build the digital backbone of your business: custom tools, automations and dashboards that save hours every week and grow with you.",
     features: [
-      "Custom business solutions",
+      "Custom solutions for businesses",
       "Automation integrations",
       "Business dashboards",
-      "Digital transformation",
-      "Process optimization",
+      "Digital transformation solutions",
+      "API & tool integrations",
     ],
-    tint: {
-      text: "text-royal",
-      chip: "bg-royal/10 text-royal border-royal/25",
-      gradient: "from-royal to-flare",
-      shadow: "group-hover:shadow-royal/20",
-    },
+    deliverables: [
+      "Process audit",
+      "Custom tool build",
+      "Automation setup",
+      "Reporting dashboards",
+      "Training & handover",
+    ],
+    gradient: "from-cobalt to-royal",
+    glow: "rgba(78,162,255,0.45)",
+    bestFor: "Teams drowning in manual work and scattered tools.",
   },
 ];
+
+export const getService = (slug: string) =>
+  services.find((s) => s.slug === slug);

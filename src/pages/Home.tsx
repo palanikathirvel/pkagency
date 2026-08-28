@@ -7,17 +7,20 @@ import ProcessSection from "../components/ProcessSection";
 import TestimonialsSection from "../components/TestimonialsSection";
 import PricingSection from "../components/PricingSection";
 import { usePageMeta } from "../hooks/usePageMeta";
-import { seo } from "../config/agencyConfig";
 
 export default function Home() {
-  usePageMeta(seo.defaultTitle, seo.defaultDescription);
+  usePageMeta(
+    "P.K Creative Agency | Websites, Branding & Digital Experiences",
+    "P.K Creative Agency helps businesses build powerful websites, memorable brands, and modern digital experiences."
+  );
+
   return (
     <main>
       <Hero />
       <TrustBar />
       <ServicesSection />
       <WhyChooseUs />
-      <PortfolioSection featured />
+      <PortfolioSection />
       <ProcessSection />
       <TestimonialsSection />
       <PricingSection />

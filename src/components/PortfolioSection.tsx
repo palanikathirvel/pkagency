@@ -1,131 +1,110 @@
-import { useMemo, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowUpRight } from "lucide-react";
-import { projects, projectCategories } from "../data/projects";
-import { Chip, GhostLink, PrimaryLink, Reveal, SectionHeading } from "./ui";
+import { ArrowUpRight, Sparkles } from "lucide-react";
+import { projects } from "../data/projects";
+import { SectionHead, StaggerGroup, StaggerItem } from "./ui";
 
-export default function PortfolioSection({
-  featured = false,
-  showHeader = true,
-}: {
-  featured?: boolean;
-  showHeader?: boolean;
-}) {
-  const [filter, setFilter] = useState<(typeof projectCategories)[number]>("All");
-  const reduced = useReducedMotion();
-
-  const filtered = useMemo(() => {
-    const list = filter === "All" ? projects : projects.filter((p) => p.category === filter);
-    return featured ? list.slice(0, 3) : list;
-  }, [filter, featured]);
+export default function PortfolioSection() {
+  const featured = projects.filter((p) => p.featured).slice(0, 3);
 
   return (
-    <section id="work" className="relative py-24 lg:py-32">
-      <div className="pointer-events-none absolute left-1/4 top-0 h-[380px] w-[380px] rounded-full bg-flare/7 blur-[130px]" aria-hidden="true" />
-      <div className="mx-auto max-w-7xl px-5 lg:px-8">
-        {showHeader && (
-          <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-            <SectionHeading
-              eyebrow="Portfolio"
-              title={
-                <>
-                  Selected <span className="text-flare">Work</span>
-                </>
-              }
-              sub="A selection of projects and digital experiences we've created."
-            />
-            {featured && (
-              <Reveal delay={0.2} className="shrink-0">
-                <GhostLink to="/work">View All Work</GhostLink>
-              </Reveal>
-            )}
-          </div>
-        )}
+    <section className="relative overflow-hidden py-20 lg:py-28" aria-label="Selected work">
+      <div
+        className="pointer-events-none absolute top-1/3 -right-40 h-[420px] w-[420px] rounded-full bg-flare/8 blur-[130px]"
+        aria-hidden="true"
+      />
+      <div className="shell relative">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <SectionHead
+            eyebrow="Portfolio"
+            title="Selected Work"
+            sub="A selection of projects and digital experiences we've created."
+          />
+          <Link to="/work" className="btn-ghost btn-sm mb-1 hidden shrink-0 lg:inline-flex">
+            View All Work <ArrowUpRight className="h-4 w-4" />
+          </Link>
+        </div>
 
-        {/* Filters */}
-        <Reveal delay={0.1}>
-          <div className="mt-10 flex flex-wrap gap-2.5" role="tablist" aria-label="Filter projects by category">
-            {projectCategories.map((c) => {
-              const count = c === "All" ? projects.length : projects.filter((p) => p.category === c).length;
-              const active = filter === c;
-              return (
-                <button
-                  key={c}
-                  type="button"
-                  role="tab"
-                  aria-selected={active}
-                  onClick={() => setFilter(c)}
-                  className={`rounded-full px-5 py-2.5 text-sm font-bold transition-all duration-300 ${
-                    active
-                      ? "bg-gradient-to-r from-royal to-cobalt text-ink-950 shadow-[0_6px_24px_-6px_rgba(139,124,255,0.6)]"
-                      : "border border-mist/12 text-fog hover:border-mist/30 hover:text-mist"
-                  }`}
-                >
-                  {c} <span className={`ml-1 font-mono text-[11px] ${active ? "text-ink-950/70" : "text-fog/60"}`}>{count}</span>
-                </button>
-              );
-            })}
-          </div>
-        </Reveal>
-
-        {/* Grid */}
-        <motion.div layout className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <AnimatePresence mode="popLayout">
-            {filtered.map((p) => (
-              <motion.article
-                layout={!reduced}
-                key={p.id}
-                initial={{ opacity: 0, scale: 0.94, y: 18 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.94 }}
-                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                className="group relative overflow-hidden rounded-[20px] border border-mist/8 bg-ink-800/60 transition-colors duration-500 hover:border-mist/20"
-              >
-                <div className="relative aspect-[4/3] overflow-hidden">
+        <StaggerGroup className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {featured.map((p) => (
+            <StaggerItem key={p.id}>
+              <article className="card-line group flex h-full flex-col overflow-hidden p-0">
+                <div className="relative aspect-[3/2] overflow-hidden">
                   <img
                     src={p.image}
-                    alt={`${p.name} — ${p.category} project by P.K Creative Agency`}
+                    alt={p.alt}
                     loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.07]"
+                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-ink-950/85 via-ink-950/10 to-transparent" aria-hidden="true" />
-                  <Chip className="absolute left-4 top-4 border-mist/15 bg-ink-950/70 text-mist backdrop-blur">{p.category}</Chip>
-                  <span className="absolute right-4 top-4 font-mono text-[11px] text-mist/70">{p.year}</span>
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink-950/85 via-ink-950/10 to-transparent" />
+                  <span className="absolute top-4 left-4 rounded-full border border-mist/20 bg-ink-950/70 px-3 py-1 font-mono text-[10px] font-medium tracking-[0.16em] text-mist uppercase backdrop-blur">
+                    {p.clientType}
+                  </span>
                   <Link
-                    to="/contact"
-                    aria-label={`Start a project like ${p.name}`}
-                    className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-400 group-hover:opacity-100"
+                    to="/work"
+                    aria-label={`View project: ${p.name}`}
+                    className="absolute top-4 right-4 flex h-10 w-10 translate-y-1 items-center justify-center rounded-full bg-mist text-ink-950 opacity-0 transition-all duration-400 group-hover:translate-y-0 group-hover:opacity-100"
                   >
-                    <span className="flex translate-y-3 items-center gap-2 rounded-full bg-mist px-6 py-3 text-sm font-bold text-ink-950 shadow-xl transition-transform duration-400 group-hover:translate-y-0">
-                      View Project <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-                    </span>
+                    <ArrowUpRight className="h-4 w-4" />
                   </Link>
+                  <span className="absolute bottom-4 left-4 font-mono text-[11px] tracking-[0.2em] text-mist/70 uppercase">
+                    {p.year}
+                  </span>
                 </div>
-                <div className="p-6">
-                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-royal">{p.client}</p>
-                  <h3 className="mt-2 font-display text-xl font-bold text-mist">{p.name}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-fog">{p.description}</p>
+
+                <div className="flex flex-1 flex-col p-6 sm:p-7">
+                  <h3 className="font-display text-lg font-bold tracking-tight text-mist sm:text-xl">
+                    {p.name}
+                  </h3>
+                  <p className="mt-2.5 text-sm leading-relaxed text-fog">
+                    {p.description}
+                  </p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {p.tech.map((t) => (
-                      <Chip key={t}>{t}</Chip>
+                      <span
+                        key={t}
+                        className="rounded-full border border-mist/12 bg-mist/[0.05] px-2.5 py-1 font-mono text-[10px] font-medium tracking-wider text-mist/75"
+                      >
+                        {t}
+                      </span>
                     ))}
                   </div>
+                  <Link
+                    to="/work"
+                    className="group/vp mt-auto inline-flex items-center gap-1.5 pt-5 text-sm font-bold text-royal transition-colors hover:text-flare"
+                  >
+                    View Project
+                    <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover/vp:translate-x-0.5 group-hover/vp:-translate-y-0.5" />
+                  </Link>
                 </div>
-              </motion.article>
-            ))}
-          </AnimatePresence>
-        </motion.div>
+              </article>
+            </StaggerItem>
+          ))}
+        </StaggerGroup>
 
-        {!featured && (
-          <Reveal className="mt-14 text-center">
-            <p className="font-display text-2xl font-bold text-mist">Like what you see?</p>
-            <p className="mt-2 text-fog">Your project could be next in this grid.</p>
-            <div className="mt-7">
-              <PrimaryLink to="/contact">Build Something Like This</PrimaryLink>
+        {/* conversion banner */}
+        <StaggerGroup className="mt-12">
+          <StaggerItem>
+            <div className="relative flex flex-col items-start justify-between gap-6 overflow-hidden rounded-2xl border border-mist/10 bg-ink-850 px-7 py-8 sm:flex-row sm:items-center sm:px-10">
+              <div className="pointer-events-none absolute -top-16 right-10 h-44 w-44 rounded-full bg-cobalt/15 blur-3xl" aria-hidden="true" />
+              <div className="flex items-center gap-4">
+                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-royal to-flare text-ink-950">
+                  <Sparkles className="h-5 w-5" />
+                </span>
+                <div>
+                  <h3 className="font-display text-xl font-bold text-mist">
+                    Build Something Like This
+                  </h3>
+                  <p className="mt-1 text-sm text-fog">
+                    Your project could be our next case study.
+                  </p>
+                </div>
+              </div>
+              <Link to="/contact" className="btn-primary shrink-0">
+                Start Your Project <ArrowUpRight className="h-4 w-4" />
+              </Link>
             </div>
-          </Reveal>
-        )}
+          </StaggerItem>
+        </StaggerGroup>
       </div>
     </section>
   );

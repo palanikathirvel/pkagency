@@ -1,63 +1,79 @@
-import { whyUs } from "../data/siteContent";
-import { PrimaryLink, Reveal, Eyebrow } from "./ui";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+import { whyPoints } from "../data/siteContent";
+import { Eyebrow, Reveal } from "./ui";
 
-const tints = [
-  { text: "text-royal", border: "group-hover:border-royal/50 group-hover:bg-royal/10" },
-  { text: "text-cobalt", border: "group-hover:border-cobalt/50 group-hover:bg-cobalt/10" },
-  { text: "text-flare", border: "group-hover:border-flare/50 group-hover:bg-flare/10" },
-];
-
+/** Sticky two-column: heading stays fixed while the six reasons scroll past. */
 export default function WhyChooseUs() {
   return (
-    <section className="relative border-t border-mist/8 bg-ink-900/50 py-24 lg:py-32">
-      <div className="pointer-events-none absolute left-0 top-1/3 h-[420px] w-[420px] rounded-full bg-cobalt/8 blur-[140px]" aria-hidden="true" />
-      <div className="mx-auto grid max-w-7xl gap-16 px-5 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20 lg:px-8">
-        {/* Sticky intro column */}
+    <section className="relative overflow-hidden border-y border-mist/8 bg-ink-900 py-20 lg:py-28" aria-label="Why choose us">
+      <div
+        className="pointer-events-none absolute top-0 left-1/3 h-96 w-96 rounded-full bg-cobalt/8 blur-[120px]"
+        aria-hidden="true"
+      />
+      <div className="shell relative grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+        {/* sticky intro */}
         <div className="lg:sticky lg:top-28 lg:self-start">
           <Reveal>
-            <Eyebrow>The P.K difference</Eyebrow>
+            <Eyebrow>The P.K Difference</Eyebrow>
           </Reveal>
           <Reveal delay={0.08}>
-            <h2 className="mt-4 font-display text-3xl font-bold leading-[1.06] tracking-tight text-mist sm:text-4xl lg:text-[2.75rem]">
-              Why Choose
-              <span className="block text-royal">P.K Creative?</span>
+            <h2 className="font-display mt-4 text-3xl leading-[1.08] font-bold tracking-tight text-mist sm:text-4xl lg:text-[2.75rem]">
+              Why Choose <span className="grad-text">P.K Creative?</span>
             </h2>
           </Reveal>
           <Reveal delay={0.16}>
-            <p className="mt-6 max-w-md text-base leading-relaxed text-fog">
-              We&rsquo;re a small, senior team that treats every project like it&rsquo;s our own brand on the line. No
-              hand-offs to juniors, no disappearing acts — just craft, clarity and momentum.
+            <p className="mt-5 max-w-md leading-relaxed text-fog">
+              Anyone can put a page online. We build digital assets that work
+              as hard as you do — designed with intent, engineered for growth,
+              and supported long after launch.
             </p>
           </Reveal>
           <Reveal delay={0.24}>
-            <div className="mt-9">
-              <PrimaryLink to="/contact">Start Your Project</PrimaryLink>
-            </div>
+            <Link to="/contact" className="btn-primary mt-8">
+              Let's Start Your Project <ArrowRight className="h-4 w-4" />
+            </Link>
           </Reveal>
-          <Reveal delay={0.32}>
-            <p className="mt-10 select-none font-display text-[7rem] font-extrabold leading-none tracking-tight text-mist/[0.045] lg:text-[9rem]" aria-hidden="true">
-              P·K
-            </p>
+
+          <Reveal delay={0.3}>
+            <div className="mt-10 hidden items-center gap-4 lg:flex">
+              <svg viewBox="0 0 100 100" className="h-24 w-24 animate-spin-slow motion-reduce:animate-none" aria-hidden="true">
+                <defs>
+                  <path id="whyPath" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0" />
+                </defs>
+                <text className="fill-mist/40 font-mono text-[8px] tracking-[0.3em] uppercase">
+                  <textPath href="#whyPath">Quality • Clarity • Craft • Growth •</textPath>
+                </text>
+              </svg>
+              <p className="font-mono text-[11px] leading-relaxed tracking-wider text-fog/70 uppercase">
+                Six reasons teams
+                <br />
+                trust our studio
+              </p>
+            </div>
           </Reveal>
         </div>
 
-        {/* Six reasons */}
-        <div>
-          {whyUs.map((item, i) => {
-            const Icon = item.icon;
-            const tint = tints[i % tints.length];
+        {/* reasons list */}
+        <div className="divide-y divide-mist/8 border-y border-mist/8">
+          {whyPoints.map((p, i) => {
+            const Icon = p.icon;
             return (
-              <Reveal key={item.title} delay={i * 0.06}>
-                <div className="group flex gap-5 border-b border-mist/8 py-7 transition-transform duration-500 first:pt-0 hover:translate-x-2 md:gap-7 md:py-8">
-                  <span className="mt-1 hidden font-mono text-xs text-fog/50 sm:block">0{i + 1}</span>
-                  <span
-                    className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-mist/12 text-fog transition-all duration-500 group-hover:-rotate-6 ${tint.border} ${tint.text}`}
-                  >
-                    <Icon className="h-5 w-5" aria-hidden="true" />
+              <Reveal key={p.num} delay={i * 0.05} y={22}>
+                <div className="group flex gap-6 py-7 transition-all duration-500 hover:bg-mist/[0.03] hover:pl-3 sm:gap-8 sm:py-8">
+                  <span className="font-display text-ghost-number pt-1 text-2xl font-extrabold">
+                    {p.num}
+                  </span>
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-mist/12 bg-ink-850 text-royal transition-all duration-500 group-hover:border-royal/50 group-hover:text-flare group-hover:shadow-[0_0_28px_-6px_rgba(139,124,255,0.5)]">
+                    <Icon className="h-5 w-5" />
                   </span>
                   <div>
-                    <h3 className="font-display text-lg font-bold text-mist md:text-xl">{item.title}</h3>
-                    <p className="mt-2 max-w-lg text-sm leading-relaxed text-fog md:text-base">{item.body}</p>
+                    <h3 className="font-display text-lg font-bold tracking-tight text-mist sm:text-xl">
+                      {p.title}
+                    </h3>
+                    <p className="mt-2 max-w-lg text-sm leading-relaxed text-fog">
+                      {p.description}
+                    </p>
                   </div>
                 </div>
               </Reveal>

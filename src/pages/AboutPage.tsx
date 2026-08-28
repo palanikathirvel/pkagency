@@ -1,157 +1,202 @@
-import { Eye, Sparkles, Target } from "lucide-react";
-import { team } from "../data/siteContent";
-import { agency } from "../config/agencyConfig";
-import { Eyebrow, PrimaryLink, Reveal, SectionHeading } from "../components/ui";
+import { Link } from "react-router-dom";
+import { ArrowRight, Compass, Eye } from "lucide-react";
+import { teamMembers, coreValues, studioImage } from "../data/siteContent";
+import { agencyConfig } from "../config/agencyConfig";
+import {
+  Eyebrow,
+  Reveal,
+  StaggerGroup,
+  StaggerItem,
+  InitialsAvatar,
+  StatCounter,
+} from "../components/ui";
 import { usePageMeta } from "../hooks/usePageMeta";
-
-const studioImg = "https://image.qwenlm.ai/generated-images/74b71414-fc60-443c-b5a5-d24343a958fb/_result.png";
 
 export default function AboutPage() {
   usePageMeta(
     "About | P.K Creative Agency — Digital Experiences With Purpose",
-    "Meet P.K Creative Agency — a creative technology team helping businesses transform ideas into powerful digital experiences."
+    "Meet P.K Creative Agency: a creative technology studio turning ideas into powerful digital experiences for businesses and creators."
   );
 
   return (
-    <main className="relative overflow-hidden pt-[130px]">
-      <div className="absolute inset-0 bg-grid-dark [mask-image:radial-gradient(ellipse_70%_45%_at_50%_0%,black,transparent)]" aria-hidden="true" />
-      <div className="pointer-events-none absolute -top-20 left-0 h-[420px] w-[420px] rounded-full bg-cobalt/10 blur-[130px]" aria-hidden="true" />
-
-      {/* Header */}
-      <header className="relative mx-auto grid max-w-7xl items-center gap-14 px-5 pb-20 lg:grid-cols-[1.05fr_0.95fr] lg:px-8 lg:pb-28">
-        <div>
-          <Reveal>
-            <Eyebrow>About {agency.shortName}</Eyebrow>
-          </Reveal>
-          <Reveal delay={0.08}>
-            <h1 className="mt-5 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-mist sm:text-5xl lg:text-[3.4rem]">
-              We Create Digital Experiences <span className="text-cobalt">With Purpose.</span>
-            </h1>
-          </Reveal>
-          <Reveal delay={0.16}>
-            <div className="mt-7 max-w-xl space-y-4 text-base leading-relaxed text-fog md:text-lg">
-              <p>
-                {agency.name} was born from a simple belief: great design and smart technology shouldn&rsquo;t be
-                reserved for big brands with big budgets. We exist to help startups, local businesses and creators
-                stand shoulder to shoulder with anyone online.
+    <main className="pt-[72px]">
+      {/* header + studio image */}
+      <section className="relative overflow-hidden py-16 lg:py-24">
+        <div className="bg-grid-dark absolute inset-0" aria-hidden="true" />
+        <div className="shell relative grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
+          <div>
+            <Reveal>
+              <Eyebrow>About the studio</Eyebrow>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <h1 className="font-display mt-5 text-4xl leading-[1.05] font-extrabold tracking-tight text-mist sm:text-5xl lg:text-6xl">
+                We Create Digital Experiences{" "}
+                <span className="grad-text">With Purpose.</span>
+              </h1>
+            </Reveal>
+            <Reveal delay={0.16}>
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-fog">
+                P.K Creative was born from a simple frustration: too many
+                businesses settle for generic templates and forgettable
+                brands. We believe design and technology should work together
+                to grow your business — not just decorate it.
               </p>
-              <p>
-                We&rsquo;re passionate about the space where creativity meets technology — and obsessive about the
-                details that make a product feel premium: rhythm, contrast, speed and clarity.
+            </Reveal>
+            <Reveal delay={0.22}>
+              <p className="mt-4 max-w-xl leading-relaxed text-fog">
+                We're a small, senior team that treats every project like a
+                partnership. We obsess over the details — the loading time,
+                the micro-copy, the hover state — because that's where
+                premium lives.
               </p>
-            </div>
-          </Reveal>
-          <Reveal delay={0.24}>
-            <div className="mt-9">
-              <PrimaryLink to="/contact">Work With Us</PrimaryLink>
-            </div>
-          </Reveal>
-        </div>
+            </Reveal>
+            <Reveal delay={0.28}>
+              <div className="mt-9 flex flex-wrap gap-4">
+                <Link to="/contact" className="btn-primary">
+                  Work With Us <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link to="/work" className="btn-ghost">
+                  See Our Work
+                </Link>
+              </div>
+            </Reveal>
+          </div>
 
-        <Reveal delay={0.2} y={40}>
-          <div className="group relative">
-            <div className="gradient-border always overflow-hidden rounded-[26px]">
-              <img
-                src={studioImg}
-                alt="The P.K Creative studio — a designer workspace glowing with violet and blue light"
-                loading="lazy"
-                className="aspect-[4/3] w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-              />
-            </div>
-            <div className="absolute -bottom-6 -left-4 flex items-center gap-3 rounded-2xl border border-mist/12 bg-ink-800/95 px-5 py-4 shadow-2xl backdrop-blur md:-left-8">
-              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-royal to-cobalt text-ink-950">
-                <Sparkles className="h-4.5 w-4.5" aria-hidden="true" />
-              </span>
-              <div>
-                <p className="font-display text-sm font-bold text-mist">Creativity × Technology</p>
-                <p className="font-mono text-[11px] text-fog">{agency.tagline}</p>
+          <Reveal delay={0.2} y={40}>
+            <div className="relative">
+              <div className="overflow-hidden rounded-3xl border border-mist/12 shadow-[0_40px_90px_-30px_rgba(6,7,13,0.95)]">
+                <img
+                  src={studioImage}
+                  alt="The P.K Creative studio workspace at dusk, with designs on screen and sketches on the desk"
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-[1.6s] ease-out hover:scale-[1.04]"
+                />
+              </div>
+              <div className="absolute -bottom-5 -left-4 rounded-2xl border border-mist/12 bg-ink-850/95 px-5 py-4 shadow-2xl backdrop-blur sm:-left-8">
+                <p className="font-mono text-[10px] tracking-[0.22em] text-fog uppercase">
+                  {agencyConfig.tagline}
+                </p>
+                <p className="font-display mt-1 text-lg font-bold text-mist">
+                  Since 2021 · {agencyConfig.location.split("·")[0]}
+                </p>
               </div>
             </div>
-          </div>
-        </Reveal>
-      </header>
-
-      {/* Mission & Vision */}
-      <section className="relative border-t border-mist/8 bg-ink-900/50 py-24">
-        <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <SectionHeading
-            eyebrow="What drives us"
-            title={
-              <>
-                Mission & <span className="text-royal">Vision</span>
-              </>
-            }
-          />
-          <div className="mt-12 grid gap-6 md:grid-cols-2">
-            {[
-              {
-                icon: Target,
-                kicker: "Our Mission",
-                title: "Transform ideas into powerful digital experiences.",
-                body: "To help businesses and individuals transform their ideas into powerful digital experiences — with craft, honesty and speed.",
-                tint: "text-royal",
-                chip: "bg-royal/10 border-royal/25",
-              },
-              {
-                icon: Eye,
-                kicker: "Our Vision",
-                title: "Be the creative technology partner behind great brands.",
-                body: "To become a trusted creative technology partner for businesses building their future online — from first website to full digital ecosystem.",
-                tint: "text-cobalt",
-                chip: "bg-cobalt/10 border-cobalt/25",
-              },
-            ].map((v, i) => {
-              const Icon = v.icon;
-              return (
-                <Reveal key={v.kicker} delay={i * 0.1}>
-                  <article className="gradient-border group h-full rounded-[22px] border border-mist/8 bg-ink-800/60 p-9 transition-all duration-500 hover:-translate-y-2">
-                    <span className={`flex h-13 w-13 items-center justify-center rounded-xl border p-3.5 ${v.chip} ${v.tint}`}>
-                      <Icon className="h-6 w-6" aria-hidden="true" />
-                    </span>
-                    <p className={`mt-6 font-mono text-[11px] uppercase tracking-[0.22em] ${v.tint}`}>{v.kicker}</p>
-                    <h3 className="mt-3 font-display text-2xl font-bold leading-snug text-mist">{v.title}</h3>
-                    <p className="mt-4 leading-relaxed text-fog">{v.body}</p>
-                  </article>
-                </Reveal>
-              );
-            })}
-          </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* Team */}
-      <section className="relative py-24">
-        <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <SectionHeading
-            center
-            eyebrow="The team"
-            title={
-              <>
-                Meet the Creative Minds Behind <span className="text-flare">P.K Creative</span>
-              </>
-            }
-            sub="A compact senior crew — strategist, designer and engineer on every project, no layers in between."
-          />
-          <div className="mx-auto mt-14 grid max-w-5xl grid-cols-2 gap-5 lg:grid-cols-4">
-            {team.map((m, i) => (
-              <Reveal key={m.role} delay={i * 0.08}>
-                <article className="group rounded-[20px] border border-mist/8 bg-ink-800/60 p-6 text-center transition-all duration-500 hover:-translate-y-2 hover:border-mist/25">
-                  <span
-                    className={`mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br font-display text-xl font-extrabold text-ink-950 transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3 ${
-                      ["from-royal to-cobalt", "from-cobalt to-flare", "from-flare to-royal", "from-royal to-flare"][i % 4]
-                    }`}
-                  >
-                    {m.initials}
-                  </span>
-                  <h3 className="mt-5 font-display text-base font-bold text-mist">{m.name}</h3>
-                  <p className="mt-1.5 text-xs font-semibold text-fog">{m.role}</p>
-                </article>
-              </Reveal>
-            ))}
+      {/* mission / vision */}
+      <section className="py-16 lg:py-24" aria-label="Mission and vision">
+        <div className="shell grid gap-6 lg:grid-cols-2">
+          <Reveal>
+            <div className="card-line h-full p-8 sm:p-10">
+              <span className="flex h-13 w-13 items-center justify-center rounded-2xl bg-gradient-to-br from-royal to-cobalt text-ink-950">
+                <Compass className="h-6 w-6" />
+              </span>
+              <h2 className="font-display mt-6 text-2xl font-bold tracking-tight text-mist sm:text-3xl">
+                Our Mission
+              </h2>
+              <p className="mt-4 max-w-md leading-relaxed text-fog">
+                To help businesses and individuals transform their ideas into
+                powerful digital experiences — websites, brands and products
+                that perform as beautifully as they look.
+              </p>
+            </div>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="card-line h-full p-8 sm:p-10">
+              <span className="flex h-13 w-13 items-center justify-center rounded-2xl bg-gradient-to-br from-cobalt to-flare text-ink-950">
+                <Eye className="h-6 w-6" />
+              </span>
+              <h2 className="font-display mt-6 text-2xl font-bold tracking-tight text-mist sm:text-3xl">
+                Our Vision
+              </h2>
+              <p className="mt-4 max-w-md leading-relaxed text-fog">
+                To become a trusted creative technology partner for businesses
+                building their future online — the studio ambitious teams call
+                first, not last.
+              </p>
+            </div>
+          </Reveal>
+        </div>
+
+        {/* values */}
+        <div className="shell mt-6 grid gap-px overflow-hidden rounded-3xl border border-mist/10 bg-mist/10 sm:grid-cols-2 lg:grid-cols-4">
+          {coreValues.map((v, i) => (
+            <Reveal key={v.title} delay={i * 0.06} className="h-full">
+              <div className="group h-full bg-ink-900 p-7 transition-colors duration-500 hover:bg-ink-850">
+                <p className="font-mono text-[11px] font-semibold tracking-[0.2em] text-royal">
+                  0{i + 1}
+                </p>
+                <h3 className="font-display mt-3 text-base font-bold text-mist">
+                  {v.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-fog">
+                  {v.description}
+                </p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* stats strip */}
+      <section className="border-y border-mist/8 bg-ink-900 py-14" aria-label="Studio statistics">
+        <div className="shell grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
+          {agencyConfig.stats.map((s, i) => (
+            <Reveal key={s.label} delay={i * 0.07} className={i === 0 ? "[&>div>span]:hidden" : ""}>
+              <StatCounter value={s.value} suffix={s.suffix} label={s.label} />
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* team */}
+      <section className="py-20 lg:py-28" aria-label="Team">
+        <div className="shell">
+          <div className="max-w-2xl">
+            <Reveal>
+              <Eyebrow>The team</Eyebrow>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <h2 className="font-display mt-4 text-3xl leading-[1.08] font-bold tracking-tight text-mist sm:text-4xl lg:text-[2.75rem]">
+                Meet the Creative Minds Behind{" "}
+                <span className="grad-text">P.K Creative</span>
+              </h2>
+            </Reveal>
+            <Reveal delay={0.16}>
+              <p className="mt-4 text-fog">
+                A compact team of strategists, designers and engineers — no
+                account managers between you and the people doing the work.
+              </p>
+            </Reveal>
           </div>
-          <Reveal delay={0.3}>
-            <p className="mt-10 text-center font-mono text-[11px] text-fog/70">
-              ※ Team profiles are placeholders — add real members in <span className="text-fog">src/data/siteContent.ts</span>
+
+          <StaggerGroup className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {teamMembers.map((m) => (
+              <StaggerItem key={m.role}>
+                <div className="card-line group h-full p-7 text-center">
+                  <div className="relative mx-auto w-fit">
+                    <InitialsAvatar initials={m.initials} gradient={m.gradient} size="lg" />
+                    <span className="absolute -right-1 -bottom-1 flex h-6 w-6 items-center justify-center rounded-full border border-mist/15 bg-ink-950 font-mono text-[9px] text-fog" title="Placeholder profile">
+                      ?
+                    </span>
+                  </div>
+                  <h3 className="font-display mt-5 text-lg font-bold text-mist">
+                    {m.name}
+                  </h3>
+                  <p className="mt-1 font-mono text-[10px] tracking-[0.18em] text-royal uppercase">
+                    {m.role}
+                  </p>
+                  <p className="mt-3 text-sm leading-relaxed text-fog">{m.bio}</p>
+                </div>
+              </StaggerItem>
+            ))}
+          </StaggerGroup>
+
+          <Reveal>
+            <p className="mt-8 text-center font-mono text-[10px] tracking-[0.2em] text-fog/50 uppercase">
+              Team cards are placeholders — add real members & photos in src/data/siteContent.ts
             </p>
           </Reveal>
         </div>

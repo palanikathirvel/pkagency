@@ -1,27 +1,39 @@
-import { agency } from "../config/agencyConfig";
-
 /**
- * ─────────────────────────────────────────────────────────────
- *  INQUIRY / LEAD SERVICE LAYER
+ * ============================================================
+ *  INQUIRY SERVICE LAYER
+ *  Mirrors the Spring Boot REST API contract:
  *
- *  This module is the single place that talks to the backend.
- *  It currently persists inquiries to localStorage so the full
- *  lead flow (submit → store → admin dashboard) works end-to-end
- *  in this static demo build.
+ *    POST /api/inquiries            → submitInquiry()
+ *    GET  /api/inquiries            → getInquiries()      (admin)
+ *    GET  /api/inquiries/{id}       → getInquiry()        (admin)
+ *    PUT  /api/inquiries/{id}/status→ updateInquiryStatus()
+ *    DELETE /api/inquiries/{id}     → deleteInquiry()
  *
- *  To connect the Spring Boot backend, replace the bodies with:
- *    submitInquiry      → POST   `${agency.apiBase}/inquiries`
- *    fetchInquiries     → GET    `${agency.apiBase}/inquiries`        (admin protected)
- *    fetchInquiry       → GET    `${agency.apiBase}/inquiries/{id}`
- *    updateInquiryStatus→ PUT    `${agency.apiBase}/inquiries/{id}/status`
- *    deleteInquiry      → DELETE `${agency.apiBase}/inquiries/{id}`
- * ─────────────────────────────────────────────────────────────
+ *  Currently persists to localStorage so the full lead flow
+ *  works in this frontend build. To go live, swap the internals
+ *  with fetch() calls to the endpoints above — signatures stay
+ *  identical, no component changes required.
+ * ============================================================
  */
 
-export const INQUIRY_STATUSES = ["NEW", "CONTACTED", "IN_DISCUSSION", "CONVERTED", "CLOSED"] as const;
-export type InquiryStatus = (typeof INQUIRY_STATUSES)[number];
+export const API_BASE = "/api/inquiries"; // future Spring Boot endpoint
 
-export type InquiryInput = {
+export type InquiryStatus =
+  | "NEW"
+  | "CONTACTED"
+  | "IN_DISCUSSION"
+  | "CONVERTED"
+  | "CLOSED";
+
+export const INQUIRY_STATUSES: InquiryStatus[] = [
+  "NEW",
+  "CONTACTED",
+  "IN_DISCUSSION",
+  "CONVERTED",
+  "CLOSED",
+];
+
+export interface InquiryPayload {
   name: string;
   email: string;
   phone: string;
@@ -31,125 +43,160 @@ export type InquiryInput = {
   budget: string;
   timeline: string;
   description: string;
-};
+}
 
-export type Inquiry = InquiryInput & {
+export interface Inquiry extends InquiryPayload {
   id: string;
   status: InquiryStatus;
-  createdAt: string;
-};
+  createdAt: string; // ISO date
+}
 
-const STORAGE_KEY = "pk_inquiries_v1";
+const STORAGE_KEY = "pk_creative_inquiries";
+const DEMO_KEY = "pk_creative_inquiries_demo";
+
 const delay = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-function read(): Inquiry[] {
+function readStore(): Inquiry[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return JSON.parse(raw) as Inquiry[];
+    return raw ? (JSON.parse(raw) as Inquiry[]) : [];
   } catch {
-    /* corrupted storage — fall through to seed */
+    return [];
   }
-  const seeded = seedSamples();
-  write(seeded);
-  return seeded;
 }
 
-function write(list: Inquiry[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+function writeStore(items: Inquiry[]) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  } catch {
+    /* storage unavailable — inquiry still resolves for the session */
+  }
 }
 
-/** Demo data so the admin dashboard can be explored immediately */
-function seedSamples(): Inquiry[] {
-  const now = Date.now();
-  const day = 86_400_000;
-  const mk = (p: Partial<Inquiry> & { id: string; name: string; createdAt: string }): Inquiry => ({
-    email: "sample@example.com",
-    phone: "+91 00000 00000",
-    company: "Sample Co.",
-    website: "",
-    service: "Website Development",
-    budget: "₹25,000 – ₹50,000",
-    timeline: "Within 1 Month",
-    description: "This is sample data for demonstration. Replace with real inquiries.",
-    status: "NEW",
-    ...p,
-  });
-  return [
-    mk({
-      id: "inq-seed-1",
-      name: "Sample — Aarav Kapoor",
-      service: "Website Development",
-      status: "NEW",
-      createdAt: new Date(now - 1 * day).toISOString(),
-    }),
-    mk({
-      id: "inq-seed-2",
-      name: "Sample — Meera Nair",
-      company: "Sample Studio",
-      service: "Branding",
-      budget: "₹50,000 – ₹1,00,000",
-      status: "CONTACTED",
-      createdAt: new Date(now - 3 * day).toISOString(),
-    }),
-    mk({
-      id: "inq-seed-3",
-      name: "Sample — Dev Patel",
-      company: "Sample Mart",
-      service: "Digital Solutions",
-      budget: "₹1,00,000+",
-      status: "IN_DISCUSSION",
-      createdAt: new Date(now - 6 * day).toISOString(),
-    }),
-    mk({
-      id: "inq-seed-4",
-      name: "Sample — Sana Iqbal",
-      company: "Sample Brands",
-      service: "UI/UX Design",
-      budget: "Under ₹25,000",
-      status: "CONVERTED",
-      createdAt: new Date(now - 12 * day).toISOString(),
-    }),
-  ];
-}
+/** POST /api/inquiries — validates, persists, and (in production) emails client + agency. */
+export async function submitInquiry(
+  payload: InquiryPayload
+): Promise<Inquiry> {
+  await delay(1400); // simulated network + email dispatch latency
 
-function uid() {
-  return `inq-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
-}
+  if (!payload.name.trim() || !payload.email.trim()) {
+    throw new Error("Name and email are required.");
+  }
 
-export async function submitInquiry(input: InquiryInput): Promise<Inquiry> {
-  // Simulated network latency for a realistic loading state
-  await delay(1100);
-  const list = read();
   const inquiry: Inquiry = {
-    ...input,
-    id: uid(),
+    ...payload,
+    id: `inq_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`,
     status: "NEW",
     createdAt: new Date().toISOString(),
   };
-  write([inquiry, ...list]);
-  // TODO(backend): POST `${agency.apiBase}/inquiries` then trigger
-  // confirmation email to client + notification email to the agency owner.
+
+  const items = readStore();
+  items.unshift(inquiry);
+  writeStore(items);
+
+  // Production hooks (wire when backend is live):
+  // await fetch(API_BASE, { method: "POST", body: JSON.stringify(inquiry) });
+  // await sendConfirmationEmail(inquiry.email);
+  // await notifyAgencyOwner(inquiry);
+
   return inquiry;
 }
 
-export async function fetchInquiries(): Promise<Inquiry[]> {
+/** GET /api/inquiries (admin, protected) */
+export async function getInquiries(): Promise<Inquiry[]> {
+  await delay(500);
+  return readStore();
+}
+
+/** GET /api/inquiries/{id} */
+export async function getInquiry(id: string): Promise<Inquiry | undefined> {
+  await delay(200);
+  return readStore().find((i) => i.id === id);
+}
+
+/** PUT /api/inquiries/{id}/status */
+export async function updateInquiryStatus(
+  id: string,
+  status: InquiryStatus
+): Promise<Inquiry[]> {
   await delay(350);
-  return read().sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  const items = readStore().map((i) => (i.id === id ? { ...i, status } : i));
+  writeStore(items);
+  return items;
 }
 
-export async function updateInquiryStatus(id: string, status: InquiryStatus): Promise<Inquiry> {
-  await delay(200);
-  const list = read();
-  const idx = list.findIndex((i) => i.id === id);
-  if (idx === -1) throw new Error("Inquiry not found");
-  list[idx] = { ...list[idx], status };
-  write(list);
-  return list[idx];
+/** DELETE /api/inquiries/{id} */
+export async function deleteInquiry(id: string): Promise<Inquiry[]> {
+  await delay(350);
+  const items = readStore().filter((i) => i.id !== id);
+  writeStore(items);
+  return items;
 }
 
-export async function deleteInquiry(id: string): Promise<void> {
-  await delay(200);
-  write(read().filter((i) => i.id !== id));
+/** Clearly-labeled demo data so the admin dashboard can be explored. */
+export async function seedDemoInquiries(): Promise<Inquiry[]> {
+  await delay(600);
+  const demo: Inquiry[] = [
+    {
+      id: "demo_1",
+      name: "Aarav Mehta",
+      email: "aarav@novatech.example",
+      phone: "+91 98123 45670",
+      company: "NovaTech Solutions",
+      website: "novatech.example",
+      service: "Website Development",
+      budget: "₹50,000 – ₹1,00,000",
+      timeline: "Within 1 Month",
+      description:
+        "We need a complete business website with services pages, case studies and lead capture before our funding announcement.",
+      status: "NEW",
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 5).toISOString(),
+    },
+    {
+      id: "demo_2",
+      name: "Sara Iqbal",
+      email: "sara@bloomco.example",
+      phone: "+91 99887 76655",
+      company: "Bloom & Co",
+      website: "",
+      service: "Branding",
+      budget: "₹25,000 – ₹50,000",
+      timeline: "1–3 Months",
+      description:
+        "Rebrand for our studio — logo, color system and brand guidelines we can hand to vendors.",
+      status: "IN_DISCUSSION",
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 30).toISOString(),
+    },
+    {
+      id: "demo_3",
+      name: "Dev Patel",
+      email: "dev@zenithfit.example",
+      phone: "+91 91234 56789",
+      company: "Zenith Fitness",
+      website: "zenithfit.example",
+      service: "Digital Solutions",
+      budget: "₹1,00,000+",
+      timeline: "Flexible",
+      description:
+        "Member dashboard with class bookings, payments and trainer management. Replacing our current spreadsheet system.",
+      status: "CONVERTED",
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 72).toISOString(),
+    },
+  ];
+  const items = [...demo, ...readStore()];
+  writeStore(items);
+  try {
+    sessionStorage.setItem(DEMO_KEY, "1");
+  } catch {
+    /* noop */
+  }
+  return items;
 }
 
-export { agency };
+export const hasDemoData = () => {
+  try {
+    return sessionStorage.getItem(DEMO_KEY) === "1";
+  } catch {
+    return false;
+  }
+};

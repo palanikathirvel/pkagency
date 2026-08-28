@@ -1,9 +1,15 @@
-import { motion, useInView, useReducedMotion } from "framer-motion";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  motion,
+  useReducedMotion,
+  type Variants,
+} from "framer-motion";
+import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { Star, ArrowUpRight } from "lucide-react";
+import { useCountUp, useInViewOnce } from "../hooks/usePageMeta";
+import { clientWordmarks } from "../data/siteContent";
 
-/* ---------- Scroll reveal wrapper ---------- */
+/* ---------- scroll reveal wrapper ---------- */
 export function Reveal({
   children,
   delay = 0,
@@ -21,7 +27,7 @@ export function Reveal({
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: reduced ? 0 : y }}
+      initial={reduced ? false : { opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once, margin: "-70px" }}
       transition={{ duration: 0.75, delay, ease: [0.22, 1, 0.36, 1] }}
@@ -31,118 +37,101 @@ export function Reveal({
   );
 }
 
-/* ---------- Animated number counter ---------- */
-export function Counter({ to, suffix = "", duration = 1600 }: { to: number; suffix?: string; duration?: number }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
+const staggerParent: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.09 } },
+};
+const staggerChild: Variants = {
+  hidden: { opacity: 0, y: 26 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+export function StaggerGroup({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
   const reduced = useReducedMotion();
-  const [val, setVal] = useState(0);
-
-  useEffect(() => {
-    if (!inView) return;
-    if (reduced) {
-      setVal(to);
-      return;
-    }
-    let start: number | null = null;
-    let raf = 0;
-    const tick = (t: number) => {
-      if (start === null) start = t;
-      const p = Math.min(1, (t - start) / duration);
-      setVal(Math.round(to * (1 - Math.pow(1 - p, 3))));
-      if (p < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [inView, to, duration, reduced]);
-
+  if (reduced) return <div className={className}>{children}</div>;
   return (
-    <span ref={ref}>
-      {val}
-      {suffix}
-    </span>
+    <motion.div
+      className={className}
+      variants={staggerParent}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, margin: "-60px" }}
+    >
+      {children}
+    </motion.div>
   );
 }
 
-/* ---------- Scramble-decode text (hero signature) ---------- */
-const GLYPHS = "▚▞▟◇+×/\\<>≡*";
-
-export function Scramble({ text, className, delayMs = 150 }: { text: string; className?: string; delayMs?: number }) {
-  const reduced = useReducedMotion();
-  const [out, setOut] = useState(() => (reduced ? text : ""));
-
-  useEffect(() => {
-    if (reduced) {
-      setOut(text);
-      return;
-    }
-    let frame = 0;
-    let interval: ReturnType<typeof setInterval>;
-    const timeout = setTimeout(() => {
-      interval = setInterval(() => {
-        frame += 1;
-        const settled = Math.floor((frame - 4) / 2);
-        setOut(
-          text
-            .split("")
-            .map((c, i) => {
-              if (c === " ") return " ";
-              if (i < settled) return c;
-              return GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
-            })
-            .join("")
-        );
-        if (settled >= text.length) clearInterval(interval);
-      }, 38);
-    }, delayMs);
-    return () => {
-      clearTimeout(timeout);
-      clearInterval(interval);
-    };
-  }, [text, reduced, delayMs]);
-
-  return <span className={className}>{out || "\u00A0"}</span>;
+export function StaggerItem({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <motion.div className={className} variants={staggerChild}>
+      {children}
+    </motion.div>
+  );
 }
 
-/* ---------- Eyebrow label ---------- */
-export function Eyebrow({ children, light = false }: { children: ReactNode; light?: boolean }) {
+/* ---------- section eyebrow ---------- */
+export function Eyebrow({
+  children,
+  light = false,
+}: {
+  children: ReactNode;
+  light?: boolean;
+}) {
   return (
-    <span
-      className={`inline-flex items-center gap-3 font-mono text-[11px] font-medium uppercase tracking-[0.24em] md:text-xs ${
-        light ? "text-ink-900/55" : "text-fog"
+    <p
+      className={`eyebrow-mono ${
+        light ? "text-ink-700" : "text-royal"
       }`}
     >
-      <span className="h-px w-8 bg-gradient-to-r from-royal via-cobalt to-flare" aria-hidden="true" />
       {children}
-    </span>
+    </p>
   );
 }
 
-/* ---------- Section heading ---------- */
-export function SectionHeading({
+/* ---------- section heading block ---------- */
+export function SectionHead({
   eyebrow,
   title,
   sub,
   light = false,
-  center = false,
+  align = "left",
   className = "",
 }: {
   eyebrow: string;
   title: ReactNode;
   sub?: string;
   light?: boolean;
-  center?: boolean;
+  align?: "left" | "center";
   className?: string;
 }) {
   return (
-    <div className={`max-w-2xl ${center ? "mx-auto text-center" : ""} ${className}`}>
+    <div
+      className={`${align === "center" ? "mx-auto text-center" : ""} max-w-2xl ${className}`}
+    >
       <Reveal>
         <Eyebrow light={light}>{eyebrow}</Eyebrow>
       </Reveal>
       <Reveal delay={0.08}>
         <h2
-          className={`mt-4 font-display text-3xl font-bold leading-[1.06] tracking-tight sm:text-4xl lg:text-[2.75rem] ${
-            light ? "text-ink-900" : "text-mist"
+          className={`font-display mt-4 text-3xl leading-[1.08] font-bold tracking-tight text-balance sm:text-4xl lg:text-[2.75rem] ${
+            light ? "text-ink-950" : "text-mist"
           }`}
         >
           {title}
@@ -150,73 +139,159 @@ export function SectionHeading({
       </Reveal>
       {sub && (
         <Reveal delay={0.16}>
-          <p className={`mt-5 text-base leading-relaxed md:text-lg ${light ? "text-ink-900/65" : "text-fog"}`}>{sub}</p>
+          <p
+            className={`mt-4 text-base leading-relaxed sm:text-lg ${
+              light ? "text-ink-700/75" : "text-fog"
+            }`}
+          >
+            {sub}
+          </p>
         </Reveal>
       )}
     </div>
   );
 }
 
-/* ---------- Buttons ---------- */
-export function PrimaryLink({
+/* ---------- link with animated arrow ---------- */
+export function ArrowLink({
   to,
   children,
-  className = "",
-  external = false,
+  className = "text-royal",
 }: {
   to: string;
   children: ReactNode;
   className?: string;
-  external?: boolean;
-}) {
-  const cls = `group inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-royal to-cobalt px-7 py-3.5 text-sm font-bold text-ink-950 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_40px_-6px_rgba(139,124,255,0.55)] active:translate-y-0 ${className}`;
-  const arrow = <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />;
-  return external ? (
-    <a href={to} target="_blank" rel="noreferrer" className={cls}>
-      {children}
-      {arrow}
-    </a>
-  ) : (
-    <Link to={to} className={cls}>
-      {children}
-      {arrow}
-    </Link>
-  );
-}
-
-export function GhostLink({
-  to,
-  children,
-  className = "",
-  light = false,
-}: {
-  to: string;
-  children: ReactNode;
-  className?: string;
-  light?: boolean;
 }) {
   return (
     <Link
       to={to}
-      className={`group inline-flex items-center justify-center gap-2 rounded-full border px-7 py-3.5 text-sm font-bold transition-all duration-300 hover:-translate-y-0.5 ${
-        light
-          ? "border-ink-900/20 text-ink-900 hover:border-ink-900/50 hover:bg-ink-900/5"
-          : "border-mist/15 text-mist hover:border-mist/40 hover:bg-mist/5"
-      } ${className}`}
+      className={`group inline-flex items-center gap-1.5 text-sm font-bold transition-colors hover:text-flare ${className}`}
     >
       {children}
-      <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" />
+      <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
     </Link>
   );
 }
 
-/* ---------- Small chip / tag ---------- */
-export function Chip({ children, className = "" }: { children: ReactNode; className?: string }) {
+/* ---------- star rating ---------- */
+export function Stars({ value, className = "" }: { value: number; className?: string }) {
   return (
-    <span
-      className={`inline-flex items-center rounded-full border border-mist/12 bg-mist/5 px-3 py-1 font-mono text-[11px] font-medium tracking-wide text-fog ${className}`}
+    <div className={`flex items-center gap-0.5 ${className}`} aria-label={`${value} out of 5 stars`}>
+      {[1, 2, 3, 4, 5].map((i) => (
+        <Star
+          key={i}
+          className={`h-4 w-4 ${
+            i <= value ? "fill-amber-300 text-amber-300" : "fill-ink-600 text-ink-600"
+          }`}
+        />
+      ))}
+    </div>
+  );
+}
+
+/* ---------- animated counter ---------- */
+export function StatCounter({
+  value,
+  suffix,
+  label,
+  light = false,
+}: {
+  value: number;
+  suffix?: string;
+  label: string;
+  light?: boolean;
+}) {
+  const { ref, inView } = useInViewOnce<HTMLDivElement>();
+  const count = useCountUp(value, inView);
+  return (
+    <div ref={ref} className="group relative">
+      <p
+        className={`font-display text-4xl font-extrabold tracking-tight sm:text-5xl ${
+          light ? "text-ink-950" : "text-mist"
+        }`}
+      >
+        {count}
+        <span className="grad-text">{suffix}</span>
+      </p>
+      <p
+        className={`mt-2 font-mono text-[11px] tracking-[0.18em] uppercase ${
+          light ? "text-ink-700/60" : "text-fog"
+        }`}
+      >
+        {label}
+      </p>
+      <span
+        className={`absolute -left-4 top-1/2 hidden h-10 w-px -translate-y-1/2 sm:block ${
+          light ? "bg-ink-950/10" : "bg-mist/10"
+        }`}
+      />
+    </div>
+  );
+}
+
+/* ---------- infinite marquee of placeholder client wordmarks ---------- */
+export function ClientMarquee() {
+  const items = [...clientWordmarks, ...clientWordmarks];
+  return (
+    <div
+      className="relative overflow-hidden"
+      aria-label="Placeholder client wordmarks"
     >
-      {children}
-    </span>
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-ink-950 to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-ink-950 to-transparent" />
+      <div className="flex w-max animate-marquee items-center gap-12 pr-12 motion-reduce:animate-none">
+        {items.map((item, i) => (
+          <span
+            key={`${item}-${i}`}
+            className="flex items-center gap-12 whitespace-nowrap"
+          >
+            <span className="font-display text-xl font-bold tracking-[0.08em] text-mist/30 transition-colors duration-300 hover:text-mist/70">
+              {item}
+            </span>
+            <svg width="14" height="14" viewBox="0 0 14 14" className="text-royal/50" aria-hidden="true">
+              <path
+                d="M7 0l1.7 5.3L14 7l-5.3 1.7L7 14 5.3 8.7 0 7l5.3-1.7z"
+                fill="currentColor"
+              />
+            </svg>
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ---------- initials avatar ---------- */
+export function InitialsAvatar({
+  initials,
+  gradient,
+  size = "md",
+}: {
+  initials: string;
+  gradient: string;
+  size?: "sm" | "md" | "lg";
+}) {
+  const sizes = {
+    sm: "h-9 w-9 text-[11px]",
+    md: "h-12 w-12 text-sm",
+    lg: "h-20 w-20 text-xl",
+  };
+  return (
+    <div
+      className={`flex shrink-0 items-center justify-center rounded-full bg-gradient-to-br font-display font-bold text-ink-950 ring-2 ring-ink-950/40 ${gradient} ${sizes[size]}`}
+      aria-hidden="true"
+    >
+      {initials}
+    </div>
+  );
+}
+
+/* ---------- gradient divider ---------- */
+export function GradDivider({ className = "" }: { className?: string }) {
+  return (
+    <div
+      className={`h-px w-full bg-gradient-to-r from-transparent via-royal/50 to-transparent ${className}`}
+      aria-hidden="true"
+    />
   );
 }

@@ -1,89 +1,94 @@
 import { Link } from "react-router-dom";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Check } from "lucide-react";
 import { services } from "../data/services";
-import { GhostLink, Reveal, SectionHeading } from "./ui";
+import { SectionHead, StaggerGroup, StaggerItem } from "./ui";
 
+/**
+ * Bento layout: first two services span wider columns on desktop,
+ * avoiding a monotonous row of equal cards.
+ */
 export default function ServicesSection() {
   return (
-    <section id="services" className="relative py-24 lg:py-32">
-      <div className="pointer-events-none absolute right-0 top-20 h-[380px] w-[380px] rounded-full bg-royal/8 blur-[130px]" aria-hidden="true" />
-      <div className="mx-auto max-w-7xl px-5 lg:px-8">
-        <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-          <SectionHeading
-            eyebrow="What we do"
-            title={
-              <>
-                What We Can Create <span className="text-royal">For You</span>
-              </>
-            }
+    <section id="services" className="relative py-20 lg:py-28" aria-label="Services">
+      <div className="shell">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <SectionHead
+            eyebrow="Our Services"
+            title="What We Can Create For You"
             sub="From your first idea to the final product, we help bring your digital vision to life."
           />
-          <Reveal delay={0.2} className="shrink-0">
-            <GhostLink to="/contact">Get a Custom Solution</GhostLink>
-          </Reveal>
+          <Link
+            to="/services"
+            className="btn-ghost btn-sm mb-1 hidden shrink-0 lg:inline-flex"
+          >
+            Explore all services <ArrowUpRight className="h-4 w-4" />
+          </Link>
         </div>
 
-        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <StaggerGroup className="mt-12 grid gap-5 md:grid-cols-6">
           {services.map((s, i) => {
             const Icon = s.icon;
+            const wide = i < 2 ? "md:col-span-3" : "md:col-span-2";
             return (
-              <Reveal key={s.id} delay={(i % 3) * 0.09}>
-                <article
-                  className={`group relative h-full overflow-hidden rounded-[20px] border border-mist/8 bg-ink-800/70 p-7 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_28px_70px_-24px] ${s.tint.shadow}`}
+              <StaggerItem key={s.slug} className={wide}>
+                <div
+                  className="card-line group flex h-full flex-col p-7 sm:p-8"
+                  style={{ ["--glow" as string]: s.glow }}
                 >
-                  <div className="gradient-border absolute inset-0 rounded-[20px]" aria-hidden="true" />
-                  <span
-                    className={`absolute left-0 top-0 h-[3px] w-0 bg-gradient-to-r ${s.tint.gradient} transition-all duration-500 group-hover:w-full`}
-                    aria-hidden="true"
-                  />
-                  <span
-                    className={`flex h-13 w-13 items-center justify-center rounded-xl border p-3.5 transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110 ${s.tint.chip}`}
-                  >
-                    <Icon className="h-6 w-6" aria-hidden="true" />
-                  </span>
-                  <h3 className="mt-6 font-display text-xl font-bold text-mist">{s.title}</h3>
-                  <p className="mt-2.5 text-sm leading-relaxed text-fog">{s.blurb}</p>
+                  <div className="flex items-start justify-between">
+                    <span
+                      className={`flex h-13 w-13 items-center justify-center rounded-2xl bg-gradient-to-br ${s.gradient} text-ink-950 shadow-lg transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110`}
+                    >
+                      <Icon className="h-6 w-6" strokeWidth={2.2} />
+                    </span>
+                    <span className="font-display text-ghost-number text-4xl font-extrabold">
+                      0{i + 1}
+                    </span>
+                  </div>
+
+                  <h3 className="font-display mt-6 text-xl font-bold tracking-tight text-mist sm:text-[22px]">
+                    {s.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-fog">{s.short}</p>
+
                   <ul className="mt-5 space-y-2">
-                    {s.features.map((f) => (
-                      <li key={f} className="flex items-center gap-2.5 text-sm font-medium text-mist/70">
-                        <span className={`h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-r ${s.tint.gradient}`} aria-hidden="true" />
+                    {s.features.slice(0, i < 2 ? 5 : 3).map((f) => (
+                      <li key={f} className="flex items-center gap-2.5 text-[13px] text-mist/80">
+                        <Check className="h-3.5 w-3.5 shrink-0 text-cobalt" strokeWidth={3} />
                         {f}
                       </li>
                     ))}
                   </ul>
+
                   <Link
-                    to="/contact"
-                    className={`mt-7 inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] ${s.tint.text} transition-all duration-300 hover:gap-3.5`}
+                    to="/services"
+                    state={{ scrollTo: s.slug }}
+                    className="group/link mt-auto inline-flex items-center gap-1.5 pt-6 text-sm font-bold text-royal transition-colors hover:text-flare"
                   >
-                    Learn More <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                    Learn More
+                    <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
                   </Link>
-                </article>
-              </Reveal>
+                </div>
+              </StaggerItem>
             );
           })}
 
-          {/* Custom solution tile */}
-          <Reveal delay={0.18}>
-            <div className="flex h-full flex-col justify-between rounded-[20px] border border-dashed border-mist/15 bg-gradient-to-br from-ink-800/60 to-ink-900 p-7 transition-colors duration-500 hover:border-royal/40">
+          {/* CTA tile completes the grid */}
+          <StaggerItem className="md:col-span-2">
+            <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-royal/25 bg-gradient-to-br from-royal/15 via-ink-850 to-flare/10 p-7 transition-all duration-500 hover:-translate-y-1 sm:p-8">
+              <div className="pointer-events-none absolute -top-10 -right-10 h-40 w-40 rounded-full bg-royal/25 blur-3xl" aria-hidden="true" />
               <div>
-                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-royal">Something else?</p>
-                <h3 className="mt-4 font-display text-2xl font-bold leading-snug text-mist">
-                  Have an idea that doesn&rsquo;t fit a box?
+                <p className="eyebrow-mono text-royal">Not sure what you need?</p>
+                <h3 className="font-display mt-4 text-xl leading-snug font-bold text-mist">
+                  Get a free consultation & honest recommendation.
                 </h3>
-                <p className="mt-3 text-sm leading-relaxed text-fog">
-                  We love unusual briefs. Tell us what you&rsquo;re imagining and we&rsquo;ll shape a custom plan around it.
-                </p>
               </div>
-              <Link
-                to="/contact"
-                className="group mt-8 inline-flex items-center gap-2 text-sm font-bold text-mist transition-colors hover:text-royal"
-              >
-                Get a Custom Solution
-                <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" />
+              <Link to="/contact" className="btn-primary btn-sm mt-8 self-start">
+                Get a Custom Solution <ArrowUpRight className="h-4 w-4" />
               </Link>
             </div>
-          </Reveal>
-        </div>
+          </StaggerItem>
+        </StaggerGroup>
       </div>
     </section>
   );

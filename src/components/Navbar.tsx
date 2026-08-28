@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import { Link, useLocation } from "react-router-dom";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Menu, X, ArrowRight } from "lucide-react";
 import Logo from "./Logo";
-import { navLinks } from "../data/siteContent";
+import { agencyConfig, whatsappLink } from "../config/agencyConfig";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
+  const reduced = useReducedMotion();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -26,118 +27,138 @@ export default function Navbar() {
     };
   }, [open]);
 
-  return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        scrolled || open
-          ? "border-b border-mist/8 bg-ink-950/85 backdrop-blur-xl"
-          : "border-b border-transparent bg-transparent"
-      }`}
-    >
-      <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-5 lg:px-8">
-        <Link to="/" aria-label="P.K Creative Agency — home" className="transition-opacity hover:opacity-80">
-          <Logo />
-        </Link>
+  const isActive = (to: string) =>
+    to === "/" ? pathname === "/" : pathname.startsWith(to);
 
-        {/* Desktop nav */}
-        <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">
-          {navLinks.map((l) => (
-            <NavLink
-              key={l.to}
-              to={l.to}
-              end={l.to === "/"}
-              className={({ isActive }) =>
-                `group relative text-sm font-semibold transition-colors duration-300 ${
-                  isActive ? "text-mist" : "text-fog hover:text-mist"
-                }`
-              }
-            >
-              {({ isActive }) => (
-                <>
+  return (
+    <>
+      <header
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+          scrolled
+            ? "border-b border-mist/10 bg-ink-950/85 backdrop-blur-xl"
+            : "border-b border-transparent bg-transparent"
+        }`}
+      >
+        <nav className="shell flex h-[72px] items-center justify-between" aria-label="Main">
+          <Logo />
+
+          {/* desktop links */}
+          <ul className="hidden items-center gap-1 lg:flex">
+            {agencyConfig.navLinks.map((l) => (
+              <li key={l.to}>
+                <Link
+                  to={l.to}
+                  className={`group relative rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-300 ${
+                    isActive(l.to) ? "text-mist" : "text-fog hover:text-mist"
+                  }`}
+                >
                   {l.label}
                   <span
-                    className={`absolute -bottom-1.5 left-0 h-[2px] rounded-full bg-gradient-to-r from-royal to-cobalt transition-all duration-300 ${
-                      isActive ? "w-full" : "w-0 group-hover:w-full"
+                    className={`absolute inset-x-4 -bottom-0.5 h-px origin-left bg-gradient-to-r from-royal to-flare transition-transform duration-300 ${
+                      isActive(l.to)
+                        ? "scale-x-100"
+                        : "scale-x-0 group-hover:scale-x-100"
                     }`}
                   />
-                </>
-              )}
-            </NavLink>
-          ))}
-        </nav>
+                </Link>
+              </li>
+            ))}
+          </ul>
 
-        <div className="flex items-center gap-3">
-          <Link
-            to="/contact"
-            className="group hidden items-center gap-2 rounded-full bg-gradient-to-r from-royal to-cobalt px-5 py-2.5 text-sm font-bold text-ink-950 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_6px_30px_-6px_rgba(139,124,255,0.6)] sm:inline-flex"
-          >
-            Let&rsquo;s Talk
-            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" aria-hidden="true" />
-          </Link>
+          <div className="hidden items-center gap-3 lg:flex">
+            <Link to="/contact" className="btn-primary btn-sm">
+              Let's Talk
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
 
-          {/* Mobile toggle */}
+          {/* mobile toggle */}
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-mist/12 text-mist transition-colors hover:bg-mist/5 lg:hidden"
+            aria-label={open ? "Close menu" : "Open menu"}
+            className="relative flex h-11 w-11 items-center justify-center rounded-full border border-mist/15 bg-mist/5 text-mist transition-colors hover:border-royal/60 lg:hidden"
           >
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={open ? "close" : "open"}
+                initial={reduced ? false : { rotate: -90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={reduced ? undefined : { rotate: 90, opacity: 0 }}
+                transition={{ duration: 0.22 }}
+              >
+                {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              </motion.span>
+            </AnimatePresence>
           </button>
-        </div>
-      </div>
+        </nav>
+      </header>
 
-      {/* Mobile menu */}
+      {/* mobile fullscreen menu */}
       <AnimatePresence>
         {open && (
-          <motion.nav
-            key="mobile-menu"
-            aria-label="Mobile"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
+          <motion.div
+            className="fixed inset-0 z-40 flex flex-col bg-ink-950/97 backdrop-blur-2xl lg:hidden"
+            initial={reduced ? { opacity: 0 } : { opacity: 0, y: -18 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduced ? { opacity: 0 } : { opacity: 0, y: -14 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="overflow-hidden border-t border-mist/8 bg-ink-950/95 backdrop-blur-xl lg:hidden"
           >
-            <div className="space-y-1 px-5 py-6">
-              {navLinks.map((l, i) => (
-                <motion.div
-                  key={l.to}
-                  initial={{ opacity: 0, x: -18 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.06 * i, duration: 0.35 }}
-                >
-                  <NavLink
-                    to={l.to}
-                    end={l.to === "/"}
-                    className={({ isActive }) =>
-                      `block rounded-xl px-4 py-3 font-display text-2xl font-bold transition-colors ${
-                        isActive ? "bg-mist/5 text-mist" : "text-fog hover:bg-mist/5 hover:text-mist"
-                      }`
-                    }
+            <div className="bg-grid-dark pointer-events-none absolute inset-0" aria-hidden="true" />
+            <div className="pointer-events-none absolute -top-32 right-0 h-96 w-96 rounded-full bg-royal/15 blur-[120px]" aria-hidden="true" />
+
+            <div className="shell relative mt-[72px] flex flex-1 flex-col justify-between py-10">
+              <ul className="space-y-2">
+                {agencyConfig.navLinks.map((l, i) => (
+                  <motion.li
+                    key={l.to}
+                    initial={reduced ? false : { opacity: 0, x: -24 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.06 + i * 0.06, duration: 0.4 }}
                   >
-                    {l.label}
-                  </NavLink>
-                </motion.div>
-              ))}
+                    <Link
+                      to={l.to}
+                      className={`font-display group flex items-baseline gap-4 py-2 text-4xl font-bold tracking-tight transition-colors ${
+                        isActive(l.to) ? "grad-text" : "text-mist hover:text-royal"
+                      }`}
+                    >
+                      <span className="font-mono text-xs font-medium text-fog">
+                        0{i + 1}
+                      </span>
+                      {l.label}
+                    </Link>
+                  </motion.li>
+                ))}
+              </ul>
+
               <motion.div
-                initial={{ opacity: 0, y: 12 }}
+                initial={reduced ? false : { opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.32, duration: 0.35 }}
-                className="pt-4"
+                transition={{ delay: 0.4, duration: 0.4 }}
+                className="space-y-5"
               >
-                <Link
-                  to="/contact"
-                  className="flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-royal to-cobalt px-6 py-4 text-sm font-bold text-ink-950"
-                >
-                  Let&rsquo;s Talk <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                </Link>
+                <div className="flex flex-wrap gap-3">
+                  <Link to="/contact" className="btn-primary">
+                    Let's Talk <ArrowRight className="h-4 w-4" />
+                  </Link>
+                  <a
+                    href={whatsappLink()}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn-ghost"
+                  >
+                    WhatsApp Us
+                  </a>
+                </div>
+                <p className="font-mono text-[11px] tracking-[0.2em] text-fog uppercase">
+                  {agencyConfig.email} · {agencyConfig.phone}
+                </p>
               </motion.div>
             </div>
-          </motion.nav>
+          </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 }

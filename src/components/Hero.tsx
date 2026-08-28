@@ -1,274 +1,331 @@
-import { useRef } from "react";
-import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
-import { BellRing, Sparkles, TrendingUp } from "lucide-react";
-import { Eyebrow, GhostLink, PrimaryLink, Scramble } from "./ui";
+import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+import {
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+} from "framer-motion";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  BellRing,
+  TrendingUp,
+  Palette,
+} from "lucide-react";
+import { useScramble } from "../hooks/usePageMeta";
+import { Stars } from "./ui";
+import { agencyConfig } from "../config/agencyConfig";
 
-const CHART_BARS = [38, 55, 42, 70, 58, 82, 66, 95];
+/* multiplies a spring by a factor — hooks called unconditionally */
+function useScaledSpring(
+  spring: ReturnType<typeof useSpring>,
+  factor: number
+) {
+  const out = useMotionValue(0);
+  useEffect(() => spring.on("change", (v) => out.set(v * factor)), [spring, factor, out]);
+  return out;
+}
+
+function FloatingCard({
+  children,
+  className = "",
+  mx,
+  my,
+  springX,
+  springY,
+  reduced,
+  floatClass = "animate-floaty",
+}: {
+  children: React.ReactNode;
+  className?: string;
+  mx: number;
+  my: number;
+  springX: ReturnType<typeof useSpring>;
+  springY: ReturnType<typeof useSpring>;
+  reduced: boolean | null;
+  floatClass?: string;
+}) {
+  const x = useScaledSpring(springX, mx);
+  const y = useScaledSpring(springY, my);
+  return (
+    <motion.div
+      className={`absolute ${className} ${reduced ? "" : floatClass}`}
+      style={reduced ? undefined : { x, y }}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 export default function Hero() {
   const reduced = useReducedMotion();
-  const areaRef = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
+  const kicker = useScramble("// " + agencyConfig.tagline, 300);
 
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
-  const sx = useSpring(mx, { stiffness: 42, damping: 14 });
-  const sy = useSpring(my, { stiffness: 42, damping: 14 });
-  const x1 = useTransform(sx, (v) => v * 8);
-  const y1 = useTransform(sy, (v) => v * 6);
-  const x2 = useTransform(sx, (v) => v * 18);
-  const y2 = useTransform(sy, (v) => v * 14);
-  const x3 = useTransform(sx, (v) => v * 28);
-  const y3 = useTransform(sy, (v) => v * 22);
+  const springX = useSpring(mx, { stiffness: 60, damping: 18 });
+  const springY = useSpring(my, { stiffness: 60, damping: 18 });
 
   const onMove = (e: React.MouseEvent) => {
-    if (reduced || !areaRef.current) return;
-    const r = areaRef.current.getBoundingClientRect();
-    mx.set(((e.clientX - r.left) / r.width - 0.5) * 2);
-    my.set(((e.clientY - r.top) / r.height - 0.5) * 2);
+    if (reduced || !ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    mx.set((e.clientX - rect.left - rect.width / 2) / rect.width);
+    my.set((e.clientY - rect.top - rect.height / 2) / rect.height);
   };
 
   return (
-    <section className="relative overflow-hidden pt-[120px] pb-16 md:pt-[150px] lg:pb-24" onMouseMove={onMove}>
-      {/* Layered ambient background */}
-      <div className="absolute inset-0 bg-grid-dark [mask-image:radial-gradient(ellipse_75%_65%_at_50%_35%,black,transparent)]" aria-hidden="true" />
-      <div className="absolute -top-32 -left-32 h-[480px] w-[480px] rounded-full bg-royal/14 blur-[130px] animate-glow-drift" aria-hidden="true" />
-      <div className="absolute top-24 -right-40 h-[520px] w-[520px] rounded-full bg-cobalt/12 blur-[140px] animate-glow-drift [animation-delay:-7s]" aria-hidden="true" />
-      <div className="absolute bottom-0 left-1/3 h-[300px] w-[300px] rounded-full bg-flare/8 blur-[120px]" aria-hidden="true" />
+    <section
+      ref={ref}
+      onMouseMove={onMove}
+      className="relative overflow-hidden pt-[120px] pb-16 sm:pt-[150px] lg:pb-24"
+      aria-label="Introduction"
+    >
+      {/* ambient backdrop */}
+      <div className="bg-grid-dark absolute inset-0" aria-hidden="true" />
+      <div
+        className="pointer-events-none absolute -top-40 -left-40 h-[520px] w-[520px] animate-glow-drift rounded-full bg-royal/16 blur-[130px] motion-reduce:animate-none"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute top-20 -right-40 h-[460px] w-[460px] animate-glow-drift rounded-full bg-cobalt/12 blur-[130px] motion-reduce:animate-none"
+        style={{ animationDelay: "-6s" }}
+        aria-hidden="true"
+      />
 
-      <div ref={areaRef} className="relative mx-auto grid max-w-7xl items-center gap-16 px-5 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
-        {/* ── Copy ── */}
+      <div className="shell relative grid items-center gap-14 lg:grid-cols-[1.04fr_0.96fr] lg:gap-8">
+        {/* ------- copy ------- */}
         <div>
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}>
-            <Eyebrow>Creative Digital Agency</Eyebrow>
-          </motion.div>
+          <motion.p
+            initial={reduced ? false : { opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="font-mono text-[11px] font-medium tracking-[0.22em] text-royal uppercase sm:text-xs"
+            aria-label={agencyConfig.tagline}
+          >
+            {kicker}
+            <span className="animate-blink text-flare motion-reduce:animate-none">▍</span>
+          </motion.p>
 
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
+            initial={reduced ? false : { opacity: 0, y: 26 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-6 font-display text-[2.55rem] font-extrabold leading-[1.05] tracking-tight text-mist sm:text-6xl xl:text-[4.15rem]"
+            transition={{ duration: 0.7, delay: 0.12 }}
+            className="font-display mt-6 text-[2.6rem] leading-[1.04] font-extrabold tracking-tight text-mist sm:text-6xl lg:text-[4.1rem]"
           >
             We Build{" "}
-            <span className="relative inline-block text-royal">
-              <Scramble text="Digital Experiences" delayMs={400} />
-              <motion.svg
-                viewBox="0 0 300 14"
-                preserveAspectRatio="none"
-                className="absolute -bottom-1.5 left-0 h-3 w-full"
-                fill="none"
-                aria-hidden="true"
-              >
-                <defs>
-                  <linearGradient id="hero-underline" x1="0" y1="0" x2="300" y2="0" gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#8b7cff" />
-                    <stop offset="1" stopColor="#ff6ec7" />
-                  </linearGradient>
-                </defs>
-                <motion.path
-                  d="M4 10 C 70 3, 210 3, 296 9"
-                  stroke="url(#hero-underline)"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                  initial={{ pathLength: reduced ? 1 : 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ delay: 1.15, duration: 0.7, ease: "easeOut" }}
-                />
-              </motion.svg>
-            </span>{" "}
-            That Help Businesses Grow.
+            <span className="grad-text">Digital Experiences</span> That Help
+            Businesses Grow.
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 26 }}
+            initial={reduced ? false : { opacity: 0, y: 26 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-7 max-w-xl text-base leading-relaxed text-fog md:text-lg"
+            transition={{ duration: 0.7, delay: 0.22 }}
+            className="mt-6 max-w-xl text-base leading-relaxed text-fog sm:text-lg"
           >
-            P.K Creative Agency helps businesses turn ideas into powerful websites, memorable brands, and digital
-            experiences.
+            P.K Creative Agency helps businesses turn ideas into powerful
+            websites, memorable brands, and digital experiences.
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 26 }}
+            initial={reduced ? false : { opacity: 0, y: 26 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.34, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.7, delay: 0.32 }}
             className="mt-9 flex flex-wrap items-center gap-4"
           >
-            <PrimaryLink to="/contact">Start Your Project</PrimaryLink>
-            <GhostLink to="/work">View Our Work</GhostLink>
+            <Link to="/contact" className="btn-primary">
+              Start Your Project
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </Link>
+            <Link to="/work" className="btn-ghost">
+              View Our Work
+              <ArrowUpRight className="h-4 w-4" />
+            </Link>
           </motion.div>
 
+          {/* trust strip */}
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={reduced ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.9, delay: 0.55 }}
-            className="mt-12 flex items-center gap-4"
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="mt-11 flex flex-wrap items-center gap-5"
           >
-            <div className="flex -space-x-2.5" aria-hidden="true">
-              {["from-royal to-cobalt", "from-cobalt to-flare", "from-flare to-royal", "from-cobalt to-royal"].map((g, i) => (
+            <div className="flex -space-x-2.5">
+              {[
+                ["NT", "from-royal to-cobalt"],
+                ["BC", "from-cobalt to-flare"],
+                ["ZF", "from-flare to-royal"],
+                ["AC", "from-royal to-flare"],
+              ].map(([ini, grad]) => (
                 <span
-                  key={i}
-                  className={`flex h-9 w-9 items-center justify-center rounded-full border-2 border-ink-950 bg-gradient-to-br ${g} font-display text-[10px] font-bold text-ink-950`}
+                  key={ini}
+                  className={`flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br font-display text-[10px] font-bold text-ink-950 ring-2 ring-ink-950 ${grad}`}
                 >
-                  {["PK", "SC", "SC", "SC"][i]}
+                  {ini}
                 </span>
               ))}
             </div>
-            <p className="text-sm font-semibold text-fog">
-              Helping ambitious brands build
-              <span className="block text-mist">their digital presence.</span>
-            </p>
-          </motion.div>
-
-          {/* Mobile mini-cards */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.5 }}
-            className="mt-10 flex gap-3 lg:hidden"
-          >
-            <div className="flex flex-1 items-center gap-3 rounded-2xl border border-mist/10 bg-ink-800/80 p-4">
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-lime-wa/15 text-lime-wa">
-                <BellRing className="h-4 w-4" aria-hidden="true" />
-              </span>
-              <div>
-                <p className="text-xs font-bold text-mist">New lead received</p>
-                <p className="font-mono text-[10px] text-fog">E-commerce · just now</p>
-              </div>
-            </div>
-            <div className="flex flex-1 items-center gap-3 rounded-2xl border border-mist/10 bg-ink-800/80 p-4">
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-royal/15 text-royal">
-                <TrendingUp className="h-4 w-4" aria-hidden="true" />
-              </span>
-              <div>
-                <p className="text-xs font-bold text-mist">+48% conversions</p>
-                <p className="font-mono text-[10px] text-fog">after redesign</p>
-              </div>
+            <div>
+              <Stars value={5} />
+              <p className="mt-1 text-xs text-fog">
+                Trusted by startups, SMBs & personal brands
+              </p>
             </div>
           </motion.div>
         </div>
 
-        {/* ── Animated visual composition ── */}
-        <div className="relative hidden h-[580px] lg:block" aria-hidden="true">
-          {/* Orbit rings + glow */}
-          <div className="absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-mist/10 animate-spin-slower" />
-          <div className="absolute left-1/2 top-1/2 h-[380px] w-[380px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-mist/6" />
-          <div className="absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-br from-royal/25 to-cobalt/20 blur-3xl" />
+        {/* ------- visual composition ------- */}
+        <motion.div
+          initial={reduced ? false : { opacity: 0, scale: 0.94, y: 30 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+          className="relative mx-auto h-[420px] w-full max-w-[520px] sm:h-[500px]"
+          aria-hidden="true"
+        >
+          {/* orbit rings */}
+          <div className="absolute top-1/2 left-1/2 h-[105%] w-[105%] -translate-x-1/2 -translate-y-1/2 animate-spin-slow rounded-full border border-dashed border-mist/10 motion-reduce:animate-none" />
+          <div className="absolute top-1/2 left-1/2 h-[80%] w-[80%] -translate-x-1/2 -translate-y-1/2 animate-spin-slower rounded-full border border-mist/8 motion-reduce:animate-none" />
+          <div className="absolute top-1/2 left-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-br from-royal/25 via-cobalt/15 to-flare/25 blur-3xl" />
 
-          {/* Browser mockup */}
-          <motion.div
-            style={reduced ? undefined : { x: x1, y: y1 }}
-            className="absolute left-1/2 top-1/2 w-[400px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl border border-mist/12 bg-ink-800 shadow-[0_40px_90px_-20px_rgba(6,7,13,0.9)]"
-          >
-            <div className="flex items-center gap-2 border-b border-mist/8 px-4 py-3">
+          {/* main browser mockup */}
+          <div className="absolute top-1/2 left-1/2 w-[86%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl border border-mist/12 bg-ink-900/90 shadow-[0_40px_90px_-30px_rgba(6,7,13,0.95)] backdrop-blur">
+            <div className="flex items-center gap-1.5 border-b border-mist/8 px-4 py-3">
               <span className="h-2.5 w-2.5 rounded-full bg-flare/80" />
-              <span className="h-2.5 w-2.5 rounded-full bg-cobalt/80" />
-              <span className="h-2.5 w-2.5 rounded-full bg-lime-wa/80" />
-              <span className="ml-3 flex-1 rounded-full bg-ink-700 px-3 py-1 font-mono text-[10px] text-fog">
-                pkcreative.agency
-              </span>
+              <span className="h-2.5 w-2.5 rounded-full bg-amber-300/80" />
+              <span className="h-2.5 w-2.5 rounded-full bg-wa/80" />
+              <span className="ml-3 h-4 flex-1 rounded-full bg-mist/6" />
             </div>
-            <div className="space-y-4 p-5">
+            <div className="space-y-3 p-5">
               <div className="flex items-center justify-between">
-                <span className="h-3 w-14 rounded-full bg-gradient-to-r from-royal to-cobalt" />
-                <div className="flex gap-2">
-                  <span className="h-2 w-8 rounded-full bg-mist/15" />
-                  <span className="h-2 w-8 rounded-full bg-mist/15" />
-                  <span className="h-2 w-8 rounded-full bg-mist/15" />
-                </div>
+                <span className="h-3 w-16 rounded bg-gradient-to-r from-royal to-cobalt" />
+                <span className="flex gap-1.5">
+                  <span className="h-2 w-8 rounded bg-mist/12" />
+                  <span className="h-2 w-8 rounded bg-mist/12" />
+                  <span className="h-2 w-8 rounded bg-mist/12" />
+                </span>
               </div>
-              <div className="rounded-xl border border-mist/8 bg-gradient-to-br from-royal/20 via-ink-700 to-cobalt/20 p-4">
-                <span className="block h-3 w-3/4 rounded-full bg-mist/70" />
-                <span className="mt-2 block h-3 w-1/2 rounded-full bg-mist/40" />
-                <span className="mt-4 inline-block h-6 w-24 rounded-full bg-gradient-to-r from-royal to-cobalt" />
+              <div className="rounded-xl bg-gradient-to-br from-royal/35 via-cobalt/25 to-flare/35 p-5">
+                <span className="block h-3 w-3/4 rounded bg-mist/70" />
+                <span className="mt-2 block h-3 w-1/2 rounded bg-mist/45" />
+                <span className="mt-4 inline-block h-7 w-24 rounded-full bg-ink-950/70" />
               </div>
               <div className="grid grid-cols-3 gap-2.5">
-                {[
-                  ["bg-royal", "w-8"],
-                  ["bg-cobalt", "w-10"],
-                  ["bg-flare", "w-7"],
-                ].map(([dot, w], i) => (
-                  <div key={i} className="rounded-lg bg-ink-700/70 p-2.5">
-                    <span className={`block h-2 ${w} rounded-full bg-mist/25`} />
-                    <span className={`mt-2 block h-2 rounded-full ${dot} opacity-80`} style={{ width: "60%" }} />
+                {[0, 1, 2].map((i) => (
+                  <div key={i} className="rounded-lg border border-mist/8 bg-mist/[0.04] p-3">
+                    <span className="block h-2 w-2/3 rounded bg-mist/20" />
+                    <span className="mt-2 block h-2 w-full rounded bg-mist/10" />
+                    <span className="mt-1.5 block h-2 w-4/5 rounded bg-mist/10" />
                   </div>
                 ))}
               </div>
-              <div className="flex h-16 items-end gap-1.5 rounded-lg bg-ink-700/50 p-2.5">
-                {CHART_BARS.map((h, i) => (
-                  <motion.span
+              <div className="flex gap-2">
+                <span className="h-2 flex-1 rounded bg-mist/8" />
+                <span className="h-2 w-1/4 rounded bg-mist/8" />
+              </div>
+            </div>
+          </div>
+
+          {/* floating: new lead */}
+          <FloatingCard
+            mx={1.4}
+            my={1.2}
+            springX={springX}
+            springY={springY}
+            reduced={reduced}
+            className="top-2 right-0 sm:top-6 sm:-right-2"
+          >
+            <div className="flex items-center gap-3 rounded-xl border border-mist/12 bg-ink-850/95 px-4 py-3 shadow-2xl backdrop-blur">
+              <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-wa/15 text-wa">
+                <BellRing className="h-4 w-4" />
+                <span className="absolute -top-0.5 -right-0.5 h-2 w-2 animate-pulse rounded-full bg-wa" />
+              </span>
+              <div>
+                <p className="text-xs font-bold text-mist">New lead received</p>
+                <p className="font-mono text-[10px] text-fog">just now · via website</p>
+              </div>
+            </div>
+          </FloatingCard>
+
+          {/* floating: growth chart */}
+          <FloatingCard
+            mx={-1.6}
+            my={-1.1}
+            springX={springX}
+            springY={springY}
+            reduced={reduced}
+            floatClass="animate-floaty-late"
+            className="bottom-4 -left-1 sm:bottom-10 sm:-left-6"
+          >
+            <div className="rounded-xl border border-mist/12 bg-ink-850/95 p-4 shadow-2xl backdrop-blur">
+              <div className="flex items-center gap-2">
+                <TrendingUp className="h-4 w-4 text-cobalt" />
+                <p className="text-xs font-bold text-mist">Conversions</p>
+                <span className="ml-auto rounded-full bg-wa/15 px-2 py-0.5 font-mono text-[10px] font-semibold text-wa">
+                  +212%
+                </span>
+              </div>
+              <div className="mt-3 flex h-12 items-end gap-1.5">
+                {[35, 55, 40, 70, 58, 86, 100].map((h, i) => (
+                  <span
                     key={i}
-                    initial={{ height: 0 }}
-                    animate={{ height: `${h}%` }}
-                    transition={{ delay: 0.7 + i * 0.08, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                    className={`flex-1 rounded-sm ${i === CHART_BARS.length - 1 ? "bg-gradient-to-t from-royal to-flare" : "bg-cobalt/50"}`}
+                    className="w-3 rounded-t-sm bg-gradient-to-t from-royal/70 to-cobalt"
+                    style={{ height: `${h}%`, opacity: 0.45 + i * 0.08 }}
                   />
                 ))}
               </div>
             </div>
-          </motion.div>
+          </FloatingCard>
 
-          {/* Floating: lead notification */}
-          <motion.div style={reduced ? undefined : { x: x2, y: y2 }} className="absolute left-0 top-14 animate-floaty">
-            <div className="flex items-center gap-3 rounded-2xl border border-mist/12 bg-ink-800/95 p-4 shadow-2xl backdrop-blur">
-              <span className="relative flex h-10 w-10 items-center justify-center rounded-full bg-lime-wa/15 text-lime-wa">
-                <BellRing className="h-4.5 w-4.5" />
-                <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-lime-wa">
-                  <span className="absolute inset-0 rounded-full bg-lime-wa animate-pulse-ring" />
-                </span>
+          {/* floating: brand chip */}
+          <FloatingCard
+            mx={1.1}
+            my={-1.5}
+            springX={springX}
+            springY={springY}
+            reduced={reduced}
+            className="bottom-0 right-4 sm:bottom-2 sm:right-0"
+          >
+            <div className="flex items-center gap-2.5 rounded-full border border-mist/12 bg-ink-850/95 py-2 pr-4 pl-2 shadow-2xl backdrop-blur">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-flare to-royal text-ink-950">
+                <Palette className="h-4 w-4" />
               </span>
-              <div>
-                <p className="text-sm font-bold text-mist">New lead received</p>
-                <p className="font-mono text-[11px] text-fog">E-Commerce project · ₹80k</p>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Floating: brand palette */}
-          <motion.div style={reduced ? undefined : { x: x3, y: y3 }} className="absolute bottom-16 left-2 animate-floaty-late">
-            <div className="rounded-2xl border border-mist/12 bg-ink-800/95 p-4 shadow-2xl backdrop-blur">
-              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-fog">Brand sprint</p>
-              <div className="mt-3 flex gap-2">
-                {["bg-royal", "bg-cobalt", "bg-flare", "bg-mist", "bg-ink-500"].map((c, i) => (
-                  <span key={i} className={`h-7 w-7 rounded-full ${c} ring-1 ring-mist/20 transition-transform hover:scale-110`} />
-                ))}
-              </div>
-              <p className="mt-3 font-display text-sm font-bold text-mist">
-                Aurora <span className="font-mono text-[10px] font-medium text-fog">/ Syne + Manrope</span>
+              <p className="text-xs font-bold text-mist">
+                Brand kit <span className="font-mono text-[10px] font-medium text-fog">v2.0 shipped</span>
               </p>
             </div>
-          </motion.div>
+          </FloatingCard>
 
-          {/* Floating: conversion chart */}
-          <motion.div style={reduced ? undefined : { x: x2, y: y2 }} className="absolute right-0 top-40 animate-floaty-late">
-            <div className="rounded-2xl border border-mist/12 bg-ink-800/95 p-4 shadow-2xl backdrop-blur">
-              <div className="flex items-center gap-2 text-lime-wa">
-                <TrendingUp className="h-4 w-4" />
-                <span className="font-mono text-[10px] uppercase tracking-[0.18em]">This quarter</span>
-              </div>
-              <p className="mt-1.5 font-display text-3xl font-extrabold text-mist">+48%</p>
-              <p className="text-xs font-semibold text-fog">Conversions after redesign</p>
-            </div>
-          </motion.div>
-
-          {/* Rotating tagline badge */}
-          <motion.div style={reduced ? undefined : { x: x3, y: y3 }} className="absolute bottom-6 right-10 h-[150px] w-[150px]">
-            <div className="relative h-full w-full">
-              <svg viewBox="0 0 160 160" className="h-full w-full animate-spin-slow">
-                <defs>
-                  <path id="hero-circle" d="M80,80 m-58,0 a58,58 0 1,1 116,0 a58,58 0 1,1 -116,0" />
-                </defs>
-                <text fill="#9aa1b7" style={{ fontSize: 10.2, letterSpacing: 2 }} fontFamily="JetBrains Mono, monospace">
-                  <textPath href="#hero-circle">TURNING IDEAS INTO DIGITAL EXPERIENCES • P.K •</textPath>
-                </text>
-              </svg>
-              <span className="absolute left-1/2 top-1/2 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-gradient-to-br from-royal to-cobalt text-ink-950 shadow-lg">
-                <Sparkles className="h-5 w-5" />
-              </span>
-            </div>
-          </motion.div>
-        </div>
+          {/* rotating badge */}
+          <div className="absolute top-1/2 left-1/2 hidden h-36 w-36 -translate-x-1/2 -translate-y-1/2 sm:block" aria-hidden="true">
+            <svg viewBox="0 0 100 100" className="h-full w-full animate-spin-slow motion-reduce:animate-none">
+              <defs>
+                <path id="circlePath" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0" />
+              </defs>
+              <text className="fill-mist/45 font-mono text-[7.5px] tracking-[0.28em] uppercase">
+                <textPath href="#circlePath">
+                  P.K Creative • Digital Studio • Est. 2021 •
+                </textPath>
+              </text>
+            </svg>
+          </div>
+        </motion.div>
       </div>
+
+      {/* scroll cue */}
+      <motion.div
+        initial={reduced ? false : { opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.1, duration: 0.8 }}
+        className="shell relative mt-14 hidden items-center gap-3 lg:flex"
+        aria-hidden="true"
+      >
+        <span className="h-px w-16 bg-gradient-to-r from-royal to-transparent" />
+        <span className="font-mono text-[10px] tracking-[0.3em] text-fog uppercase">
+          Scroll to explore
+        </span>
+      </motion.div>
     </section>
   );
 }

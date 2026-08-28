@@ -1,121 +1,130 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ChevronLeft, ChevronRight, Star } from "lucide-react";
+import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { testimonials } from "../data/testimonials";
-import { Reveal, SectionHeading } from "./ui";
+import { SectionHead, Stars, InitialsAvatar, Reveal } from "./ui";
 
 export default function TestimonialsSection() {
-  const [index, setIndex] = useState(0);
+  const [[index, dir], setIndex] = useState<[number, number]>([0, 0]);
   const [paused, setPaused] = useState(false);
   const reduced = useReducedMotion();
+  const timer = useRef<ReturnType<typeof setInterval> | null>(null);
   const count = testimonials.length;
 
+  const go = useCallback(
+    (next: number, direction: number) => {
+      setIndex([((next % count) + count) % count, direction]);
+    },
+    [count]
+  );
+
+  /* autoplay — paused on hover / reduced motion */
   useEffect(() => {
     if (reduced || paused) return;
-    const id = setInterval(() => setIndex((i) => (i + 1) % count), 5500);
-    return () => clearInterval(id);
+    timer.current = setInterval(() => {
+      setIndex(([i]) => [(i + 1) % count, 1]);
+    }, 6000);
+    return () => {
+      if (timer.current) clearInterval(timer.current);
+    };
   }, [reduced, paused, count]);
 
   const t = testimonials[index];
 
   return (
-    <section
-      className="relative border-t border-mist/8 py-24 lg:py-32"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-    >
-      <div className="pointer-events-none absolute right-1/4 top-10 h-[360px] w-[360px] rounded-full bg-royal/8 blur-[130px]" aria-hidden="true" />
-      <div className="mx-auto max-w-4xl px-5 lg:px-8">
-        <SectionHeading
-          center
+    <section className="relative overflow-hidden py-20 lg:py-28" aria-label="Testimonials">
+      <div className="pointer-events-none absolute -top-20 left-1/4 h-80 w-80 rounded-full bg-royal/10 blur-[120px]" aria-hidden="true" />
+      <div className="shell relative">
+        <SectionHead
           eyebrow="Testimonials"
-          title={
-            <>
-              What Our Clients <span className="text-cobalt">Say</span>
-            </>
-          }
+          title="What Our Clients Say"
+          sub="Real words from the people we've partnered with."
+          align="center"
         />
 
-        <Reveal delay={0.15}>
-          <div className="relative mt-14">
-            <span className="pointer-events-none absolute -top-10 left-1/2 -translate-x-1/2 select-none font-display text-[9rem] font-extrabold leading-none text-royal/10" aria-hidden="true">
-              &ldquo;
-            </span>
+        <Reveal delay={0.1}>
+          <div
+            className="relative mx-auto mt-12 max-w-3xl"
+            onMouseEnter={() => setPaused(true)}
+            onMouseLeave={() => setPaused(false)}
+          >
+            <Quote className="absolute -top-6 -left-2 h-16 w-16 text-royal/15 sm:-left-8" aria-hidden="true" />
 
-            <div className="relative overflow-hidden rounded-[24px] border border-mist/10 bg-ink-800/70 px-7 py-10 md:px-14 md:py-14">
-              <AnimatePresence mode="wait">
+            <div className="overflow-hidden rounded-3xl border border-mist/10 bg-ink-850/90 shadow-[0_30px_80px_-30px_rgba(6,7,13,0.9)]">
+              <AnimatePresence mode="wait" custom={dir} initial={false}>
                 <motion.figure
                   key={t.id}
-                  initial={{ opacity: 0, x: reduced ? 0 : 46 }}
+                  custom={dir}
+                  initial={reduced ? { opacity: 0 } : { opacity: 0, x: dir >= 0 ? 70 : -70 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: reduced ? 0 : -46 }}
+                  exit={reduced ? { opacity: 0 } : { opacity: 0, x: dir >= 0 ? -70 : 70 }}
                   transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                  className="text-center"
+                  className="p-8 sm:p-12"
                 >
-                  <div className="flex justify-center gap-1" aria-label={`${t.rating} out of 5 stars`}>
-                    {Array.from({ length: t.rating }).map((_, i) => (
-                      <Star key={i} className="h-4.5 w-4.5 fill-royal text-royal" aria-hidden="true" />
-                    ))}
+                  <div className="flex items-center justify-between gap-4">
+                    <Stars value={t.rating} />
+                    <span className="rounded-full border border-amber-300/25 bg-amber-300/10 px-3 py-1 font-mono text-[10px] font-medium tracking-[0.14em] text-amber-200 uppercase">
+                      Sample — replace with real quote
+                    </span>
                   </div>
-                  <blockquote className="mx-auto mt-6 max-w-2xl text-lg font-medium leading-relaxed text-mist md:text-2xl md:leading-relaxed">
-                    &ldquo;{t.quote}&rdquo;
+                  <blockquote className="font-display mt-6 text-xl leading-snug font-semibold tracking-tight text-mist text-balance sm:text-2xl">
+                    “{t.quote}”
                   </blockquote>
-                  <figcaption className="mt-8 flex items-center justify-center gap-4">
-                    <span className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-royal to-cobalt font-display text-sm font-bold text-ink-950">
-                      {t.initials}
-                    </span>
-                    <span className="text-left">
-                      <span className="block text-sm font-bold text-mist">{t.name}</span>
-                      <span className="block font-mono text-[11px] text-fog">{t.company}</span>
-                    </span>
-                    {t.placeholder && (
-                      <span className="rounded-full border border-flare/30 bg-flare/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-flare">
-                        Placeholder
-                      </span>
-                    )}
+                  <figcaption className="mt-8 flex items-center gap-4">
+                    <InitialsAvatar initials={t.initials} gradient={t.gradient} />
+                    <div>
+                      <p className="text-sm font-bold text-mist">
+                        {t.name}
+                        <span className="ml-2 font-mono text-[10px] font-medium tracking-wider text-fog/70 uppercase">
+                          placeholder
+                        </span>
+                      </p>
+                      <p className="mt-0.5 text-xs text-fog">
+                        {t.role} · {t.company}
+                      </p>
+                    </div>
                   </figcaption>
                 </motion.figure>
               </AnimatePresence>
             </div>
 
-            {/* Controls */}
-            <div className="mt-8 flex items-center justify-center gap-6">
-              <button
-                type="button"
-                onClick={() => setIndex((index - 1 + count) % count)}
-                aria-label="Previous testimonial"
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-mist/12 text-fog transition-all duration-300 hover:-translate-y-0.5 hover:border-royal/50 hover:text-royal"
-              >
-                <ChevronLeft className="h-5 w-5" aria-hidden="true" />
-              </button>
-              <div className="flex gap-2.5" role="tablist" aria-label="Choose testimonial">
-                {testimonials.map((item, i) => (
+            {/* controls */}
+            <div className="mt-7 flex items-center justify-between">
+              <div className="flex gap-2">
+                {testimonials.map((_, i) => (
                   <button
-                    key={item.id}
+                    key={i}
                     type="button"
-                    role="tab"
-                    aria-selected={i === index}
-                    aria-label={`Testimonial ${i + 1}`}
-                    onClick={() => setIndex(i)}
-                    className={`h-2 rounded-full transition-all duration-400 ${
-                      i === index ? "w-8 bg-gradient-to-r from-royal to-cobalt" : "w-2 bg-mist/20 hover:bg-mist/40"
+                    onClick={() => go(i, i > index ? 1 : -1)}
+                    aria-label={`Go to testimonial ${i + 1}`}
+                    className={`h-1.5 rounded-full transition-all duration-400 ${
+                      i === index ? "w-8 bg-gradient-to-r from-royal to-flare" : "w-3 bg-mist/20 hover:bg-mist/40"
                     }`}
                   />
                 ))}
               </div>
-              <button
-                type="button"
-                onClick={() => setIndex((index + 1) % count)}
-                aria-label="Next testimonial"
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-mist/12 text-fog transition-all duration-300 hover:-translate-y-0.5 hover:border-royal/50 hover:text-royal"
-              >
-                <ChevronRight className="h-5 w-5" aria-hidden="true" />
-              </button>
+              <div className="flex gap-2.5">
+                <button
+                  type="button"
+                  onClick={() => go(index - 1, -1)}
+                  aria-label="Previous testimonial"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-mist/15 text-fog transition-all duration-300 hover:border-royal/60 hover:text-mist active:scale-95"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => go(index + 1, 1)}
+                  aria-label="Next testimonial"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-mist/15 text-fog transition-all duration-300 hover:border-royal/60 hover:text-mist active:scale-95"
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+              </div>
             </div>
 
-            <p className="mt-8 text-center font-mono text-[11px] leading-relaxed text-fog/70">
-              ※ Placeholder testimonials — replace with real client feedback in{" "}
-              <span className="text-fog">src/data/testimonials.ts</span>
+            <p className="mt-5 text-center font-mono text-[10px] tracking-[0.18em] text-fog/50 uppercase">
+              Testimonials above are placeholders — swap in real client feedback
             </p>
           </div>
         </Reveal>

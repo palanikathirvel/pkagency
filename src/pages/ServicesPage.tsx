@@ -1,146 +1,207 @@
-import { ArrowUpRight, Check, Sparkles } from "lucide-react";
+import { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { ArrowRight, ArrowUpRight, Check, ChevronDown } from "lucide-react";
 import { services } from "../data/services";
-import { Eyebrow, PrimaryLink, Reveal } from "../components/ui";
+import { faqs } from "../data/siteContent";
+import { Eyebrow, Reveal, StaggerGroup, StaggerItem } from "../components/ui";
 import { usePageMeta } from "../hooks/usePageMeta";
-import { waLink } from "../config/agencyConfig";
+import { useState } from "react";
+
+function FaqItem({ q, a }: { q: string; a: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="border-b border-mist/10">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        className="group flex w-full items-center justify-between gap-6 py-5 text-left"
+      >
+        <span className="font-display text-base font-bold text-mist transition-colors group-hover:text-royal sm:text-lg">
+          {q}
+        </span>
+        <ChevronDown
+          className={`h-5 w-5 shrink-0 text-royal transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+        />
+      </button>
+      <div
+        className={`grid transition-all duration-400 ease-out ${open ? "grid-rows-[1fr] pb-5 opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+      >
+        <p className="overflow-hidden text-sm leading-relaxed text-fog">{a}</p>
+      </div>
+    </div>
+  );
+}
 
 export default function ServicesPage() {
+  const location = useLocation();
   usePageMeta(
-    "Services | P.K Creative Agency — Websites, UI/UX, Branding & Digital Solutions",
-    "Website development, UI/UX design, social media creative, branding and custom digital solutions — everything your brand needs to win online."
+    "Services | P.K Creative Agency — Web, UI/UX, Branding & Digital Solutions",
+    "Website development, UI/UX design, branding, social media design and custom digital solutions — everything your brand needs under one roof."
   );
 
-  const jumpTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  /* deep-link: /services with state {scrollTo: slug} */
+  useEffect(() => {
+    const target = (location.state as { scrollTo?: string } | null)?.scrollTo;
+    if (target) {
+      const el = document.getElementById(target);
+      if (el) setTimeout(() => el.scrollIntoView({ block: "start" }), 120);
+    }
+  }, [location.state]);
 
   return (
-    <main className="relative overflow-hidden pt-[130px]">
-      <div className="absolute inset-0 bg-grid-dark [mask-image:radial-gradient(ellipse_70%_50%_at_50%_0%,black,transparent)]" aria-hidden="true" />
-      <div className="pointer-events-none absolute -top-20 right-0 h-[420px] w-[420px] rounded-full bg-royal/12 blur-[130px]" aria-hidden="true" />
-
-      {/* Page header */}
-      <header className="relative mx-auto grid max-w-7xl gap-12 px-5 pb-16 lg:grid-cols-[1.2fr_0.8fr] lg:items-end lg:px-8 lg:pb-24">
-        <div>
+    <main className="pt-[72px]">
+      {/* header */}
+      <section className="relative overflow-hidden py-16 lg:py-24">
+        <div className="bg-grid-dark absolute inset-0" aria-hidden="true" />
+        <div className="pointer-events-none absolute -top-32 right-0 h-96 w-96 rounded-full bg-royal/14 blur-[120px]" aria-hidden="true" />
+        <div className="shell relative">
           <Reveal>
-            <Eyebrow>Our services</Eyebrow>
+            <Eyebrow>What we do</Eyebrow>
           </Reveal>
           <Reveal delay={0.08}>
-            <h1 className="mt-5 font-display text-4xl font-extrabold leading-[1.04] tracking-tight text-mist sm:text-5xl lg:text-6xl">
-              Everything your brand needs to <span className="text-royal">win online.</span>
+            <h1 className="font-display mt-5 max-w-3xl text-4xl leading-[1.05] font-extrabold tracking-tight text-mist sm:text-5xl lg:text-6xl">
+              Everything Your Brand Needs,{" "}
+              <span className="grad-text">Under One Roof.</span>
             </h1>
           </Reveal>
           <Reveal delay={0.16}>
-            <p className="mt-6 max-w-xl text-base leading-relaxed text-fog md:text-lg">
-              Five focused disciplines, one accountable team. Mix and match what you need — we&rsquo;ll handle the rest
-              end to end.
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-fog">
+              Five disciplines, one accountable team. Mix and match services —
+              we'll recommend exactly what your project needs, and nothing it
+              doesn't.
             </p>
           </Reveal>
+          <Reveal delay={0.24}>
+            <div className="mt-9 flex flex-wrap gap-4">
+              <Link to="/contact" className="btn-primary">
+                Get a Custom Solution <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link to="/work" className="btn-ghost">
+                See the results <ArrowUpRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </Reveal>
         </div>
-        <Reveal delay={0.24}>
-          <nav aria-label="Service shortcuts" className="rounded-[20px] border border-mist/10 bg-ink-800/60 p-6">
-            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-fog">Jump to</p>
-            <ul className="mt-4 space-y-2.5">
-              {services.map((s, i) => (
-                <li key={s.id}>
-                  <button
-                    type="button"
-                    onClick={() => jumpTo(`svc-${s.id}`)}
-                    className="group flex w-full items-center gap-3 text-left text-sm font-bold text-mist/80 transition-colors hover:text-royal"
-                  >
-                    <span className="font-mono text-[11px] text-fog/60">0{i + 1}</span>
-                    {s.title}
-                    <ArrowUpRight className="ml-auto h-3.5 w-3.5 opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:opacity-100" aria-hidden="true" />
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </Reveal>
-      </header>
+      </section>
 
-      {/* Detailed service rows */}
-      <div className="relative mx-auto max-w-7xl px-5 lg:px-8">
-        {services.map((s, i) => {
-          const Icon = s.icon;
-          const flip = i % 2 === 1;
-          return (
-            <section
-              key={s.id}
-              id={`svc-${s.id}`}
-              aria-label={s.title}
-              className="grid scroll-mt-28 gap-10 border-t border-mist/8 py-16 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 lg:py-20"
-            >
-              <div className={flip ? "lg:order-2" : ""}>
-                <Reveal>
-                  <div className="flex items-start gap-6">
-                    <span className={`gradient-border group flex h-20 w-20 shrink-0 items-center justify-center rounded-[20px] border border-mist/12 bg-ink-800 ${s.tint.text}`}>
-                      <Icon className="h-9 w-9" aria-hidden="true" />
-                    </span>
-                    <div>
-                      <p className="font-mono text-xs text-fog/60">0{i + 1} / 0{services.length}</p>
-                      <h2 className="mt-2 font-display text-2xl font-bold tracking-tight text-mist sm:text-3xl lg:text-4xl">
-                        {s.title}
-                      </h2>
+      {/* detailed service blocks */}
+      <section className="py-6" aria-label="Service details">
+        <div className="shell space-y-8">
+          {services.map((s, i) => {
+            const Icon = s.icon;
+            const flip = i % 2 === 1;
+            return (
+              <Reveal key={s.slug} y={36}>
+                <article
+                  id={s.slug}
+                  className="scroll-mt-28 overflow-hidden rounded-3xl border border-mist/10 bg-ink-850/80"
+                >
+                  <div
+                    className={`grid gap-0 lg:grid-cols-[0.95fr_1.05fr] ${flip ? "lg:[direction:rtl]" : ""}`}
+                  >
+                    {/* visual side */}
+                    <div
+                      className={`relative flex flex-col justify-between overflow-hidden bg-gradient-to-br p-8 sm:p-10 lg:p-12 ${s.gradient} lg:[direction:ltr]`}
+                    >
+                      <div className="pointer-events-none absolute -top-16 -right-16 h-56 w-56 rounded-full bg-ink-950/25 blur-2xl" aria-hidden="true" />
+                      <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-ink-950/85 text-mist shadow-2xl">
+                        <Icon className="h-8 w-8" />
+                      </span>
+                      <div className="mt-16">
+                        <p className="font-mono text-[11px] font-semibold tracking-[0.24em] text-ink-950/70 uppercase">
+                          Service 0{i + 1}
+                        </p>
+                        <h2 className="font-display mt-3 text-3xl leading-tight font-extrabold tracking-tight text-ink-950 sm:text-4xl">
+                          {s.title}
+                        </h2>
+                      </div>
+                      <p className="mt-4 hidden max-w-sm text-sm leading-relaxed font-semibold text-ink-950/75 lg:block">
+                        Best for: {s.bestFor}
+                      </p>
+                    </div>
+
+                    {/* content side */}
+                    <div className="p-8 sm:p-10 lg:p-12 lg:[direction:ltr]">
+                      <p className="max-w-xl leading-relaxed text-fog">
+                        {s.description}
+                      </p>
+
+                      <div className="mt-8 grid gap-8 sm:grid-cols-2">
+                        <div>
+                          <h3 className="font-mono text-[11px] font-semibold tracking-[0.22em] text-royal uppercase">
+                            What's included
+                          </h3>
+                          <ul className="mt-4 space-y-2.5">
+                            {s.features.map((f) => (
+                              <li key={f} className="flex items-start gap-2.5 text-sm text-mist/85">
+                                <Check className="mt-0.5 h-4 w-4 shrink-0 text-cobalt" strokeWidth={3} />
+                                {f}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        <div>
+                          <h3 className="font-mono text-[11px] font-semibold tracking-[0.22em] text-flare uppercase">
+                            You receive
+                          </h3>
+                          <div className="mt-4 flex flex-wrap gap-2">
+                            {s.deliverables.map((d) => (
+                              <span
+                                key={d}
+                                className="rounded-full border border-mist/12 bg-mist/[0.05] px-3 py-1.5 text-xs font-semibold text-mist/80"
+                              >
+                                {d}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      <Link
+                        to="/contact"
+                        state={{ service: s.title }}
+                        className="btn-primary btn-sm mt-9"
+                      >
+                        Start with {s.title.split(" ")[0]} <ArrowRight className="h-4 w-4" />
+                      </Link>
                     </div>
                   </div>
-                  <p className="mt-6 max-w-md text-base leading-relaxed text-fog md:text-lg">{s.blurb}</p>
-                  <a
-                    href="#/contact"
-                    className={`group mt-8 inline-flex items-center gap-2 text-sm font-bold ${s.tint.text} transition-all duration-300 hover:gap-3.5`}
-                  >
-                    Start with {s.title}
-                    <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-                  </a>
-                </Reveal>
-              </div>
-              <div className={flip ? "lg:order-1" : ""}>
-                <Reveal delay={0.1}>
-                  <div className="rounded-[20px] border border-mist/8 bg-ink-800/50 p-7 transition-colors duration-500 hover:border-mist/20 md:p-9">
-                    <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-fog">What&rsquo;s included</p>
-                    <ul className="mt-6 grid gap-x-8 gap-y-4 sm:grid-cols-2">
-                      {s.features.map((f) => (
-                        <li key={f} className="flex items-center gap-3 text-sm font-semibold text-mist/85">
-                          <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${s.tint.chip} border`}>
-                            <Check className="h-3 w-3" strokeWidth={3} aria-hidden="true" />
-                          </span>
-                          {f}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </Reveal>
-              </div>
-            </section>
-          );
-        })}
-      </div>
+                </article>
+              </Reveal>
+            );
+          })}
+        </div>
+      </section>
 
-      {/* Bottom CTA */}
-      <div className="relative mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
-        <Reveal>
-          <div className="gradient-border always relative overflow-hidden rounded-[26px] bg-ink-800/80 px-8 py-14 text-center md:px-16">
-            <div className="pointer-events-none absolute -top-24 left-1/2 h-[300px] w-[500px] -translate-x-1/2 rounded-full bg-royal/20 blur-[110px]" aria-hidden="true" />
-            <Sparkles className="mx-auto h-8 w-8 text-royal" aria-hidden="true" />
-            <h2 className="mx-auto mt-5 max-w-2xl font-display text-3xl font-extrabold tracking-tight text-mist sm:text-4xl">
-              Not sure where to start? Let&rsquo;s figure it out together.
-            </h2>
-            <p className="mx-auto mt-4 max-w-xl text-fog">
-              Book a free 30-minute consultation — we&rsquo;ll map your goals and recommend the smallest scope that
-              delivers real results.
-            </p>
-            <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
-              <PrimaryLink to="/contact">Get a Free Consultation</PrimaryLink>
-              <a
-                href={waLink}
-                target="_blank"
-                rel="noreferrer"
-                className="rounded-full border border-lime-wa/40 px-7 py-3.5 text-sm font-bold text-lime-wa transition-all duration-300 hover:-translate-y-0.5 hover:bg-lime-wa/10"
-              >
-                Chat on WhatsApp
-              </a>
-            </div>
+      {/* FAQ */}
+      <section className="py-20 lg:py-28" aria-label="Frequently asked questions">
+        <div className="shell grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+          <div className="lg:sticky lg:top-28 lg:self-start">
+            <Reveal>
+              <Eyebrow>FAQ</Eyebrow>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <h2 className="font-display mt-4 text-3xl leading-tight font-bold tracking-tight text-mist sm:text-4xl">
+                Questions? <span className="grad-text">Answered.</span>
+              </h2>
+            </Reveal>
+            <Reveal delay={0.16}>
+              <p className="mt-4 max-w-sm text-fog">
+                The things clients ask us most before starting. Anything else —
+                just ask.
+              </p>
+            </Reveal>
           </div>
-        </Reveal>
-      </div>
+          <StaggerGroup>
+            {faqs.map((f) => (
+              <StaggerItem key={f.q}>
+                <FaqItem q={f.q} a={f.a} />
+              </StaggerItem>
+            ))}
+          </StaggerGroup>
+        </div>
+      </section>
     </main>
   );
 }

@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from "react";
-import { HashRouter, Route, Routes, useLocation } from "react-router-dom";
+import { HashRouter, Route, Routes, useLocation, Link } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import WhatsAppFloat from "./components/WhatsAppFloat";
@@ -21,13 +21,37 @@ function ScrollToTop() {
 
 function PageLoader() {
   return (
-    <div className="flex min-h-[70vh] items-center justify-center" role="status" aria-label="Loading page">
+    <div
+      className="flex min-h-[70vh] items-center justify-center"
+      role="status"
+      aria-label="Loading page"
+    >
       <span className="relative flex h-14 w-14 items-center justify-center">
         <span className="absolute inset-0 rounded-full border-2 border-mist/10" />
-        <span className="absolute inset-0 animate-spin rounded-full border-2 border-transparent border-t-royal" />
+        <span className="absolute inset-0 animate-spin rounded-full border-2 border-transparent border-t-royal motion-reduce:animate-none" />
         <span className="font-display text-sm font-extrabold text-royal">PK</span>
       </span>
     </div>
+  );
+}
+
+function NotFound() {
+  return (
+    <main className="flex min-h-[70vh] flex-col items-center justify-center pt-[72px] text-center">
+      <p className="font-mono text-xs tracking-[0.3em] text-royal uppercase">
+        Error 404
+      </p>
+      <h1 className="font-display mt-4 text-5xl font-extrabold tracking-tight text-mist sm:text-7xl">
+        Page <span className="grad-text">Lost.</span>
+      </h1>
+      <p className="mt-4 max-w-sm text-fog">
+        The page you're looking for doesn't exist — but your next project
+        could.
+      </p>
+      <Link to="/" className="btn-primary mt-8">
+        Back to Home
+      </Link>
+    </main>
   );
 }
 
@@ -46,7 +70,7 @@ export default function App() {
               <Route path="/about" element={<AboutPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/admin" element={<AdminPage />} />
-              <Route path="*" element={<Home />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
         </div>
