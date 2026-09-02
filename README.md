@@ -45,7 +45,11 @@ python -m http.server 8080
 index.html      — markup (all sections + inline SVG artwork)
 css/style.css   — design system, components, responsive + reduced-motion rules
 js/main.js      — motion & interaction layer (vanilla JS, ~300 lines)
-assets/         — emblem (logo.jpg, logo-nav.png) and favicon.png
+assets/         — emblem (logo.png, logo-nav.png) and favicon.png
 ```
+
+## Repository
+- GitHub Repository: [https://github.com/palanikathirvel/pkagency](https://github.com/palanikathirvel/pkagency)
+- Git Remote Clone URL: `https://github.com/palanikathirvel/pkagency.git`
 
 Client names, testimonials and stats are placeholders — swap in real copy when ready.

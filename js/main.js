@@ -19,18 +19,24 @@
      Standard Native Smooth Scrolling for Anchor Links
      ============================================================ */
   function scrollToTarget(target) {
-    const el = typeof target === 'string' ? document.querySelector(target) : target;
-    if (!el) return;
-    el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+    try {
+      const el = typeof target === 'string' ? document.querySelector(target) : target;
+      if (!el) return;
+      el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+    } catch (_) {}
   }
 
   document.querySelectorAll('a[href^="#"]').forEach((link) => {
     link.addEventListener('click', (e) => {
       const hash = link.getAttribute('href');
-      if (!hash || hash === '#' || !document.querySelector(hash)) return;
-      e.preventDefault();
-      closeMenu();
-      scrollToTarget(hash);
+      if (!hash || hash === '#' || hash.length <= 1) return;
+      try {
+        const el = document.querySelector(hash);
+        if (!el) return;
+        e.preventDefault();
+        closeMenu();
+        scrollToTarget(el);
+      } catch (_) {}
     });
   });
 
