@@ -1,7 +1,7 @@
 /* ============================================================
-   P.K CREATIVE & DIGITAL AGENCY — Interaction & Motion Engine
-   Preloader · Smooth Scroll · Custom Cursor · Magnetic Buttons
-   Portfolio Filter · Interactive Contact & WhatsApp Generator
+   P.K CREATIVE & DIGITAL STUDIO — Interaction & Motion Engine
+   Preloader · Native Smooth Scroll · Custom Cursor · Magnetic Buttons
+   Portfolio Filter · Interactive Contact & WhatsApp Generator · DataCoop Telemetry
    ============================================================ */
 
 (function () {
@@ -41,7 +41,7 @@
   });
 
   /* ============================================================
-     Scroll reveals + number counters
+     Scroll Reveals & Eased Number Counters
      ============================================================ */
   const revealIO = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -85,7 +85,7 @@
   /* ============================================================
      Preloader
      ============================================================ */
-  const preloader = document.querySelector('.preloader');
+  const preloader = document.getElementById('preloader');
   const countEl = document.getElementById('preloaderCount');
 
   function finishLoading() {
@@ -100,24 +100,24 @@
     finishLoading();
   } else {
     const t0 = performance.now();
-    const dur = 1100;
+    const dur = 1000;
     const tick = (now) => {
       const p = Math.min((now - t0) / dur, 1);
       const shown = Math.round(100 * easeOutExpo(p));
       if (countEl) countEl.textContent = shown;
-      const rule = preloader.querySelector('.preloader__rule');
-      if (rule) rule.style.setProperty('--p', (p * 0.98).toFixed(3));
+      const bar = preloader.querySelector('.preloader__bar');
+      if (bar) bar.style.setProperty('--p', (p * 0.98).toFixed(3));
       if (p < 1) requestAnimationFrame(tick);
       else setTimeout(finishLoading, 150);
     };
     requestAnimationFrame(tick);
     setTimeout(() => {
       if (!document.body.classList.contains('is-loaded')) finishLoading();
-    }, 2800);
+    }, 2500);
   }
 
   /* ============================================================
-     Navigation scroll states & active links
+     Navigation Scroll States & Active Links
      ============================================================ */
   const nav = document.getElementById('nav');
   let lastY = 0;
@@ -161,7 +161,7 @@
   document.querySelectorAll('main section[id]').forEach((s) => sectionIO.observe(s));
 
   /* ============================================================
-     Mobile menu
+     Mobile Menu Overlay
      ============================================================ */
   const burger = document.getElementById('burger');
   const menu = document.getElementById('menu');
@@ -189,7 +189,7 @@
   }
 
   /* ============================================================
-     Custom cursor
+     Custom Cursor Engine
      ============================================================ */
   if (finePointer && !reduced) {
     doc.classList.add('has-cursor');
@@ -228,226 +228,11 @@
   }
 
   /* ============================================================
-     Hero Interactive Canvas Embers & Constellation Engine
-     ============================================================ */
-  const canvas = document.getElementById('heroCanvas');
-  if (canvas && !reduced) {
-    const ctx = canvas.getContext('2d');
-    let width = 0, height = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
-    let particles = [];
-    const particleCount = window.innerWidth < 768 ? 24 : 45;
-    let mousePos = { x: -1000, y: -1000 };
-
-    function resizeCanvas() {
-      const hero = canvas.closest('.hero') || canvas.parentElement;
-      width = hero ? hero.offsetWidth : window.innerWidth;
-      height = hero ? hero.offsetHeight : window.innerHeight;
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
-      canvas.style.width = width + 'px';
-      canvas.style.height = height + 'px';
-      ctx.scale(dpr, dpr);
-    }
-
-    class Particle {
-      constructor() {
-        this.reset(true);
-      }
-      reset(initial = false) {
-        this.x = Math.random() * width;
-        this.y = initial ? Math.random() * height : height + 10;
-        this.vx = (Math.random() - 0.5) * 0.4;
-        this.vy = -(Math.random() * 0.5 + 0.2);
-        this.radius = Math.random() * 2 + 1;
-        this.alpha = Math.random() * 0.5 + 0.2;
-        this.color = Math.random() > 0.4 ? '221, 18, 26' : '15, 23, 42';
-      }
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
-
-        // Subtle mouse push
-        const dx = this.x - mousePos.x;
-        const dy = this.y - mousePos.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 120) {
-          const force = (120 - dist) / 120;
-          this.x += (dx / dist) * force * 1.5;
-          this.y += (dy / dist) * force * 1.5;
-        }
-
-        if (this.y < -10 || this.x < -10 || this.x > width + 10) {
-          this.reset(false);
-        }
-      }
-      draw() {
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${this.color}, ${this.alpha})`;
-        ctx.shadowColor = `rgba(${this.color}, 0.5)`;
-        ctx.shadowBlur = 8;
-        ctx.fill();
-        ctx.restore();
-      }
-    }
-
-    function initParticles() {
-      resizeCanvas();
-      particles = [];
-      for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
-      }
-    }
-
-    window.addEventListener('resize', initParticles, { passive: true });
-    initParticles();
-
-    window.addEventListener('mousemove', (e) => {
-      const rect = canvas.getBoundingClientRect();
-      mousePos.x = e.clientX - rect.left;
-      mousePos.y = e.clientY - rect.top;
-    }, { passive: true });
-
-    function renderParticles() {
-      ctx.clearRect(0, 0, width, height);
-
-      // Connect near particles
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 90) {
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(221, 18, 26, ${0.12 * (1 - dist / 90)})`;
-            ctx.lineWidth = 0.75;
-            ctx.stroke();
-          }
-        }
-      }
-
-      particles.forEach((p) => {
-        p.update();
-        p.draw();
-      });
-
-      requestAnimationFrame(renderParticles);
-    }
-    requestAnimationFrame(renderParticles);
-  }
-
-  /* ============================================================
-     Interactive 3D Card Tilt Engine
-     ============================================================ */
-  if (finePointer && !reduced) {
-    const tiltElements = document.querySelectorAll('[data-tilt]');
-    tiltElements.forEach((el) => {
-      let isHeroEmblem = el.id === 'heroEmblemShowcase' || el.classList.contains('emblem-3d-card');
-      const maxAngle = isHeroEmblem ? 12 : 6;
-
-      el.addEventListener('mousemove', (e) => {
-        const rect = el.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const percentX = (x - centerX) / centerX;
-        const percentY = (y - centerY) / centerY;
-
-        const rotateX = -percentY * maxAngle;
-        const rotateY = percentX * maxAngle;
-
-        el.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
-
-        if (isHeroEmblem) {
-          const logo = el.querySelector('#heroLogoImg') || el.querySelector('.hero__logo-img');
-          if (logo) {
-            logo.style.transform = `translateZ(24px) rotateX(${(-percentY * 6).toFixed(2)}deg) rotateY(${(percentX * 6).toFixed(2)}deg) scale(1.06)`;
-          }
-        }
-      });
-
-      el.addEventListener('mouseleave', () => {
-        el.style.transition = 'transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1)';
-        el.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-        if (isHeroEmblem) {
-          const logo = el.querySelector('#heroLogoImg') || el.querySelector('.hero__logo-img');
-          if (logo) {
-            logo.style.transition = 'transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1)';
-            logo.style.transform = '';
-            setTimeout(() => { if (logo) logo.style.transition = ''; }, 450);
-          }
-        }
-        setTimeout(() => { el.style.transition = ''; }, 450);
-      });
-    });
-  }
-
-  /* ============================================================
-     Interactive Spotlight Cursor Follower on Cards
-     ============================================================ */
-  const spotlightCards = document.querySelectorAll('[data-spotlight]');
-  spotlightCards.forEach((card) => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      card.style.setProperty('--mouse-x', `${x}px`);
-      card.style.setProperty('--mouse-y', `${y}px`);
-    }, { passive: true });
-  });
-
-  /* ============================================================
-     Hero Emblem Interactive Click Burst
-     ============================================================ */
-  const emblemCard = document.getElementById('heroEmblemShowcase');
-  if (emblemCard) {
-    emblemCard.addEventListener('click', (e) => {
-      const rect = emblemCard.getBoundingClientRect();
-      const ripple = document.createElement('div');
-      ripple.style.position = 'absolute';
-      ripple.style.width = '20px';
-      ripple.style.height = '20px';
-      ripple.style.borderRadius = '50%';
-      ripple.style.background = 'rgba(221, 18, 26, 0.5)';
-      ripple.style.left = (e.clientX - rect.left - 10) + 'px';
-      ripple.style.top = (e.clientY - rect.top - 10) + 'px';
-      ripple.style.pointerEvents = 'none';
-      ripple.style.transition = 'transform 0.6s ease-out, opacity 0.6s ease-out';
-      ripple.style.zIndex = '10';
-      emblemCard.appendChild(ripple);
-      requestAnimationFrame(() => {
-        ripple.style.transform = 'scale(25)';
-        ripple.style.opacity = '0';
-      });
-      setTimeout(() => ripple.remove(), 650);
-    });
-  }
-
-  /* ============================================================
-     DataCoop Dynamic Live Simulation
-     ============================================================ */
-  const mockupBars = document.querySelectorAll('.mockup__bar');
-  if (mockupBars.length > 0 && !reduced) {
-    setInterval(() => {
-      mockupBars.forEach((bar) => {
-        const current = parseInt(bar.style.getPropertyValue('--h') || '50', 10);
-        const shift = (Math.random() * 16 - 8);
-        const next = Math.max(25, Math.min(98, Math.round(current + shift)));
-        bar.style.setProperty('--h', `${next}%`);
-      });
-    }, 3200);
-  }
-
-  /* ============================================================
-     Magnetic buttons
+     Magnetic Button Physics
      ============================================================ */
   if (finePointer && !reduced) {
     document.querySelectorAll('.magnetic').forEach((el) => {
-      const strength = 0.25;
+      const strength = 0.22;
       el.addEventListener('mousemove', (e) => {
         const r = el.getBoundingClientRect();
         const dx = e.clientX - (r.left + r.width / 2);
@@ -456,14 +241,14 @@
         el.style.transform = 'translate(' + dx * strength + 'px,' + dy * strength + 'px)';
       });
       el.addEventListener('mouseleave', () => {
-        el.style.transition = 'transform .4s cubic-bezier(.22,1,.36,1)';
+        el.style.transition = 'transform .4s cubic-bezier(.16,1,.3,1)';
         el.style.transform = 'translate(0,0)';
       });
     });
   }
 
   /* ============================================================
-     Portfolio Filter Tabs
+     Portfolio Category Filter Tabs
      ============================================================ */
   const filterBtns = document.querySelectorAll('.filter-btn');
   const projectCards = document.querySelectorAll('.project-card');
@@ -524,7 +309,7 @@
     document.querySelectorAll('.service-pill-btn.active').forEach((btn) => {
       selected.push(btn.getAttribute('data-service'));
     });
-    return selected.length > 0 ? selected : ['Full-Stack Growth Sprint'];
+    return selected.length > 0 ? selected : ['Website & Data Growth Sprint'];
   }
 
   function getSelectedBudget() {
@@ -575,21 +360,21 @@
 
       if (!name || !email || !phone || !business) {
         formMsg.textContent = 'Please fill out all required fields marked with *.';
-        formMsg.style.color = '#C10E15';
+        formMsg.style.color = '#A80E15';
         return;
       }
 
       const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
       if (!emailValid) {
         formMsg.textContent = 'Please enter a valid email address.';
-        formMsg.style.color = '#C10E15';
+        formMsg.style.color = '#A80E15';
         return;
       }
 
       formMsg.textContent = 'Thank you ' + name + '! Your brief has been received. A senior partner will contact you within 2 hours.';
       formMsg.style.color = 'var(--brand-red)';
 
-      // Auto trigger WhatsApp option popup after 1s
+      // Auto trigger WhatsApp option popup after 0.8s
       setTimeout(() => {
         const ok = confirm('Brief submitted! Would you also like to open WhatsApp to connect directly with the team right now?');
         if (ok) {
@@ -604,7 +389,22 @@
   }
 
   /* ============================================================
-     Newsletter
+     DataCoop Live Telemetry Simulation
+     ============================================================ */
+  const mockupBars = document.querySelectorAll('.mockup__bar');
+  if (mockupBars.length > 0 && !reduced) {
+    setInterval(() => {
+      mockupBars.forEach((bar) => {
+        const current = parseInt(bar.style.getPropertyValue('--h') || '50', 10);
+        const shift = (Math.random() * 14 - 7);
+        const next = Math.max(28, Math.min(96, Math.round(current + shift)));
+        bar.style.setProperty('--h', `${next}%`);
+      });
+    }, 3200);
+  }
+
+  /* ============================================================
+     Newsletter Form
      ============================================================ */
   const newsletterForm = document.getElementById('newsletter');
   const newsletterMsg = document.getElementById('newsletterMsg');
@@ -617,7 +417,7 @@
       newsletterMsg.textContent = ok
         ? 'You\u2019re subscribed to The Growth Wire. Welcome! \u2726'
         : 'Please enter a valid email address.';
-      newsletterMsg.style.color = ok ? 'var(--brand-red)' : '#C10E15';
+      newsletterMsg.style.color = ok ? 'var(--brand-red)' : '#A80E15';
       if (ok) input.value = '';
     });
   }
