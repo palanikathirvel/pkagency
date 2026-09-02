@@ -1,66 +1,1039 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>P.K Creative Agency | Websites, Branding & Digital Experiences</title>
-    <meta
-      name="description"
-      content="P.K Creative Agency helps businesses build powerful websites, memorable brands, and modern digital experiences. Turning ideas into digital experiences."
-    />
-    <meta name="keywords" content="creative agency, website development, UI/UX design, branding, digital solutions, social media design, P.K Creative" />
-    <meta name="theme-color" content="#06070d" />
-    <meta name="robots" content="index, follow" />
-    <meta name="author" content="P.K Creative Agency" />
-    <link rel="canonical" href="https://pkcreative.agency/" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>P.K Creative &amp; Digital Agency — Websites, Business Data, Video &amp; AI Ads</title>
+  <meta name="description" content="P.K Agency is the growth &amp; creative engine for modern SMBs. We build high-converting websites, deliver business data analysis, craft viral YouTube edits, produce AI ads, and engineer digital products." />
+  <meta property="og:title" content="P.K Creative &amp; Digital Agency — Scale Your Business" />
+  <meta property="og:description" content="Websites, Business Data Analysis, YouTube Video Editing, AI Ads &amp; Digital Products for modern businesses." />
+  <meta property="og:image" content="assets/logo.png" />
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
 
-    <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="P.K Creative Agency" />
-    <meta property="og:title" content="P.K Creative Agency | Websites, Branding & Digital Experiences" />
-    <meta
-      property="og:description"
-      content="We build digital experiences that help businesses grow — websites, brands, and products crafted with intent."
-    />
-    <meta property="og:url" content="https://pkcreative.agency/" />
-    <meta
-      property="og:image"
-      content="https://image.qwenlm.ai/generated-images/880fc2b0-57a5-46ab-96e8-67bc09f4001b/_result.png"
-    />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="P.K Creative Agency | Websites, Branding & Digital Experiences" />
-    <meta
-      property="twitter:description"
-      content="Turning ideas into digital experiences. Websites, branding, UI/UX and digital solutions for ambitious brands."
-    />
+  <!-- Fonts: Fraunces (editorial serif) + General Sans + Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet" />
 
-    <link
-      rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230a0c16'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%238b7cff'/%3E%3Cstop offset='.5' stop-color='%234ea2ff'/%3E%3Cstop offset='1' stop-color='%23ff6ec7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='32' y='43' font-family='Arial, sans-serif' font-size='26' font-weight='700' fill='url(%23g)' text-anchor='middle'%3EPK%3C/text%3E%3C/svg%3E"
-    />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
 
-    <!-- Fonts: Syne (display) + Manrope (body) + JetBrains Mono (labels) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
+<body class="is-loading">
+  <a class="skip-link" href="#main">Skip to content</a>
 
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "P.K Creative Agency",
-        "url": "https://pkcreative.agency/",
-        "logo": "https://image.qwenlm.ai/generated-images/880fc2b0-57a5-46ab-96e8-67bc09f4001b/_result.png",
-        "description": "Creative digital agency building websites, brands and digital experiences for ambitious businesses.",
-        "slogan": "Turning Ideas Into Digital Experiences"
-      }
-    </script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+  <!-- Red scroll progress hairline -->
+  <div class="progress-bar" aria-hidden="true"></div>
+
+  <!-- Custom cursor -->
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor__dot"></div>
+    <div class="cursor__ring"><span class="cursor__label">View</span></div>
+  </div>
+
+  <!-- Preloader with Crystal Clear Logo -->
+  <div class="preloader" aria-hidden="true">
+    <div class="preloader__inner">
+      <img class="preloader__mark" src="assets/logo.png" alt="P.K Agency logo" />
+      <div class="preloader__count"><span id="preloaderCount">0</span>%</div>
+      <div class="preloader__rule"></div>
+      <p class="preloader__word">Initializing Growth Engine</p>
+    </div>
+  </div>
+
+  <!-- Floating Pill Navigation (Red & Black Theme) -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="#top" class="nav__brand" data-cursor>
+        <img class="nav__mark" src="assets/logo.png" alt="P.K Agency emblem" />
+        <span class="nav__wordmark">P.K <em>Creative</em></span>
+      </a>
+
+      <nav class="nav__links" aria-label="Primary">
+        <a href="#services" class="nav__link" data-cursor>Services</a>
+        <a href="#work" class="nav__link" data-cursor>Projects</a>
+        <a href="#products" class="nav__link" data-cursor>Our Products <span class="nav__badge">DataCoop</span></a>
+        <a href="#pathway" class="nav__link" data-cursor>Growth System</a>
+        <a href="#testimonials" class="nav__link" data-cursor>Client Proof</a>
+        <a href="#contact" class="nav__link" data-cursor>Contact</a>
+      </nav>
+
+      <div class="nav__actions">
+        <a href="#contact" class="btn btn--primary btn--sm magnetic" data-cursor>Book Strategy Call</a>
+        <button class="nav__burger" id="burger" aria-label="Open menu" aria-expanded="false" data-cursor>
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile menu overlay -->
+  <div class="menu" id="menu" aria-hidden="true">
+    <nav class="menu__links" aria-label="Mobile">
+      <a href="#services" class="menu__link"><span class="menu__num">01</span>Services</a>
+      <a href="#work" class="menu__link"><span class="menu__num">02</span>Projects</a>
+      <a href="#products" class="menu__link"><span class="menu__num">03</span>Our Products (DataCoop)</a>
+      <a href="#pathway" class="menu__link"><span class="menu__num">04</span>Growth Pathway</a>
+      <a href="#testimonials" class="menu__link"><span class="menu__num">05</span>Client Results</a>
+      <a href="#contact" class="menu__link"><span class="menu__num">06</span>Get in Touch</a>
+    </nav>
+    <div class="menu__foot">
+      <a class="btn btn--primary" href="#contact" data-cursor>Start Your Project</a>
+      <p class="menu__meta">hello@pkcreative.agency · +91 98765 43210</p>
+    </div>
+  </div>
+
+  <main id="main">
+    <!-- ===================== HERO SECTION ===================== -->
+    <section class="hero" id="top">
+      <div class="hero__spotlight" aria-hidden="true"></div>
+
+      <div class="container hero__grid">
+        <div class="hero__copy">
+          <div class="hero__tag-pill" data-reveal>
+            <img class="hero__tag-logo" src="assets/logo.png" alt="PK emblem" />
+            <span>P.K Creative &amp; Digital Studio · Est. 2017</span>
+          </div>
+
+          <p class="hero__lead-italic" data-reveal style="--d:.1s">not just an agency —</p>
+          <h1 class="hero__title" data-reveal style="--d:.2s">
+            We Build Websites, Video &amp; <span class="accent-red">Data Systems</span> That Scale Businesses.
+          </h1>
+
+          <p class="hero__sub" data-reveal style="--d:.3s">
+            The all-in-one execution partner for small businesses &amp; modern founders. We build high-converting websites, unlock revenue through business data analysis, edit high-retention YouTube videos, produce viral AI ads, and engineer custom digital products.
+          </p>
+
+          <div class="hero__cta" data-reveal style="--d:.4s">
+            <a href="#contact" class="btn btn--primary btn--lg magnetic" data-cursor>Book a Free Strategy Call</a>
+            <a href="#work" class="btn btn--glass btn--lg" data-cursor>Explore Real Projects ↗</a>
+          </div>
+
+          <div class="hero__proof-chips" data-reveal style="--d:.5s">
+            <div class="proof-chip">
+              <span class="proof-chip__dot"></span>
+              <span><strong>60+ SMBs</strong> Scaled</span>
+            </div>
+            <div class="proof-chip">
+              <span class="proof-chip__dot"></span>
+              <span><strong>15M+</strong> Video Views</span>
+            </div>
+            <div class="proof-chip">
+              <span class="proof-chip__dot"></span>
+              <span><strong>4.2x</strong> Avg. Ad ROAS</span>
+            </div>
+            <div class="proof-chip">
+              <span class="proof-chip__dot"></span>
+              <span><strong>99%</strong> Satisfaction</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Visual & Logo Showcase -->
+        <div class="hero__visual" data-reveal style="--d:.3s">
+          <div class="hero__card-stack">
+            <!-- Official Agency Emblem Showcase (Pure Logo Only) -->
+            <div class="hero__emblem-showcase">
+              <div class="emblem-wrapper">
+                <img class="hero__logo-img" src="assets/logo.png" alt="P.K Creative Agency Official Emblem" />
+              </div>
+              <div class="emblem-meta">
+                <span class="emblem-title">P.K CREATIVE &amp; DIGITAL STUDIO</span>
+                <span class="emblem-sub">✦ Official Agency Emblem · Chennai → Worldwide ✦</span>
+              </div>
+            </div>
+
+            <div class="hero__card-head">
+              <div class="hero__card-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                <span>Live Agency Operations</span>
+              </div>
+              <span class="hero__card-live">Taking New Q3 Clients</span>
+            </div>
+
+            <div class="hero__card-metrics">
+              <div class="metric-box">
+                <p class="metric-box__num"><span>₹</span>3.4Cr+</p>
+                <p class="metric-box__label">Client Revenue Scaled</p>
+              </div>
+              <div class="metric-box">
+                <p class="metric-box__num"><span>98.4</span>%</p>
+                <p class="metric-box__label">On-Time Sprint Delivery</p>
+              </div>
+            </div>
+
+            <div class="hero__card-crafts">
+              <div class="craft-row">
+                <div class="craft-row__left">
+                  <div class="craft-row__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.8 2.6 4 5.6 4 9s-1.2 6.4-4 9c-2.8-2.6-4-5.6-4-9s1.2-6.4 4-9Z"/></svg></div>
+                  <span>Website &amp; E-Commerce Dev</span>
+                </div>
+                <span class="craft-row__badge">Next.js · React</span>
+              </div>
+              <div class="craft-row">
+                <div class="craft-row__left">
+                  <div class="craft-row__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><rect x="6" y="11" width="3" height="9" rx="1"/><rect x="11" y="6" width="3" height="14" rx="1"/><rect x="16" y="9" width="3" height="11" rx="1"/></svg></div>
+                  <span>Business Data &amp; BI Analytics</span>
+                </div>
+                <span class="craft-row__badge">Python · SQL</span>
+              </div>
+              <div class="craft-row">
+                <div class="craft-row__left">
+                  <div class="craft-row__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 9.5v5l4.5-2.5L10 9.5Z"/></svg></div>
+                  <span>YouTube Editing &amp; AI Ads</span>
+                </div>
+                <span class="craft-row__badge">DaVinci · Runway</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PROOF TICKER & STATS ===================== -->
+    <section class="proof">
+      <div class="marquee" aria-label="Core Agency Deliverables">
+        <div class="marquee__track">
+          <span class="marquee__item">High-Converting Websites</span><span class="marquee__star">✦</span>
+          <span class="marquee__item">Business Data Analytics</span><span class="marquee__star">✦</span>
+          <span class="marquee__item">YouTube Video Editing</span><span class="marquee__star">✦</span>
+          <span class="marquee__item">AI Ads &amp; Marketing</span><span class="marquee__star">✦</span>
+          <span class="marquee__item">Digital Products &amp; SaaS</span><span class="marquee__star">✦</span>
+          <span class="marquee__item">Cinematic Brand Films</span><span class="marquee__star">✦</span>
+          <span class="marquee__item">High-Converting Websites</span><span class="marquee__star">✦</span>
+          <span class="marquee__item">Business Data Analytics</span><span class="marquee__star">✦</span>
+          <span class="marquee__item">YouTube Video Editing</span><span class="marquee__star">✦</span>
+          <span class="marquee__item">AI Ads &amp; Marketing</span><span class="marquee__star">✦</span>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="stats">
+          <div class="stat" data-reveal>
+            <p class="stat__num"><span data-count="140">0</span>+</p>
+            <p class="stat__label">Projects Shipped</p>
+          </div>
+          <div class="stat" data-reveal style="--d:.1s">
+            <p class="stat__num"><span data-count="60">0</span>+</p>
+            <p class="stat__label">SMBs &amp; Brands Scaled</p>
+          </div>
+          <div class="stat" data-reveal style="--d:.2s">
+            <p class="stat__num"><span data-count="15">0</span>M+</p>
+            <p class="stat__label">YouTube &amp; Reel Views</p>
+          </div>
+          <div class="stat" data-reveal style="--d:.3s">
+            <p class="stat__num"><span data-count="99">0</span>%</p>
+            <p class="stat__label">Client Satisfaction Rate</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== GROWTH PATHWAY DIAGRAM ===================== -->
+    <section class="pathway section" id="pathway">
+      <div class="container">
+        <div class="section-head section-head--center">
+          <p class="eyebrow" data-reveal>The PK Growth Blueprint</p>
+          <h2 class="section-title" data-reveal style="--d:.1s">How We Take Your Business To Market Leadership</h2>
+          <p class="section-sub" data-reveal style="--d:.2s">
+            A cohesive full-stack engine connecting your digital storefront, business data intelligence, and viral video marketing into a revenue powerhouse.
+          </p>
+        </div>
+
+        <div class="pathway__diagram" data-reveal style="--d:.3s">
+          <div class="pathway__flow">
+            <!-- Node 1: Start -->
+            <div class="pathway__node pathway__node--start">
+              <h4>Your Business</h4>
+              <p>Vision &amp; Ambition</p>
+            </div>
+
+            <!-- Connector -->
+            <div class="pathway__connector">→</div>
+
+            <!-- Channels -->
+            <div class="pathway__channels">
+              <div class="pathway__channel-card">
+                <div>✦ Custom Website &amp; Digital Store</div>
+                <span>High-Converting UI</span>
+              </div>
+              <div class="pathway__channel-card">
+                <div>✦ Business Data &amp; Analytics Engine</div>
+                <span>Predictive Insights</span>
+              </div>
+              <div class="pathway__channel-card">
+                <div>✦ YouTube Editing, AI Ads &amp; Films</div>
+                <span>Viral Attention</span>
+              </div>
+            </div>
+
+            <!-- Connector -->
+            <div class="pathway__connector">→</div>
+
+            <!-- Node 3: Result -->
+            <div class="pathway__node pathway__node--end">
+              <h4>Scale &amp; Profit</h4>
+              <p>Predictable Revenue</p>
+            </div>
+          </div>
+
+          <div class="pathway__cta-box">
+            <h3>We handle everything so you can focus on building your business.</h3>
+            <p>No messy freelancer handoffs, no misaligned goals. Strategy, code, data and content executed under one roof.</p>
+            <a href="#contact" class="btn btn--primary magnetic" data-cursor>Get Your Custom Growth Plan</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 6 CORE SERVICES ===================== -->
+    <section class="services section" id="services">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow" data-reveal>What We Deliver</p>
+          <h2 class="section-title" data-reveal style="--d:.1s">Six Core Crafts. One High-Impact Standard.</h2>
+          <p class="section-sub" data-reveal style="--d:.2s">
+            Everything modern small businesses, creators, and brands need to build authority, capture attention, and drive sales.
+          </p>
+        </div>
+
+        <div class="services__grid">
+          <!-- 01: Website Building -->
+          <article class="service-card" data-reveal data-cursor>
+            <div class="service-card__top">
+              <span class="service-card__num">01</span>
+              <div class="service-card__badge-row">
+                <span class="badge-pill">Next.js</span>
+                <span class="badge-pill">React</span>
+              </div>
+            </div>
+            <h3 class="service-card__title">Website &amp; E-Commerce for SMBs</h3>
+            <p class="service-card__body">
+              Fast, bespoke web apps and online storefronts designed to convert visitors into loyal paying customers with seamless booking &amp; checkout funnels.
+            </p>
+            <ul class="service-card__list">
+              <li class="service-card__list-item"><span class="plus">+</span> Next.js, React &amp; Shopify High-Speed Stores</li>
+              <li class="service-card__list-item"><span class="plus">+</span> Conversion Rate Optimization (CRO) &amp; SEO</li>
+              <li class="service-card__list-item"><span class="plus">+</span> Automated Booking &amp; Payment Integrations</li>
+            </ul>
+            <a href="#contact" class="service-card__action" data-cursor>Request Website Build →</a>
+          </article>
+
+          <!-- 02: Business Data Analysis -->
+          <article class="service-card" data-reveal style="--d:.1s" data-cursor>
+            <div class="service-card__top">
+              <span class="service-card__num">02</span>
+              <div class="service-card__badge-row">
+                <span class="badge-pill">SQL</span>
+                <span class="badge-pill">PowerBI</span>
+              </div>
+            </div>
+            <h3 class="service-card__title">Business Data Analysis &amp; BI</h3>
+            <p class="service-card__body">
+              Turn raw business numbers into clear revenue decisions. We build automated executive dashboards, sales forecasting models, and customer churn analytics.
+            </p>
+            <ul class="service-card__list">
+              <li class="service-card__list-item"><span class="plus">+</span> Real-Time Revenue &amp; Profit Margin Dashboards</li>
+              <li class="service-card__list-item"><span class="plus">+</span> Customer Lifetime Value (LTV) &amp; Churn Modeling</li>
+              <li class="service-card__list-item"><span class="plus">+</span> Inventory Forecasting &amp; Supplier Cost Audits</li>
+            </ul>
+            <a href="#contact" class="service-card__action" data-cursor>Unlock Business Data →</a>
+          </article>
+
+          <!-- 03: Digital Products & SaaS -->
+          <article class="service-card" data-reveal style="--d:.2s" data-cursor>
+            <div class="service-card__top">
+              <span class="service-card__num">03</span>
+              <div class="service-card__badge-row">
+                <span class="badge-pill">Node.js</span>
+                <span class="badge-pill">Cloud</span>
+              </div>
+            </div>
+            <h3 class="service-card__title">Digital Products &amp; SaaS Tools</h3>
+            <p class="service-card__body">
+              Transform your internal workflow into scalable digital software or create new revenue streams with custom member portals, client apps, and SaaS MVPs.
+            </p>
+            <ul class="service-card__list">
+              <li class="service-card__list-item"><span class="plus">+</span> Full-Stack SaaS MVP Architecture &amp; Build</li>
+              <li class="service-card__list-item"><span class="plus">+</span> Custom Client Portals &amp; Internal Business Tools</li>
+              <li class="service-card__list-item"><span class="plus">+</span> Stripe Subscription &amp; API Integrations</li>
+            </ul>
+            <a href="#contact" class="service-card__action" data-cursor>Build Digital Product →</a>
+          </article>
+
+          <!-- 04: YouTube Video Editing -->
+          <article class="service-card" data-reveal style="--d:.1s" data-cursor>
+            <div class="service-card__top">
+              <span class="service-card__num">04</span>
+              <div class="service-card__badge-row">
+                <span class="badge-pill">Premiere</span>
+                <span class="badge-pill">After Effects</span>
+              </div>
+            </div>
+            <h3 class="service-card__title">YouTube &amp; Viral Video Editing</h3>
+            <p class="service-card__body">
+              High-retention video editing built for algorithmic growth. Dynamic pacing, custom 2D/3D motion graphics, sound design, and viral short-form reel adaptations.
+            </p>
+            <ul class="service-card__list">
+              <li class="service-card__list-item"><span class="plus">+</span> High-Retention YouTube Long-Form Production</li>
+              <li class="service-card__list-item"><span class="plus">+</span> Viral TikTok, IG Reels &amp; YT Shorts Repurposing</li>
+              <li class="service-card__list-item"><span class="plus">+</span> High-CTR Thumbnail Design &amp; Hook Architecture</li>
+            </ul>
+            <a href="#contact" class="service-card__action" data-cursor>Scale Your Channel →</a>
+          </article>
+
+          <!-- 05: AI Ads & Marketing -->
+          <article class="service-card" data-reveal style="--d:.2s" data-cursor>
+            <div class="service-card__top">
+              <span class="service-card__num">05</span>
+              <div class="service-card__badge-row">
+                <span class="badge-pill">Runway</span>
+                <span class="badge-pill">Meta Ads</span>
+              </div>
+            </div>
+            <h3 class="service-card__title">AI Ads &amp; Performance Creative</h3>
+            <p class="service-card__body">
+              Generate hyper-targeted, high-converting video and image ads at scale using cutting-edge AI creative pipelines. Tested for maximum click-through rates &amp; ROAS.
+            </p>
+            <ul class="service-card__list">
+              <li class="service-card__list-item"><span class="plus">+</span> AI Video Ad Generation &amp; Multivariant Testing</li>
+              <li class="service-card__list-item"><span class="plus">+</span> UGC-Style Ad Scripts &amp; Synthetic Voiceovers</li>
+              <li class="service-card__list-item"><span class="plus">+</span> High-Converting Ad Copy &amp; Landing Page Pairing</li>
+            </ul>
+            <a href="#contact" class="service-card__action" data-cursor>Launch AI Ad Campaign →</a>
+          </article>
+
+          <!-- 06: Films & Brand Storytelling -->
+          <article class="service-card" data-reveal style="--d:.3s" data-cursor>
+            <div class="service-card__top">
+              <span class="service-card__num">06</span>
+              <div class="service-card__badge-row">
+                <span class="badge-pill">4K Cinema</span>
+                <span class="badge-pill">DaVinci</span>
+              </div>
+            </div>
+            <h3 class="service-card__title">Cinematic Brand Films &amp; Commercials</h3>
+            <p class="service-card__body">
+              Cinematic storytelling that establishes prestige and emotional connection. Launch films, founder origin documentaries, and commercial product showcases.
+            </p>
+            <ul class="service-card__list">
+              <li class="service-card__list-item"><span class="plus">+</span> 4K Commercial Shoot &amp; Creative Direction</li>
+              <li class="service-card__list-item"><span class="plus">+</span> Master Color Grading in DaVinci Resolve</li>
+              <li class="service-card__list-item"><span class="plus">+</span> Original Soundscapes &amp; Cinematic Storyboards</li>
+            </ul>
+            <a href="#contact" class="service-card__action" data-cursor>Produce Brand Film →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== REAL-WORLD SMB PROJECTS ===================== -->
+    <section class="work section" id="work">
+      <div class="container">
+        <div class="section-head section-head--row">
+          <div>
+            <p class="eyebrow" data-reveal>Real-World Case Studies</p>
+            <h2 class="section-title" data-reveal style="--d:.1s">Shipped for Small Businesses &amp; Brands</h2>
+          </div>
+          <p class="section-sub" style="margin-top:0;" data-reveal style="--d:.2s">
+            Measurable revenue growth, viral reach, and high-converting systems.
+          </p>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="work__filters" data-reveal style="--d:.1s">
+          <button class="filter-btn active" data-filter="all">All Projects</button>
+          <button class="filter-btn" data-filter="web">Websites &amp; Apps</button>
+          <button class="filter-btn" data-filter="data">Data Analytics</button>
+          <button class="filter-btn" data-filter="video">YouTube &amp; Video</button>
+          <button class="filter-btn" data-filter="ai">AI Ads &amp; Films</button>
+          <button class="filter-btn" data-filter="product">Digital Products</button>
+        </div>
+
+        <div class="work__grid">
+          <!-- Project 1: Apex Fitness (Web Development & Booking) -->
+          <article class="project-card" data-category="web" data-reveal data-cursor="view">
+            <div class="project-card__visual">
+              <svg class="project-card__svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+                <rect width="800" height="500" fill="#0D0D0D"/>
+                <rect x="180" y="80" width="440" height="340" rx="16" fill="#141414" stroke="#DD121A" stroke-width="1.5"/>
+                <rect x="220" y="130" width="160" height="24" rx="6" fill="#DD121A"/>
+                <rect x="220" y="180" width="360" height="12" rx="4" fill="#ffffff" opacity=".2"/>
+                <rect x="220" y="205" width="280" height="12" rx="4" fill="#ffffff" opacity=".2"/>
+                <rect x="220" y="250" width="140" height="40" rx="8" fill="#DD121A"/>
+                <text x="60" y="460" font-family="General Sans, sans-serif" font-weight="800" font-size="36" fill="#ffffff">APEX GYMS</text>
+              </svg>
+              <span class="project-card__badge">SMB Web App</span>
+              <span class="project-card__metric-tag"><span>+140%</span> Bookings</span>
+            </div>
+            <div class="project-card__content">
+              <span class="project-card__category">Web Dev · Booking Funnel</span>
+              <h3 class="project-card__title">Apex Fitness &amp; Athletics</h3>
+              <p class="project-card__desc">
+                High-performance Next.js booking website &amp; automated membership onboarding portal for a 3-location fitness studio.
+              </p>
+              <div class="project-card__foot">
+                <div class="project-card__tech">
+                  <span class="tech-tag">React</span>
+                  <span class="tech-tag">Tailwind</span>
+                  <span class="tech-tag">Stripe</span>
+                </div>
+                <a href="#contact" class="project-card__link">View Case ↗</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 2: ArtisanRoast (AI Ads & D2C) -->
+          <article class="project-card" data-category="ai" data-reveal style="--d:.1s" data-cursor="view">
+            <div class="project-card__visual">
+              <svg class="project-card__svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+                <rect width="800" height="500" fill="#141414"/>
+                <circle cx="400" cy="220" r="130" fill="#DD121A" opacity=".2"/>
+                <rect x="340" y="140" width="120" height="200" rx="18" fill="#1E1E1E" stroke="#DD121A" stroke-width="2"/>
+                <path d="M370 200 L430 200 M370 230 L430 230" stroke="#ffffff" stroke-width="3"/>
+                <text x="60" y="460" font-family="Fraunces, Georgia, serif" font-style="italic" font-size="44" fill="#ffffff">ArtisanRoast</text>
+              </svg>
+              <span class="project-card__badge">AI Ads &amp; D2C</span>
+              <span class="project-card__metric-tag"><span>4.2x</span> ROAS</span>
+            </div>
+            <div class="project-card__content">
+              <span class="project-card__category">AI Video Ads · E-Commerce</span>
+              <h3 class="project-card__title">ArtisanRoast Coffee Co.</h3>
+              <p class="project-card__desc">
+                End-to-end Shopify 2.0 storefront combined with 16 synthetic AI video ad creatives that generated 28,000+ D2C orders.
+              </p>
+              <div class="project-card__foot">
+                <div class="project-card__tech">
+                  <span class="tech-tag">Shopify</span>
+                  <span class="tech-tag">Runway AI</span>
+                  <span class="tech-tag">Meta Ads</span>
+                </div>
+                <a href="#contact" class="project-card__link">View Case ↗</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 3: PulseMetrics (Data Analysis for SMB) -->
+          <article class="project-card" data-category="data" data-reveal style="--d:.2s" data-cursor="view">
+            <div class="project-card__visual">
+              <svg class="project-card__svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+                <rect width="800" height="500" fill="#0D0D0D"/>
+                <g opacity=".6">
+                  <line x1="120" y1="360" x2="680" y2="360" stroke="#222" stroke-width="2"/>
+                  <rect x="180" y="240" width="50" height="120" fill="#DD121A"/>
+                  <rect x="280" y="190" width="50" height="170" fill="#ffffff"/>
+                  <rect x="380" y="140" width="50" height="220" fill="#DD121A"/>
+                  <rect x="480" y="90" width="50" height="270" fill="#ffffff"/>
+                  <rect x="580" y="60" width="50" height="300" fill="#DD121A"/>
+                </g>
+                <text x="60" y="460" font-family="General Sans, sans-serif" font-weight="800" font-size="34" fill="#ffffff">PULSEMETRICS</text>
+              </svg>
+              <span class="project-card__badge">Business Data BI</span>
+              <span class="project-card__metric-tag"><span>₹18L</span> Saved</span>
+            </div>
+            <div class="project-card__content">
+              <span class="project-card__category">Data Analytics · Inventory BI</span>
+              <h3 class="project-card__title">PulseMetrics Retail Intelligence</h3>
+              <p class="project-card__desc">
+                Centralized multi-store inventory dashboard &amp; automated revenue forecasting model for a regional retail chain.
+              </p>
+              <div class="project-card__foot">
+                <div class="project-card__tech">
+                  <span class="tech-tag">SQL</span>
+                  <span class="tech-tag">PowerBI</span>
+                  <span class="tech-tag">Python</span>
+                </div>
+                <a href="#contact" class="project-card__link">View Case ↗</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 4: TechVelocity (YouTube Editing & Short-form) -->
+          <article class="project-card" data-category="video" data-reveal data-cursor="view">
+            <div class="project-card__visual">
+              <svg class="project-card__svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+                <rect width="800" height="500" fill="#141414"/>
+                <circle cx="400" cy="240" r="100" fill="#DD121A" opacity=".2"/>
+                <polygon points="370,190 450,240 370,290" fill="#DD121A"/>
+                <text x="60" y="460" font-family="General Sans, sans-serif" font-weight="800" font-size="36" fill="#ffffff">TECH VELOCITY</text>
+              </svg>
+              <span class="project-card__badge">YouTube Channel</span>
+              <span class="project-card__metric-tag"><span>1.8M</span> Views</span>
+            </div>
+            <div class="project-card__content">
+              <span class="project-card__category">YouTube Editing · Viral Reels</span>
+              <h3 class="project-card__title">TechVelocity Creator Network</h3>
+              <p class="project-card__desc">
+                Full end-to-end video editing pipeline, motion graphics sound design, and 45 viral short-form clips driving 1.8M views in 90 days.
+              </p>
+              <div class="project-card__foot">
+                <div class="project-card__tech">
+                  <span class="tech-tag">Premiere</span>
+                  <span class="tech-tag">After Effects</span>
+                  <span class="tech-tag">DaVinci</span>
+                </div>
+                <a href="#contact" class="project-card__link">View Case ↗</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 5: Solace Botanical Spirits (Brand Film & Commercial) -->
+          <article class="project-card" data-category="ai" data-reveal style="--d:.1s" data-cursor="view">
+            <div class="project-card__visual">
+              <svg class="project-card__svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+                <rect width="800" height="500" fill="#0D0D0D"/>
+                <circle cx="400" cy="240" r="140" fill="#DD121A" opacity=".15"/>
+                <path d="M400 120 C340 180 340 300 400 360 C460 300 460 180 400 120 Z" fill="none" stroke="#DD121A" stroke-width="2"/>
+                <text x="60" y="460" font-family="Fraunces, Georgia, serif" font-style="italic" font-size="40" fill="#ffffff">Solace Spirits</text>
+              </svg>
+              <span class="project-card__badge">Brand Film &amp; Ads</span>
+              <span class="project-card__metric-tag"><span>100%</span> Batch Sold Out</span>
+            </div>
+            <div class="project-card__content">
+              <span class="project-card__category">Cinematic Film · Social Launch</span>
+              <h3 class="project-card__title">Solace Botanical Spirits</h3>
+              <p class="project-card__desc">
+                4K cinematic launch commercial and targeted AI performance ads that drove a complete sell-out of their debut 5,000-bottle inventory run.
+              </p>
+              <div class="project-card__foot">
+                <div class="project-card__tech">
+                  <span class="tech-tag">4K Cinema</span>
+                  <span class="tech-tag">Soundtrack</span>
+                  <span class="tech-tag">Color Grade</span>
+                </div>
+                <a href="#contact" class="project-card__link">View Case ↗</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 6: CoreStack Client Portal (Digital Products / SaaS) -->
+          <article class="project-card" data-category="product" data-reveal style="--d:.2s" data-cursor="view">
+            <div class="project-card__visual">
+              <svg class="project-card__svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+                <rect width="800" height="500" fill="#0D0D0D"/>
+                <circle cx="400" cy="250" r="160" fill="none" stroke="#DD121A" stroke-width="1.5" stroke-dasharray="6 6"/>
+                <rect x="260" y="160" width="280" height="180" rx="12" fill="#141414" stroke="#DD121A" stroke-width="1.5"/>
+                <circle cx="400" cy="250" r="30" fill="#DD121A"/>
+                <text x="60" y="460" font-family="General Sans, sans-serif" font-weight="800" font-size="36" fill="#ffffff">CORESTACK</text>
+              </svg>
+              <span class="project-card__badge">Digital Product</span>
+              <span class="project-card__metric-tag"><span>4x</span> Speed Gain</span>
+            </div>
+            <div class="project-card__content">
+              <span class="project-card__category">Custom SaaS · Client Portal</span>
+              <h3 class="project-card__title">CoreStack Operations Portal</h3>
+              <p class="project-card__desc">
+                Custom full-stack member management &amp; billing web platform engineered for a premier consultancy firm.
+              </p>
+              <div class="project-card__foot">
+                <div class="project-card__tech">
+                  <span class="tech-tag">Next.js</span>
+                  <span class="tech-tag">Node.js</span>
+                  <span class="tech-tag">PostgreSQL</span>
+                </div>
+                <a href="#contact" class="project-card__link">View Case ↗</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== OUR PRODUCTS SECTION (EXCLUSIVE FOR DATACOOP) ===================== -->
+    <section class="product-spotlight section" id="products">
+      <div class="container">
+        <div class="datacoop-card" data-reveal>
+          <div class="datacoop-grid">
+            <div class="datacoop__info">
+              <span class="datacoop__badge">✦ Our In-House Products ✦</span>
+              <h2 class="datacoop__title">
+                DataCoop™ — The Business Intelligence &amp; Analytics Platform
+              </h2>
+              <p class="datacoop__lead">
+                Engineered in-house by P.K Agency, <strong>DataCoop</strong> empowers small businesses, retail founders, and D2C brands to unify customer data, track real-time profit margins, and forecast revenue without complex enterprise setups.
+              </p>
+
+              <div class="datacoop__features">
+                <div class="datacoop__feat-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                  <div>
+                    <strong>Real-Time Profit &amp; CAC</strong>
+                    <p style="font-size:12px; color:var(--text-muted);">Auto-calculate net profit after ad spend &amp; COGS.</p>
+                  </div>
+                </div>
+                <div class="datacoop__feat-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24M14.83 9.17l4.24-4.24M14.83 14.83l4.24 4.24M9.17 14.83l-4.24 4.24"/></svg>
+                  <div>
+                    <strong>Predictive Churn Engine</strong>
+                    <p style="font-size:12px; color:var(--text-muted);">Detect at-risk customers before they stop purchasing.</p>
+                  </div>
+                </div>
+                <div class="datacoop__feat-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
+                  <div>
+                    <strong>Multi-Touch Attribution</strong>
+                    <p style="font-size:12px; color:var(--text-muted);">Understand exact ROAS across Meta, Google &amp; YouTube.</p>
+                  </div>
+                </div>
+                <div class="datacoop__feat-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 12 2 2 4-4"/></svg>
+                  <div>
+                    <strong>1-Click Executive PDF Briefs</strong>
+                    <p style="font-size:12px; color:var(--text-muted);">Automated weekly summaries sent straight to your Slack/email.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="datacoop__actions">
+                <a href="#contact" class="btn btn--primary magnetic" data-cursor>Request DataCoop Demo ↗</a>
+                <span style="font-size: 13px; color: var(--text-muted);">Available for all PK Enterprise Growth Sprints</span>
+              </div>
+            </div>
+
+            <!-- DataCoop Visual Mockup -->
+            <div class="datacoop-mockup">
+              <div class="mockup__topbar">
+                <div class="mockup__dots">
+                  <span></span><span></span><span></span>
+                </div>
+                <span class="mockup__title">DATACOOP // LIVE ANALYTICS SUITE</span>
+                <span style="font-size: 10px; color: var(--brand-red); font-weight: 700;">● LIVE SYNC</span>
+              </div>
+
+              <div class="mockup__kpis">
+                <div class="kpi-card">
+                  <div class="kpi-card__val"><span>₹</span>18.4L</div>
+                  <div class="kpi-card__lbl">Monthly Rev</div>
+                </div>
+                <div class="kpi-card">
+                  <div class="kpi-card__val">4.2<span>x</span></div>
+                  <div class="kpi-card__lbl">Ad Blended ROAS</div>
+                </div>
+                <div class="kpi-card">
+                  <div class="kpi-card__val">88.2<span>%</span></div>
+                  <div class="kpi-card__lbl">Retention Rate</div>
+                </div>
+              </div>
+
+              <div class="mockup__chart">
+                <div class="mockup__chart-head">
+                  <span>REVENUE TRAJECTORY (Q1 - Q3)</span>
+                  <span style="color: var(--brand-red);">+138% Growth</span>
+                </div>
+                <div class="mockup__bars">
+                  <div class="mockup__bar" style="height: 35%;"></div>
+                  <div class="mockup__bar" style="height: 48%;"></div>
+                  <div class="mockup__bar" style="height: 42%;"></div>
+                  <div class="mockup__bar" style="height: 65%;"></div>
+                  <div class="mockup__bar" style="height: 58%;"></div>
+                  <div class="mockup__bar" style="height: 82%;"></div>
+                  <div class="mockup__bar" style="height: 74%;"></div>
+                  <div class="mockup__bar" style="height: 95%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PROCESS ===================== -->
+    <section class="process section" id="process">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow" data-reveal>Our Workflow</p>
+          <h2 class="section-title" data-reveal style="--d:.1s">Fast Sprints. Zero Fluff. Serious Execution.</h2>
+        </div>
+
+        <ol class="steps">
+          <li class="step" data-reveal>
+            <p class="step__num">01</p>
+            <h3 class="step__title">Audit &amp; Blueprint</h3>
+            <p class="step__body">We dissect your current numbers, website conversions, ad costs, and content performance to identify immediate growth bottlenecks.</p>
+          </li>
+          <li class="step" data-reveal style="--d:.1s">
+            <p class="step__num">02</p>
+            <h3 class="step__title">Design &amp; Build</h3>
+            <p class="step__body">Websites are coded, business analytics models connected, video edits crafted, and AI ads produced in rapid 14-day execution cycles.</p>
+          </li>
+          <li class="step" data-reveal style="--d:.2s">
+            <p class="step__num">03</p>
+            <h3 class="step__title">Launch &amp; Distribute</h3>
+            <p class="step__body">Flawless deployment with zero downtime, high-speed CDN assets, conversion tracking, and multi-channel campaign rollout.</p>
+          </li>
+          <li class="step" data-reveal style="--d:.3s">
+            <p class="step__num">04</p>
+            <h3 class="step__title">Optimize &amp; Scale</h3>
+            <p class="step__body">We review live performance data weekly — tuning ad copy, refining retention graphs, and maximizing ROI continuously.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===================== TESTIMONIALS ===================== -->
+    <section class="testimonials section" id="testimonials">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow" data-reveal>Founder Feedback</p>
+          <h2 class="section-title" data-reveal style="--d:.1s">Real Results from Real Founders</h2>
+        </div>
+
+        <div class="testimonials__grid">
+          <figure class="quote-card" data-reveal>
+            <div>
+              <div class="quote-card__stars">★★★★★</div>
+              <blockquote class="quote-card__text">
+                “PK built our Next.js website and set up our complete analytics pipeline. Within 60 days, our online bookings increased by 140% and we finally know our exact customer acquisition cost.”
+              </blockquote>
+            </div>
+            <figcaption class="quote-card__author">
+              <span class="quote-avatar">VS</span>
+              <div class="quote-info">
+                <strong>Vikram Singhania</strong>
+                <em>Founder, Apex Fitness</em>
+              </div>
+            </figcaption>
+          </figure>
+
+          <figure class="quote-card" data-reveal style="--d:.12s">
+            <div>
+              <div class="quote-card__stars">★★★★★</div>
+              <blockquote class="quote-card__text">
+                “The YouTube editing and AI ad pipeline from PK generated over 1.8M views and delivered a 4.2x ROAS on our Meta campaigns. They operate with ruthless speed and quality.”
+              </blockquote>
+            </div>
+            <figcaption class="quote-card__author">
+              <span class="quote-avatar quote-avatar--blue">NM</span>
+              <div class="quote-info">
+                <strong>Nandita Menon</strong>
+                <em>Growth Head, ArtisanRoast</em>
+              </div>
+            </figcaption>
+          </figure>
+
+          <figure class="quote-card" data-reveal style="--d:.24s">
+            <div>
+              <div class="quote-card__stars">★★★★★</div>
+              <blockquote class="quote-card__text">
+                “Finding an agency that masters both high-end video storytelling AND rigorous business data analytics is almost impossible. PK is the secret weapon for any scaling business.”
+              </blockquote>
+            </div>
+            <figcaption class="quote-card__author">
+              <span class="quote-avatar quote-avatar--purple">AR</span>
+              <div class="quote-info">
+                <strong>Aditya Roy</strong>
+                <em>CEO, PulseMetrics Retail</em>
+              </div>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== DRAMATIC SPOTLIGHT CTA (Crimson Ray) ===================== -->
+    <section class="spotlight-cta">
+      <div class="spotlight-cta__beam" aria-hidden="true"></div>
+      <div class="container spotlight-cta__inner">
+        <h2 class="spotlight-cta__title" data-reveal>
+          STOP DELAYING YOUR DREAMS.<br />START TODAY.
+        </h2>
+        <div class="bracket-btn-wrapper" data-reveal style="--d:.15s">
+          <a href="#contact" class="btn btn--framed magnetic" data-cursor>Book Free Strategy Call</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ENHANCED CONTACT & QUOTE BUILDER ===================== -->
+    <section class="contact-section section" id="contact">
+      <div class="container">
+        <div class="contact-grid">
+          <!-- Left Info Column -->
+          <div class="contact-info" data-reveal>
+            <div class="contact-info__head">
+              <span class="eyebrow">Start A Project</span>
+              <h2>Let's Engineer Your Growth Sprint.</h2>
+              <p>
+                Tell us about your business goals. We'll review your brief and send an actionable execution roadmap within 24 hours.
+              </p>
+            </div>
+
+            <div class="contact-perks">
+              <div class="perk-item">
+                <div class="perk-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 5 13h5l-1 9 8-11h-5l1-9Z"/></svg></div>
+                <div>
+                  <strong>Guaranteed 2-Hour Response Time</strong>
+                  <p style="font-size:12px; color:var(--text-muted);">Direct founder access on WhatsApp &amp; Email.</p>
+                </div>
+              </div>
+              <div class="perk-item">
+                <div class="perk-item__icon">🔒</div>
+                <div>
+                  <strong>100% Confidentiality &amp; NDA</strong>
+                  <p style="font-size:12px; color:var(--text-muted);">Your business data and strategy remain strictly private.</p>
+                </div>
+              </div>
+              <div class="perk-item">
+                <div class="perk-item__icon">📈</div>
+                <div>
+                  <strong>Full-Stack Growth Architecture</strong>
+                  <p style="font-size:12px; color:var(--text-muted);">Websites, Data, Video &amp; AI Ads all under one roof.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="contact-direct">
+              <div class="direct-row">
+                <span>Direct WhatsApp:</span>
+                <a href="https://wa.me/919876543210?text=Hi%20PK%20Agency%2C%20I%20would%20like%20to%20discuss%20a%20project%20for%20my%20business." target="_blank" rel="noopener" id="directWhatsApp">Chat on WhatsApp ↗</a>
+              </div>
+              <div class="direct-row">
+                <span>Email Brief:</span>
+                <strong>hello@pkcreative.agency</strong>
+              </div>
+              <div class="direct-row">
+                <span>Phone / Call:</span>
+                <strong>+91 98765 43210</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Interactive Form Box -->
+          <div class="contact-form-box" data-reveal style="--d:.15s">
+            <form id="projectForm" novalidate>
+              <!-- 1. Service Selection Pills -->
+              <div class="form-group">
+                <label class="form-label">1. Select Services You Need (Select All That Apply):</label>
+                <div class="service-pills" id="servicePills">
+                  <button type="button" class="service-pill-btn active" data-service="Website Building">Website Building</button>
+                  <button type="button" class="service-pill-btn" data-service="Business Data Analysis">Business Data Analysis</button>
+                  <button type="button" class="service-pill-btn" data-service="YouTube Video Editing">YouTube Video Editing</button>
+                  <button type="button" class="service-pill-btn" data-service="AI Video Ads">🤖 AI Video Ads</button>
+                  <button type="button" class="service-pill-btn" data-service="Digital Products / SaaS">💻 Digital Products / SaaS</button>
+                  <button type="button" class="service-pill-btn" data-service="Brand Films">🎥 Brand Films</button>
+                </div>
+              </div>
+
+              <!-- 2. Budget Selection Pills -->
+              <div class="form-group">
+                <label class="form-label">2. Estimated Budget Range:</label>
+                <div class="budget-pills" id="budgetPills">
+                  <button type="button" class="budget-pill-btn" data-budget="Under ₹50,000 (< $600)">Under ₹50,000 / &lt;$600</button>
+                  <button type="button" class="budget-pill-btn active" data-budget="₹50,000 - ₹2 Lakhs ($600 - $2.5k)">₹50,000 - ₹2 Lakhs</button>
+                  <button type="button" class="budget-pill-btn" data-budget="₹2 Lakhs - ₹5 Lakhs ($2.5k - $6k)">₹2 Lakhs - ₹5 Lakhs</button>
+                  <button type="button" class="budget-pill-btn" data-budget="₹5 Lakhs+ ($6k+ Enterprise)">₹5 Lakhs+ / Enterprise</button>
+                </div>
+              </div>
+
+              <!-- 3. Form Inputs -->
+              <div class="form-group">
+                <div class="form-input-row">
+                  <div>
+                    <label class="form-label" for="clientName">Your Name *</label>
+                    <input class="input-field" type="text" id="clientName" name="name" placeholder="e.g. Rahul Sharma" required />
+                  </div>
+                  <div>
+                    <label class="form-label" for="clientBusiness">Business / Brand Name *</label>
+                    <input class="input-field" type="text" id="clientBusiness" name="business" placeholder="e.g. Acme Coffee Co." required />
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="form-input-row">
+                  <div>
+                    <label class="form-label" for="clientEmail">Email Address *</label>
+                    <input class="input-field" type="email" id="clientEmail" name="email" placeholder="rahul@business.com" required />
+                  </div>
+                  <div>
+                    <label class="form-label" for="clientPhone">WhatsApp / Phone *</label>
+                    <input class="input-field" type="tel" id="clientPhone" name="phone" placeholder="+91 98765 43210" required />
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="clientNotes">Project Details &amp; Key Goals</label>
+                <textarea class="input-field" id="clientNotes" name="notes" placeholder="Tell us about what you want to build, current challenges, or timeline requirements..."></textarea>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn--primary btn--lg magnetic" id="submitBtn" data-cursor>
+                  Send Project Brief ➔
+                </button>
+                <button type="button" class="btn btn--whatsapp btn--lg" id="whatsappBtn" data-cursor>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67Z"/></svg>
+                  Instant Chat on WhatsApp
+                </button>
+              </div>
+
+              <p class="form-msg" id="formMsg" role="status"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <a href="#top" class="nav__brand" data-cursor>
+            <img class="nav__mark" src="assets/logo.png" alt="P.K Agency emblem" />
+            <span class="nav__wordmark">P.K <em>Creative &amp; Digital</em></span>
+          </a>
+          <p class="footer__blurb">
+            The growth and creative engine for modern small businesses. High-converting websites, business data intelligence, YouTube editing, AI ads, and digital products.
+          </p>
+          <div class="footer__social">
+            <a href="#" aria-label="YouTube" data-cursor>YouTube</a>
+            <a href="#" aria-label="Instagram" data-cursor>Instagram</a>
+            <a href="#" aria-label="LinkedIn" data-cursor>LinkedIn</a>
+            <a href="#" aria-label="Twitter / X" data-cursor>Twitter</a>
+          </div>
+        </div>
+
+        <div class="footer__col">
+          <h4 class="footer__head">Navigation</h4>
+          <a href="#services">Services</a>
+          <a href="#work">Case Studies</a>
+          <a href="#products">Our Products</a>
+          <a href="#pathway">Growth System</a>
+          <a href="#testimonials">Founder Proof</a>
+          <a href="#contact">Start Project</a>
+        </div>
+
+        <div class="footer__col">
+          <h4 class="footer__head">Services</h4>
+          <a href="#services">Website Development</a>
+          <a href="#services">Business Data Analysis</a>
+          <a href="#products">DataCoop Analytics</a>
+          <a href="#services">YouTube Video Editing</a>
+          <a href="#services">AI Video Ads</a>
+          <a href="#services">Brand Commercials</a>
+        </div>
+
+        <div class="footer__col">
+          <h4 class="footer__head">The Growth Wire</h4>
+          <p class="footer__news-copy">One actionable tactic on business scaling, data, and viral video, monthly.</p>
+          <form class="newsletter" id="newsletter" novalidate>
+            <label class="visually-hidden" for="newsletterEmail">Email address</label>
+            <input id="newsletterEmail" type="email" name="email" placeholder="founder@brand.com" required />
+            <button class="btn btn--primary" type="submit" data-cursor>Join</button>
+          </form>
+          <p class="newsletter__msg" id="newsletterMsg" role="status"></p>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p>© <span id="year">2026</span> P.K Creative &amp; Digital Agency. All rights reserved.</p>
+        <p class="footer__tag">Crafted with intent ✦ Chennai → Worldwide</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+</body>
 </html>
