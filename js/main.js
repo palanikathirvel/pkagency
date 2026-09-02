@@ -138,10 +138,33 @@
   }
 
   const progress = document.querySelector('.progress-bar');
+  const navScrollBar = document.getElementById('navScrollBar');
+  const hudProgressBar = document.getElementById('hudProgressBar');
+  const floatingSealHud = document.getElementById('floatingSealHud');
+
   function updateProgress() {
-    if (!progress) return;
     const max = document.documentElement.scrollHeight - window.innerHeight;
-    progress.style.transform = 'scaleX(' + (max > 0 ? window.scrollY / max : 0) + ')';
+    const ratio = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    if (progress) {
+      progress.style.transform = 'scaleX(' + ratio + ')';
+    }
+    if (navScrollBar) {
+      const circ = 120;
+      navScrollBar.style.strokeDashoffset = String(circ * (1 - ratio));
+    }
+    if (hudProgressBar) {
+      const circ = 276.46;
+      hudProgressBar.style.strokeDashoffset = String(circ * (1 - ratio));
+    }
+    if (floatingSealHud) {
+      floatingSealHud.style.opacity = window.scrollY > 150 ? '1' : '0.2';
+    }
+  }
+
+  if (floatingSealHud) {
+    floatingSealHud.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
   }
 
   window.addEventListener('scroll', () => {
@@ -189,7 +212,7 @@
   }
 
   /* ============================================================
-     Custom Cursor Engine
+     Custom Cursor Engine & Aerodynamic Wing Particles
      ============================================================ */
   if (finePointer && !reduced) {
     doc.classList.add('has-cursor');
@@ -198,12 +221,40 @@
       const dot = cursor.querySelector('.cursor__dot');
       const ring = cursor.querySelector('.cursor__ring');
       let mx = -100, my = -100, rx = -100, ry = -100;
+      let lastPx = 0, lastPy = 0;
+      let particleCount = 0;
 
       window.addEventListener('mousemove', (e) => {
         mx = e.clientX; my = e.clientY;
         dot.style.left = mx + 'px';
         dot.style.top = my + 'px';
+
+        // Aerodynamic Falcon Wing Particles
+        const dist = Math.hypot(e.clientX - lastPx, e.clientY - lastPy);
+        if (dist > 30 && particleCount < 16) {
+          spawnParticle(e.clientX, e.clientY, (e.clientX - lastPx) * 0.12, (e.clientY - lastPy) * 0.12);
+          lastPx = e.clientX;
+          lastPy = e.clientY;
+        }
       }, { passive: true });
+
+      function spawnParticle(x, y, vx, vy) {
+        const p = document.createElement('div');
+        p.className = 'cursor-particle';
+        const size = Math.random() * 3.5 + 2;
+        p.style.width = `${size}px`;
+        p.style.height = `${size}px`;
+        p.style.left = `${x}px`;
+        p.style.top = `${y}px`;
+        p.style.setProperty('--vx', `${(vx + (Math.random() - 0.5) * 6).toFixed(1)}px`);
+        p.style.setProperty('--vy', `${(vy + (Math.random() - 0.5) * 6).toFixed(1)}px`);
+        document.body.appendChild(p);
+        particleCount++;
+        setTimeout(() => {
+          p.remove();
+          particleCount--;
+        }, 500);
+      }
 
       (function loop() {
         rx += (mx - rx) * 0.18;
@@ -226,6 +277,64 @@
       document.addEventListener('mouseenter', () => { cursor.style.opacity = '1'; });
     }
   }
+
+  /* ============================================================
+     Dynamic Cursor Spotlight Border Radiance
+     ============================================================ */
+  if (finePointer && !reduced) {
+    document.querySelectorAll('[data-spotlight]').forEach((card) => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x.toFixed(1)}px`);
+        card.style.setProperty('--mouse-y', `${y.toFixed(1)}px`);
+      }, { passive: true });
+    });
+  }
+
+  /* ============================================================
+     Cyber-Editorial Kinetic Character Scramble Decrypt Engine
+     ============================================================ */
+  const scrambleGlyphs = 'PK0184#*▲➔✦X9_/';
+  function scrambleText(el) {
+    if (el.dataset.scrambled) return;
+    el.dataset.scrambled = '1';
+    const original = el.textContent.trim();
+    if (reduced || original.length < 2) return;
+
+    let frame = 0;
+    const maxFrames = 12;
+    const interval = setInterval(() => {
+      frame++;
+      const progress = frame / maxFrames;
+      const lockedLength = Math.floor(progress * original.length);
+      let out = original.slice(0, lockedLength);
+      for (let i = lockedLength; i < original.length; i++) {
+        if (original[i] === ' ' || original[i] === '—' || original[i] === '✦') {
+          out += original[i];
+        } else {
+          out += scrambleGlyphs[Math.floor(Math.random() * scrambleGlyphs.length)];
+        }
+      }
+      el.textContent = out;
+      if (frame >= maxFrames) {
+        clearInterval(interval);
+        el.textContent = original;
+      }
+    }, 28);
+  }
+
+  const scrambleIO = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        scrambleText(entry.target);
+        scrambleIO.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('[data-scramble]').forEach((el) => scrambleIO.observe(el));
 
   /* ============================================================
      Magnetic Button Physics
@@ -317,7 +426,7 @@
     return active ? active.getAttribute('data-budget') : '₹50,000 - ₹2 Lakhs';
   }
 
-  function generateWhatsAppText() {
+  function generateWhatsAppRawText() {
     const name = (document.getElementById('clientName')?.value || '').trim() || 'Founder';
     const business = (document.getElementById('clientBusiness')?.value || '').trim() || 'My Business';
     const services = getSelectedServices().join(', ');
@@ -329,12 +438,22 @@
       text += `\n📝 *Project Notes:* ${notes}`;
     }
     text += `\n\nI would love to schedule a strategy call!`;
-    return encodeURIComponent(text);
+    return text;
+  }
+
+  function generateWhatsAppText() {
+    return encodeURIComponent(generateWhatsAppRawText());
   }
 
   function updateWhatsAppLink() {
-    const url = 'https://wa.me/919876543210?text=' + generateWhatsAppText();
+    const rawText = generateWhatsAppRawText();
+    const url = 'https://wa.me/919876543210?text=' + encodeURIComponent(rawText);
     if (directWhatsApp) directWhatsApp.setAttribute('href', url);
+
+    const waPreview = document.getElementById('waPreviewText');
+    if (waPreview) {
+      waPreview.textContent = rawText;
+    }
   }
 
   // Update on input changes
@@ -342,11 +461,62 @@
     const el = document.getElementById(id);
     if (el) el.addEventListener('input', updateWhatsAppLink);
   });
+  updateWhatsAppLink();
 
   if (whatsappBtn) {
     whatsappBtn.addEventListener('click', () => {
       const url = 'https://wa.me/919876543210?text=' + generateWhatsAppText();
       window.open(url, '_blank');
+    });
+  }
+
+  /* ============================================================
+     Interactive ROI & ROAS Profit Simulator
+     ============================================================ */
+  const simRevInput = document.getElementById('simRevInput');
+  const simAdInput = document.getElementById('simAdInput');
+  const simRevVal = document.getElementById('simRevVal');
+  const simAdVal = document.getElementById('simAdVal');
+  const simProjectedRoas = document.getElementById('simProjectedRoas');
+  const simProjectedProfit = document.getElementById('simProjectedProfit');
+  const simCtaBtn = document.getElementById('simCtaBtn');
+
+  function formatINR(num) {
+    if (num >= 10000000) return '₹' + (num / 10000000).toFixed(2) + ' Cr';
+    if (num >= 100000) return '₹' + (num / 100000).toFixed(2) + ' Lakhs';
+    return '₹' + num.toLocaleString('en-IN');
+  }
+
+  function updateSimulator() {
+    if (!simRevInput || !simAdInput) return;
+    const rev = parseInt(simRevInput.value, 10);
+    const ad = parseInt(simAdInput.value, 10);
+
+    if (simRevVal) simRevVal.textContent = formatINR(rev);
+    if (simAdVal) simAdVal.textContent = formatINR(ad);
+
+    // Dynamic calculations
+    const baseRoas = (rev / Math.max(ad, 1));
+    const roasMultiplier = Math.min(5.8, Math.max(3.8, baseRoas * 0.45 + 3.2));
+    const marginLift = Math.round(rev * 0.18 + ad * 0.55);
+
+    if (simProjectedRoas) simProjectedRoas.textContent = roasMultiplier.toFixed(1) + 'x';
+    if (simProjectedProfit) simProjectedProfit.textContent = formatINR(marginLift) + ' / mo';
+  }
+
+  if (simRevInput && simAdInput) {
+    simRevInput.addEventListener('input', updateSimulator);
+    simAdInput.addEventListener('input', updateSimulator);
+    updateSimulator();
+  }
+
+  if (simCtaBtn) {
+    simCtaBtn.addEventListener('click', () => {
+      const notes = document.getElementById('clientNotes');
+      if (notes && simRevInput && simAdInput) {
+        notes.value = `[DataCoop Growth Simulator Estimate]\nCurrent Monthly Rev: ${formatINR(parseInt(simRevInput.value, 10))} | Ad Spend: ${formatINR(parseInt(simAdInput.value, 10))}\nTarget: Unlock ${simProjectedProfit?.textContent || '28% profit lift'} & ${simProjectedRoas?.textContent || '4x+ ROAS'}.`;
+        updateWhatsAppLink();
+      }
     });
   }
 
@@ -420,5 +590,94 @@
       newsletterMsg.style.color = ok ? 'var(--brand-red)' : '#A80E15';
       if (ok) input.value = '';
     });
+  }
+
+  /* ============================================================
+     Living Background Logo Parallax & Scroll Transformation Engine
+     Monumental Emblem · Flight Lines · Parallax Depth · Watermarks
+     ============================================================ */
+  const bgLogoPrimary = document.getElementById('bgLogoPrimary');
+  const bgLogoParallax = document.getElementById('bgLogoParallax');
+  const flightLinesLayer = document.querySelector('.bg-logo-layer--flight-lines');
+  const servicesWing = document.querySelector('.services__bg-wing');
+  const processWatermark = document.querySelector('.process__bg-watermark');
+  const ctaWatermark = document.getElementById('ctaWatermark');
+
+  const sectionWatermarks = document.querySelectorAll('.section-bg-eagle');
+
+  if (finePointer && !reduced) {
+    let targetPx = 0, targetPy = 0;
+    let currPx = 0, currPy = 0;
+
+    window.addEventListener('mousemove', (e) => {
+      const cx = (e.clientX / window.innerWidth - 0.5) * 2; // -1 to 1
+      const cy = (e.clientY / window.innerHeight - 0.5) * 2; // -1 to 1
+      targetPx = cx;
+      targetPy = cy;
+    }, { passive: true });
+
+    (function bgParallaxLoop() {
+      currPx += (targetPx - currPx) * 0.05;
+      currPy += (targetPy - currPy) * 0.05;
+
+      if (bgLogoPrimary) {
+        bgLogoPrimary.style.transform = `translate3d(${(currPx * 20).toFixed(2)}px, ${(currPy * 14).toFixed(2)}px, 0)`;
+      }
+      if (bgLogoParallax) {
+        bgLogoParallax.style.transform = `translate3d(${(currPx * 34).toFixed(2)}px, ${(currPy * 24).toFixed(2)}px, 0)`;
+      }
+      if (flightLinesLayer) {
+        flightLinesLayer.style.transform = `translate3d(${(currPx * 12).toFixed(2)}px, ${(currPy * 8).toFixed(2)}px, 0)`;
+      }
+      if (ctaWatermark) {
+        ctaWatermark.style.transform = `translate3d(calc(-50% + ${(currPx * 18).toFixed(2)}px), calc(-50% + ${(currPy * 12).toFixed(2)}px), 0)`;
+      }
+      sectionWatermarks.forEach((sw, i) => {
+        const factor = (i % 2 === 0 ? 1 : -1) * (14 + (i * 2));
+        sw.style.transform = `translate3d(calc(-50% + ${(currPx * factor).toFixed(2)}px), calc(-50% + ${(currPy * (factor * 0.7)).toFixed(2)}px), 0)`;
+      });
+
+      requestAnimationFrame(bgParallaxLoop);
+    })();
+  }
+
+  /* Scroll-responsive depth transformations */
+  if (!reduced) {
+    function onBgScroll() {
+      const y = window.scrollY;
+      const vh = window.innerHeight;
+
+      // Hero monumental emblem depth fade and translate
+      if (bgLogoPrimary && y < vh * 1.5) {
+        const factor = Math.min(y / vh, 1);
+        const shiftY = factor * 80;
+        const opacity = Math.max(0.06, 0.10 - factor * 0.03);
+        bgLogoPrimary.style.transform = `translate3d(0, ${shiftY.toFixed(1)}px, 0)`;
+        bgLogoPrimary.style.opacity = opacity.toFixed(3);
+      }
+
+      // Services wing subtle offset
+      if (servicesWing) {
+        const rect = servicesWing.parentElement.getBoundingClientRect();
+        if (rect.top < vh && rect.bottom > 0) {
+          const progress = (vh - rect.top) / (vh + rect.height);
+          const wingShift = (progress - 0.5) * 45;
+          servicesWing.style.transform = `rotate(${16 + wingShift * 0.05}deg) translateY(${wingShift.toFixed(1)}px)`;
+        }
+      }
+
+      // Process watermark subtle translation
+      if (processWatermark) {
+        const rect = processWatermark.parentElement.getBoundingClientRect();
+        if (rect.top < vh && rect.bottom > 0) {
+          const progress = (vh - rect.top) / (vh + rect.height);
+          processWatermark.style.transform = `translate(-50%, calc(-50% + ${((progress - 0.5) * 35).toFixed(1)}px))`;
+        }
+      }
+    }
+
+    window.addEventListener('scroll', () => {
+      requestAnimationFrame(onBgScroll);
+    }, { passive: true });
   }
 })();

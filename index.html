@@ -26,10 +26,13 @@
   <!-- Top hairline scroll progress bar -->
   <div class="progress-bar" aria-hidden="true"></div>
 
-  <!-- Custom interactive cursor -->
+  <!-- Interactive Luxury Cursor -->
   <div class="cursor" aria-hidden="true">
     <div class="cursor__dot"></div>
-    <div class="cursor__ring"><span class="cursor__label">View</span></div>
+    <div class="cursor__ring">
+      <img class="cursor__falcon-mark" src="assets/logo.png" alt="" />
+      <span class="cursor__label">View</span>
+    </div>
   </div>
 
   <!-- Minimalist Luxury Preloader -->
@@ -51,7 +54,11 @@
   <header class="nav" id="nav">
     <div class="nav__inner">
       <a href="#top" class="nav__brand" data-cursor aria-label="P.K Creative Agency Home">
-        <div class="nav__mark-wrap">
+        <div class="nav__mark-wrap" id="navMarkWrap">
+          <svg class="nav__scroll-ring" viewBox="0 0 44 44">
+            <circle class="nav__scroll-track" cx="22" cy="22" r="19" />
+            <circle class="nav__scroll-bar" id="navScrollBar" cx="22" cy="22" r="19" />
+          </svg>
           <img class="nav__mark" src="assets/logo.png" alt="P.K Agency Emblem" />
         </div>
         <span class="nav__wordmark">P.K <em>Creative</em></span>
@@ -82,6 +89,12 @@
       <img src="assets/logo.png" alt="" />
     </div>
     <div class="container menu__container">
+      <div class="menu__brand-head">
+        <div class="nav__mark-wrap">
+          <img class="nav__mark" src="assets/logo.png" alt="P.K Agency Emblem" />
+        </div>
+        <span class="nav__wordmark" style="color: #FFFFFF; font-size: 18px; font-weight: 900;">P.K <em style="color: var(--brand-red);">Creative</em></span>
+      </div>
       <nav class="menu__links" aria-label="Mobile Navigation">
         <a href="#services" class="menu__link"><span class="menu__num">01</span>Services</a>
         <a href="#work" class="menu__link"><span class="menu__num">02</span>Selected Work</a>
@@ -103,6 +116,28 @@
     <section class="hero" id="top">
       <div class="hero__bg-grid" aria-hidden="true"></div>
       <div class="hero__ambient-glow" aria-hidden="true"></div>
+
+      <!-- Living Brand Environment: Multi-Layer Background Logo System -->
+      <div class="bg-logo-stage" id="bgLogoStage" aria-hidden="true">
+        <!-- Layer 1: Monumental Ambient Emblem (Living Watermark) -->
+        <div class="bg-logo-layer bg-logo-layer--monumental">
+          <img class="bg-logo__img bg-logo__img--primary" id="bgLogoPrimary" src="assets/logo.png" alt="" />
+        </div>
+
+        <!-- Layer 2: Vector Flight Lines & Wing Architecture -->
+        <div class="bg-logo-layer bg-logo-layer--flight-lines">
+          <div class="flight-line flight-line--1"></div>
+          <div class="flight-line flight-line--2"></div>
+          <div class="flight-line flight-line--3"></div>
+          <div class="flight-wing-mesh"></div>
+        </div>
+
+        <!-- Layer 3: Interactive Parallax Depth & Radiant Horizon Aura -->
+        <div class="bg-logo-layer bg-logo-layer--parallax" id="bgLogoParallax">
+          <div class="bg-logo__aura"></div>
+          <div class="bg-logo__light-sweep"></div>
+        </div>
+      </div>
 
       <div class="container hero__grid">
         <div class="hero__copy">
@@ -244,10 +279,13 @@
 
     <!-- ===================== GROWTH PATHWAY DIAGRAM ===================== -->
     <section class="pathway section" id="pathway">
+      <div class="section-bg-eagle section-bg-eagle--dark" aria-hidden="true">
+        <img src="assets/logo.png" alt="" />
+      </div>
       <div class="container">
         <div class="section-head section-head--center">
-          <p class="eyebrow" data-reveal>The PK Growth Blueprint</p>
-          <h2 class="section-title" data-reveal style="--d:.1s">How We Take Your Business To Market Leadership</h2>
+          <p class="eyebrow" data-reveal data-scramble>The PK Growth Blueprint</p>
+          <h2 class="section-title" data-reveal style="--d:.1s" data-scramble>How We Take Your Business To Market Leadership</h2>
           <p class="section-sub" data-reveal style="--d:.2s">
             A cohesive full-stack engine connecting your digital storefront, business data intelligence, and viral video marketing into a revenue powerhouse.
           </p>
@@ -313,10 +351,13 @@
 
     <!-- ===================== 6 CORE SERVICES ===================== -->
     <section class="services section" id="services">
+      <div class="section-bg-eagle section-bg-eagle--dark" aria-hidden="true">
+        <img src="assets/logo.png" alt="" />
+      </div>
       <div class="container">
         <div class="section-head">
-          <p class="eyebrow" data-reveal>What We Deliver</p>
-          <h2 class="section-title" data-reveal style="--d:.1s">Six Core Crafts. One High-Impact Standard.</h2>
+          <p class="eyebrow" data-reveal data-scramble>What We Deliver</p>
+          <h2 class="section-title" data-reveal style="--d:.1s" data-scramble>Six Core Crafts. One High-Impact Standard.</h2>
           <p class="section-sub" data-reveal style="--d:.2s">
             Everything modern small businesses, creators, and brands need to build market authority, capture attention, and drive predictable sales.
           </p>
@@ -325,6 +366,7 @@
         <div class="services__grid">
           <!-- 01: Website Building -->
           <article class="service-card" data-reveal data-cursor data-tilt data-spotlight>
+            <div class="card-pk-stamp" aria-hidden="true"><img src="assets/logo.png" alt="" /></div>
             <div class="service-card__top">
               <span class="service-card__num">01</span>
               <div class="service-card__badges">
@@ -346,6 +388,7 @@
 
           <!-- 02: Business Data Analysis -->
           <article class="service-card" data-reveal style="--d:.1s" data-cursor data-tilt data-spotlight>
+            <div class="card-pk-stamp" aria-hidden="true"><img src="assets/logo.png" alt="" /></div>
             <div class="service-card__top">
               <span class="service-card__num">02</span>
               <div class="service-card__badges">
@@ -367,6 +410,7 @@
 
           <!-- 03: Digital Products & SaaS -->
           <article class="service-card" data-reveal style="--d:.2s" data-cursor data-tilt data-spotlight>
+            <div class="card-pk-stamp" aria-hidden="true"><img src="assets/logo.png" alt="" /></div>
             <div class="service-card__top">
               <span class="service-card__num">03</span>
               <div class="service-card__badges">
@@ -388,6 +432,7 @@
 
           <!-- 04: YouTube Video Editing -->
           <article class="service-card" data-reveal style="--d:.1s" data-cursor data-tilt data-spotlight>
+            <div class="card-pk-stamp" aria-hidden="true"><img src="assets/logo.png" alt="" /></div>
             <div class="service-card__top">
               <span class="service-card__num">04</span>
               <div class="service-card__badges">
@@ -409,6 +454,7 @@
 
           <!-- 05: AI Ads & Marketing -->
           <article class="service-card" data-reveal style="--d:.2s" data-cursor data-tilt data-spotlight>
+            <div class="card-pk-stamp" aria-hidden="true"><img src="assets/logo.png" alt="" /></div>
             <div class="service-card__top">
               <span class="service-card__num">05</span>
               <div class="service-card__badges">
@@ -430,6 +476,7 @@
 
           <!-- 06: Films & Brand Storytelling -->
           <article class="service-card" data-reveal style="--d:.3s" data-cursor data-tilt data-spotlight>
+            <div class="card-pk-stamp" aria-hidden="true"><img src="assets/logo.png" alt="" /></div>
             <div class="service-card__top">
               <span class="service-card__num">06</span>
               <div class="service-card__badges">
@@ -454,11 +501,14 @@
 
     <!-- ===================== SELECTED WORK ===================== -->
     <section class="work section" id="work">
+      <div class="section-bg-eagle section-bg-eagle--dark section-bg-eagle--right" aria-hidden="true">
+        <img src="assets/logo.png" alt="" />
+      </div>
       <div class="container">
         <div class="section-head section-head--row">
           <div>
-            <p class="eyebrow" data-reveal>Case Studies</p>
-            <h2 class="section-title" data-reveal style="--d:.1s">Shipped for Growing SMBs &amp; Brands</h2>
+            <p class="eyebrow" data-reveal data-scramble>Case Studies</p>
+            <h2 class="section-title" data-reveal style="--d:.1s" data-scramble>Shipped for Growing SMBs &amp; Brands</h2>
           </div>
           <p class="section-sub" style="margin-top:0;" data-reveal style="--d:.2s">
             Measurable revenue scale, viral reach, and high-converting systems.
@@ -478,6 +528,7 @@
         <div class="work__grid">
           <!-- Project 1: Apex Fitness -->
           <article class="project-card" data-category="web" data-reveal data-cursor="view" data-tilt data-spotlight>
+            <div class="card-pk-stamp" aria-hidden="true"><img src="assets/logo.png" alt="" /></div>
             <div class="project-card__visual">
               <svg class="project-card__svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
                 <rect width="800" height="500" fill="#09090B"/>
@@ -510,6 +561,7 @@
 
           <!-- Project 2: ArtisanRoast -->
           <article class="project-card" data-category="ai" data-reveal style="--d:.1s" data-cursor="view" data-tilt data-spotlight>
+            <div class="card-pk-stamp" aria-hidden="true"><img src="assets/logo.png" alt="" /></div>
             <div class="project-card__visual">
               <svg class="project-card__svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
                 <rect width="800" height="500" fill="#09090B"/>
@@ -540,6 +592,7 @@
 
           <!-- Project 3: PulseMetrics -->
           <article class="project-card" data-category="data" data-reveal style="--d:.2s" data-cursor="view" data-tilt data-spotlight>
+            <div class="card-pk-stamp" aria-hidden="true"><img src="assets/logo.png" alt="" /></div>
             <div class="project-card__visual">
               <svg class="project-card__svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
                 <rect width="800" height="500" fill="#09090B"/>
@@ -575,6 +628,7 @@
 
           <!-- Project 4: TechVelocity -->
           <article class="project-card" data-category="video" data-reveal data-cursor="view" data-tilt data-spotlight>
+            <div class="card-pk-stamp" aria-hidden="true"><img src="assets/logo.png" alt="" /></div>
             <div class="project-card__visual">
               <svg class="project-card__svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
                 <rect width="800" height="500" fill="#09090B"/>
@@ -604,6 +658,7 @@
 
           <!-- Project 5: Solace Botanical Spirits -->
           <article class="project-card" data-category="ai" data-reveal style="--d:.1s" data-cursor="view" data-tilt data-spotlight>
+            <div class="card-pk-stamp" aria-hidden="true"><img src="assets/logo.png" alt="" /></div>
             <div class="project-card__visual">
               <svg class="project-card__svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
                 <rect width="800" height="500" fill="#09090B"/>
@@ -633,6 +688,7 @@
 
           <!-- Project 6: CoreStack Client Portal -->
           <article class="project-card" data-category="product" data-reveal style="--d:.2s" data-cursor="view" data-tilt data-spotlight>
+            <div class="card-pk-stamp" aria-hidden="true"><img src="assets/logo.png" alt="" /></div>
             <div class="project-card__visual">
               <svg class="project-card__svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
                 <rect width="800" height="500" fill="#09090B"/>
@@ -666,6 +722,9 @@
 
     <!-- ===================== OUR PRODUCTS (DATACOOP) ===================== -->
     <section class="product-spotlight section" id="products">
+      <div class="section-bg-eagle section-bg-eagle--dark section-bg-eagle--left" aria-hidden="true">
+        <img src="assets/logo.png" alt="" />
+      </div>
       <div class="container">
         <div class="datacoop-card" data-reveal data-tilt data-spotlight>
           <div class="datacoop-grid">
@@ -756,6 +815,45 @@
                   <div class="mockup__bar" style="--h: 96%;"></div>
                 </div>
               </div>
+
+              <!-- Interactive ROI & ROAS Profit Simulator -->
+              <div class="datacoop__simulator" id="roiSimulator">
+                <div class="simulator__head">
+                  <span class="simulator__tag">✦ Live Growth Simulator ✦</span>
+                  <h4>Calculate Your Data-Driven Profit Unlock</h4>
+                </div>
+                <div class="simulator__controls">
+                  <div class="sim-control">
+                    <div class="sim-control__label">
+                      <span>Monthly Revenue:</span>
+                      <strong id="simRevVal">₹15,00,000</strong>
+                    </div>
+                    <input type="range" id="simRevInput" min="200000" max="10000000" step="100000" value="1500000" class="sim-slider" />
+                  </div>
+                  <div class="sim-control">
+                    <div class="sim-control__label">
+                      <span>Monthly Ad Spend:</span>
+                      <strong id="simAdVal">₹2,50,000</strong>
+                    </div>
+                    <input type="range" id="simAdInput" min="25000" max="2500000" step="25000" value="250000" class="sim-slider" />
+                  </div>
+                </div>
+                <div class="simulator__results">
+                  <div class="sim-result-card">
+                    <span class="sim-result-lbl">Projected ROAS</span>
+                    <strong class="sim-result-val accent-red" id="simProjectedRoas">4.4x</strong>
+                    <span class="sim-result-sub">vs 2.1x baseline</span>
+                  </div>
+                  <div class="sim-result-card">
+                    <span class="sim-result-lbl">Recovered Profit</span>
+                    <strong class="sim-result-val" id="simProjectedProfit">₹3.85L / mo</strong>
+                    <span class="sim-result-sub">+28% Margin Lift</span>
+                  </div>
+                </div>
+                <a href="#contact" class="btn btn--primary btn--sm sim-cta magnetic" id="simCtaBtn" data-cursor>
+                  Lock In This Profit Sprint ➔
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -764,10 +862,13 @@
 
     <!-- ===================== PROCESS ===================== -->
     <section class="process section" id="process">
+      <div class="section-bg-eagle section-bg-eagle--dark" aria-hidden="true">
+        <img src="assets/logo.png" alt="" />
+      </div>
       <div class="container">
         <div class="section-head">
-          <p class="eyebrow" data-reveal>Our Workflow</p>
-          <h2 class="section-title" data-reveal style="--d:.1s">Fast Sprints. Zero Fluff. Serious Execution.</h2>
+          <p class="eyebrow" data-reveal data-scramble>Our Workflow</p>
+          <h2 class="section-title" data-reveal style="--d:.1s" data-scramble>Fast Sprints. Zero Fluff. Serious Execution.</h2>
         </div>
 
         <ol class="steps-grid">
@@ -802,10 +903,13 @@
 
     <!-- ===================== TESTIMONIALS ===================== -->
     <section class="testimonials section" id="testimonials">
+      <div class="section-bg-eagle section-bg-eagle--dark" aria-hidden="true">
+        <img src="assets/logo.png" alt="" />
+      </div>
       <div class="container">
         <div class="section-head">
-          <p class="eyebrow" data-reveal>Founder Feedback</p>
-          <h2 class="section-title" data-reveal style="--d:.1s">Real Results from Real Founders</h2>
+          <p class="eyebrow" data-reveal data-scramble>Founder Feedback</p>
+          <h2 class="section-title" data-reveal style="--d:.1s" data-scramble>Real Results from Real Founders</h2>
         </div>
 
         <div class="testimonials__grid">
@@ -862,8 +966,9 @@
 
     <!-- ===================== DRAMATIC DARK CTA SECTION ===================== -->
     <section class="dark-cta" id="cta-banner">
-      <div class="dark-cta__watermark" aria-hidden="true">
+      <div class="dark-cta__watermark" id="ctaWatermark" aria-hidden="true">
         <img src="assets/logo.png" alt="" />
+        <div class="dark-cta__aura-glow"></div>
       </div>
       <div class="container dark-cta__inner">
         <span class="dark-cta__eyebrow" data-reveal>✦ Ready To Dominate Your Market? ✦</span>
@@ -882,13 +987,16 @@
 
     <!-- ===================== INTERACTIVE CONTACT & QUOTE BUILDER ===================== -->
     <section class="contact-section section" id="contact">
+      <div class="section-bg-eagle section-bg-eagle--dark section-bg-eagle--right" aria-hidden="true">
+        <img src="assets/logo.png" alt="" />
+      </div>
       <div class="container">
         <div class="contact-grid">
           <!-- Left Info Column -->
           <div class="contact-info" data-reveal>
             <div class="contact-info__head">
-              <span class="eyebrow">Start A Project</span>
-              <h2>Let's Engineer Your Growth Sprint.</h2>
+              <span class="eyebrow" data-scramble>Start A Project</span>
+              <h2 data-scramble>Let's Engineer Your Growth Sprint.</h2>
               <p>
                 Tell us about your business goals. We'll review your brief and send an actionable execution roadmap within 24 hours.
               </p>
@@ -988,9 +1096,25 @@
                 </div>
               </div>
 
+              <div class="contact-live-badge">
+                <span class="status-beacon"></span>
+                <span><strong>LIVE STRATEGY DESK ACTIVE</strong> · Avg Response: 12 Mins</span>
+              </div>
+
               <div class="form-group">
                 <label class="form-label" for="clientNotes">Project Details &amp; Key Goals</label>
                 <textarea class="input-field" id="clientNotes" name="notes" placeholder="Tell us about what you want to build, current challenges, or timeline requirements..."></textarea>
+              </div>
+
+              <!-- Live WhatsApp Message Preview Box -->
+              <div class="wa-preview-box" id="waPreviewBox">
+                <div class="wa-preview-head">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67Z"/></svg>
+                  <span>LIVE BRIEF SYNTHESIS PREVIEW</span>
+                </div>
+                <div class="wa-preview-body" id="waPreviewText">
+                  "Hi PK Agency team! I'm Founder from My Business. Services: Website Building. Budget: ₹50,000 - ₹2 Lakhs..."
+                </div>
               </div>
 
               <div class="form-actions">
@@ -1013,6 +1137,9 @@
 
   <!-- ===================== FOOTER ===================== -->
   <footer class="footer">
+    <div class="section-bg-eagle section-bg-eagle--light footer__bg-eagle" aria-hidden="true">
+      <img src="assets/logo.png" alt="" />
+    </div>
     <div class="container">
       <div class="footer__headline-row">
         <h2 class="footer__massive-brand">P.K CREATIVE STUDIO</h2>
@@ -1021,7 +1148,9 @@
       <div class="footer__grid">
         <div class="footer__brand-col">
           <a href="#top" class="nav__brand" data-cursor>
-            <img class="nav__mark" src="assets/logo.png" alt="P.K Agency Emblem" />
+            <div class="nav__mark-wrap">
+              <img class="nav__mark" src="assets/logo.png" alt="P.K Agency Emblem" />
+            </div>
             <span class="nav__wordmark">P.K <em>Creative &amp; Digital</em></span>
           </a>
           <p class="footer__blurb">
@@ -1074,6 +1203,25 @@
       </div>
     </div>
   </footer>
+
+  <!-- Floating "Seal of Excellence" HUD Badge (Orbiting Corner Widget) -->
+  <div class="floating-seal-hud" id="floatingSealHud" aria-label="P.K Studio Seal & Scroll to Top" data-cursor>
+    <svg class="seal-hud__progress" viewBox="0 0 100 100">
+      <circle class="seal-hud__track" cx="50" cy="50" r="44" />
+      <circle class="seal-hud__bar" id="hudProgressBar" cx="50" cy="50" r="44" />
+    </svg>
+    <svg class="seal-hud__orbit-text" viewBox="0 0 100 100">
+      <path id="hudTextPath" d="M 50, 50 m -34, 0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" fill="none" />
+      <text>
+        <textPath href="#hudTextPath" startOffset="0%">
+          ✦ P.K CREATIVE STUDIO ✦ EST. 2017 ✦
+        </textPath>
+      </text>
+    </svg>
+    <div class="seal-hud__badge">
+      <img src="assets/logo.png" alt="P.K Emblem" />
+    </div>
+  </div>
 
   <script src="js/main.js" defer></script>
 </body>
