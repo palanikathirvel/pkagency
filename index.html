@@ -32,10 +32,16 @@
     <div class="cursor__ring"><span class="cursor__label">View</span></div>
   </div>
 
-  <!-- Preloader with Crystal Clear Logo -->
+  <!-- Preloader with Crystal Clear Logo & Sonic Pulse Animation -->
   <div class="preloader" aria-hidden="true">
     <div class="preloader__inner">
-      <img class="preloader__mark" src="assets/logo.png" alt="P.K Agency logo" />
+      <div class="preloader__logo-wrap">
+        <div class="preloader__pulse-ring preloader__pulse-ring--1"></div>
+        <div class="preloader__pulse-ring preloader__pulse-ring--2"></div>
+        <div class="preloader__pulse-ring preloader__pulse-ring--3"></div>
+        <img class="preloader__mark" src="assets/logo.png" alt="P.K Agency logo" />
+        <div class="preloader__glint"></div>
+      </div>
       <div class="preloader__count"><span id="preloaderCount">0</span>%</div>
       <div class="preloader__rule"></div>
       <p class="preloader__word">Initializing Growth Engine</p>
@@ -46,7 +52,10 @@
   <header class="nav" id="nav">
     <div class="nav__inner">
       <a href="#top" class="nav__brand" data-cursor>
-        <img class="nav__mark" src="assets/logo.png" alt="P.K Agency emblem" />
+        <div class="nav__mark-wrap">
+          <img class="nav__mark" src="assets/logo.png" alt="P.K Agency emblem" />
+          <span class="nav__mark-glow"></span>
+        </div>
         <span class="nav__wordmark">P.K <em>Creative</em></span>
       </a>
 
@@ -87,18 +96,22 @@
   <main id="main">
     <!-- ===================== HERO SECTION ===================== -->
     <section class="hero" id="top">
+      <canvas id="heroCanvas" class="hero__canvas" aria-hidden="true"></canvas>
       <div class="hero__spotlight" aria-hidden="true"></div>
 
       <div class="container hero__grid">
         <div class="hero__copy">
-          <div class="hero__tag-pill" data-reveal>
-            <img class="hero__tag-logo" src="assets/logo.png" alt="PK emblem" />
+          <div class="hero__tag-pill floating-tag" data-reveal>
+            <div class="tag-logo-wrap">
+              <img class="hero__tag-logo" src="assets/logo.png" alt="PK emblem" />
+              <span class="tag-logo-pulse"></span>
+            </div>
             <span>P.K Creative &amp; Digital Studio · Est. 2017</span>
           </div>
 
           <p class="hero__lead-italic" data-reveal style="--d:.1s">not just an agency —</p>
           <h1 class="hero__title" data-reveal style="--d:.2s">
-            We Build Websites, Video &amp; <span class="accent-red">Data Systems</span> That Scale Businesses.
+            We Build Websites, Video &amp; <span class="accent-red glow-text">Data Systems</span> That Scale Businesses.
           </h1>
 
           <p class="hero__sub" data-reveal style="--d:.3s">
@@ -106,8 +119,8 @@
           </p>
 
           <div class="hero__cta" data-reveal style="--d:.4s">
-            <a href="#contact" class="btn btn--primary btn--lg magnetic" data-cursor>Book a Free Strategy Call</a>
-            <a href="#work" class="btn btn--glass btn--lg" data-cursor>Explore Real Projects ↗</a>
+            <a href="#contact" class="btn btn--primary btn--lg magnetic pulse-glow" data-cursor>Book a Free Strategy Call</a>
+            <a href="#work" class="btn btn--glass btn--lg magnetic" data-cursor>Explore Real Projects ↗</a>
           </div>
 
           <div class="hero__proof-chips" data-reveal style="--d:.5s">
@@ -132,15 +145,19 @@
 
         <!-- Hero Visual & Logo Showcase -->
         <div class="hero__visual" data-reveal style="--d:.3s">
-          <div class="hero__card-stack">
-            <!-- Official Agency Emblem Showcase (Pure Logo Only) -->
-            <div class="hero__emblem-showcase">
+          <div class="hero__card-stack" data-spotlight>
+            <!-- Official Agency Emblem Showcase (Pure Logo with 3D Orbital Physics) -->
+            <div class="hero__emblem-showcase emblem-3d-card" id="heroEmblemShowcase" data-tilt data-spotlight>
+              <div class="emblem-ambient-glow" aria-hidden="true"></div>
               <div class="emblem-wrapper">
-                <img class="hero__logo-img" src="assets/logo.png" alt="P.K Creative Agency Official Emblem" />
+                <div class="emblem-orbital-ring emblem-orbital-ring--1" aria-hidden="true"></div>
+                <div class="emblem-orbital-ring emblem-orbital-ring--2" aria-hidden="true"></div>
+                <div class="emblem-sheen" aria-hidden="true"></div>
+                <img class="hero__logo-img" id="heroLogoImg" src="assets/logo.png" alt="P.K Creative Agency Official Emblem" />
               </div>
               <div class="emblem-meta">
                 <span class="emblem-title">P.K CREATIVE &amp; DIGITAL STUDIO</span>
-                <span class="emblem-sub">✦ Official Agency Emblem · Chennai → Worldwide ✦</span>
+                <span class="emblem-sub">✦ Official Agency Emblem · Interactive 3D Physics ✦</span>
               </div>
             </div>
 
@@ -153,11 +170,11 @@
             </div>
 
             <div class="hero__card-metrics">
-              <div class="metric-box">
+              <div class="metric-box" data-tilt>
                 <p class="metric-box__num"><span>₹</span>3.4Cr+</p>
                 <p class="metric-box__label">Client Revenue Scaled</p>
               </div>
-              <div class="metric-box">
+              <div class="metric-box" data-tilt>
                 <p class="metric-box__num"><span>98.4</span>%</p>
                 <p class="metric-box__label">On-Time Sprint Delivery</p>
               </div>
@@ -241,47 +258,59 @@
           </p>
         </div>
 
-        <div class="pathway__diagram" data-reveal style="--d:.3s">
+        <div class="pathway__diagram" data-reveal style="--d:.3s" data-spotlight>
           <div class="pathway__flow">
             <!-- Node 1: Start -->
-            <div class="pathway__node pathway__node--start">
+            <div class="pathway__node pathway__node--start" data-tilt>
+              <div class="node-beacon"></div>
               <h4>Your Business</h4>
               <p>Vision &amp; Ambition</p>
             </div>
 
-            <!-- Connector -->
-            <div class="pathway__connector">→</div>
+            <!-- Connector with Animated Particle Flow -->
+            <div class="pathway__connector">
+              <div class="connector-line">
+                <span class="connector-pulse"></span>
+              </div>
+              <span class="connector-arrow">➔</span>
+            </div>
 
             <!-- Channels -->
             <div class="pathway__channels">
-              <div class="pathway__channel-card">
+              <div class="pathway__channel-card" data-tilt>
                 <div>✦ Custom Website &amp; Digital Store</div>
                 <span>High-Converting UI</span>
               </div>
-              <div class="pathway__channel-card">
+              <div class="pathway__channel-card" data-tilt>
                 <div>✦ Business Data &amp; Analytics Engine</div>
                 <span>Predictive Insights</span>
               </div>
-              <div class="pathway__channel-card">
+              <div class="pathway__channel-card" data-tilt>
                 <div>✦ YouTube Editing, AI Ads &amp; Films</div>
                 <span>Viral Attention</span>
               </div>
             </div>
 
-            <!-- Connector -->
-            <div class="pathway__connector">→</div>
+            <!-- Connector with Animated Particle Flow -->
+            <div class="pathway__connector">
+              <div class="connector-line">
+                <span class="connector-pulse"></span>
+              </div>
+              <span class="connector-arrow">➔</span>
+            </div>
 
             <!-- Node 3: Result -->
-            <div class="pathway__node pathway__node--end">
+            <div class="pathway__node pathway__node--end" data-tilt>
+              <div class="node-beacon node-beacon--red"></div>
               <h4>Scale &amp; Profit</h4>
               <p>Predictable Revenue</p>
             </div>
           </div>
 
-          <div class="pathway__cta-box">
+          <div class="pathway__cta-box" data-spotlight>
             <h3>We handle everything so you can focus on building your business.</h3>
             <p>No messy freelancer handoffs, no misaligned goals. Strategy, code, data and content executed under one roof.</p>
-            <a href="#contact" class="btn btn--primary magnetic" data-cursor>Get Your Custom Growth Plan</a>
+            <a href="#contact" class="btn btn--primary magnetic pulse-glow" data-cursor>Get Your Custom Growth Plan</a>
           </div>
         </div>
       </div>
@@ -300,7 +329,8 @@
 
         <div class="services__grid">
           <!-- 01: Website Building -->
-          <article class="service-card" data-reveal data-cursor>
+          <article class="service-card" data-reveal data-cursor data-tilt data-spotlight>
+            <div class="card-glow-overlay" aria-hidden="true"></div>
             <div class="service-card__top">
               <span class="service-card__num">01</span>
               <div class="service-card__badge-row">
@@ -321,7 +351,8 @@
           </article>
 
           <!-- 02: Business Data Analysis -->
-          <article class="service-card" data-reveal style="--d:.1s" data-cursor>
+          <article class="service-card" data-reveal style="--d:.1s" data-cursor data-tilt data-spotlight>
+            <div class="card-glow-overlay" aria-hidden="true"></div>
             <div class="service-card__top">
               <span class="service-card__num">02</span>
               <div class="service-card__badge-row">
@@ -342,7 +373,8 @@
           </article>
 
           <!-- 03: Digital Products & SaaS -->
-          <article class="service-card" data-reveal style="--d:.2s" data-cursor>
+          <article class="service-card" data-reveal style="--d:.2s" data-cursor data-tilt data-spotlight>
+            <div class="card-glow-overlay" aria-hidden="true"></div>
             <div class="service-card__top">
               <span class="service-card__num">03</span>
               <div class="service-card__badge-row">
@@ -363,7 +395,8 @@
           </article>
 
           <!-- 04: YouTube Video Editing -->
-          <article class="service-card" data-reveal style="--d:.1s" data-cursor>
+          <article class="service-card" data-reveal style="--d:.1s" data-cursor data-tilt data-spotlight>
+            <div class="card-glow-overlay" aria-hidden="true"></div>
             <div class="service-card__top">
               <span class="service-card__num">04</span>
               <div class="service-card__badge-row">
@@ -384,7 +417,8 @@
           </article>
 
           <!-- 05: AI Ads & Marketing -->
-          <article class="service-card" data-reveal style="--d:.2s" data-cursor>
+          <article class="service-card" data-reveal style="--d:.2s" data-cursor data-tilt data-spotlight>
+            <div class="card-glow-overlay" aria-hidden="true"></div>
             <div class="service-card__top">
               <span class="service-card__num">05</span>
               <div class="service-card__badge-row">
@@ -405,7 +439,8 @@
           </article>
 
           <!-- 06: Films & Brand Storytelling -->
-          <article class="service-card" data-reveal style="--d:.3s" data-cursor>
+          <article class="service-card" data-reveal style="--d:.3s" data-cursor data-tilt data-spotlight>
+            <div class="card-glow-overlay" aria-hidden="true"></div>
             <div class="service-card__top">
               <span class="service-card__num">06</span>
               <div class="service-card__badge-row">
@@ -453,7 +488,8 @@
 
         <div class="work__grid">
           <!-- Project 1: Apex Fitness (Web Development & Booking) -->
-          <article class="project-card" data-category="web" data-reveal data-cursor="view">
+          <article class="project-card" data-category="web" data-reveal data-cursor="view" data-tilt data-spotlight>
+            <div class="card-glow-overlay" aria-hidden="true"></div>
             <div class="project-card__visual">
               <svg class="project-card__svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
                 <rect width="800" height="500" fill="#0D0D0D"/>
@@ -485,7 +521,8 @@
           </article>
 
           <!-- Project 2: ArtisanRoast (AI Ads & D2C) -->
-          <article class="project-card" data-category="ai" data-reveal style="--d:.1s" data-cursor="view">
+          <article class="project-card" data-category="ai" data-reveal style="--d:.1s" data-cursor="view" data-tilt data-spotlight>
+            <div class="card-glow-overlay" aria-hidden="true"></div>
             <div class="project-card__visual">
               <svg class="project-card__svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
                 <rect width="800" height="500" fill="#141414"/>
@@ -515,7 +552,8 @@
           </article>
 
           <!-- Project 3: PulseMetrics (Data Analysis for SMB) -->
-          <article class="project-card" data-category="data" data-reveal style="--d:.2s" data-cursor="view">
+          <article class="project-card" data-category="data" data-reveal style="--d:.2s" data-cursor="view" data-tilt data-spotlight>
+            <div class="card-glow-overlay" aria-hidden="true"></div>
             <div class="project-card__visual">
               <svg class="project-card__svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
                 <rect width="800" height="500" fill="#0D0D0D"/>
@@ -550,7 +588,8 @@
           </article>
 
           <!-- Project 4: TechVelocity (YouTube Editing & Short-form) -->
-          <article class="project-card" data-category="video" data-reveal data-cursor="view">
+          <article class="project-card" data-category="video" data-reveal data-cursor="view" data-tilt data-spotlight>
+            <div class="card-glow-overlay" aria-hidden="true"></div>
             <div class="project-card__visual">
               <svg class="project-card__svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
                 <rect width="800" height="500" fill="#141414"/>
@@ -579,7 +618,8 @@
           </article>
 
           <!-- Project 5: Solace Botanical Spirits (Brand Film & Commercial) -->
-          <article class="project-card" data-category="ai" data-reveal style="--d:.1s" data-cursor="view">
+          <article class="project-card" data-category="ai" data-reveal style="--d:.1s" data-cursor="view" data-tilt data-spotlight>
+            <div class="card-glow-overlay" aria-hidden="true"></div>
             <div class="project-card__visual">
               <svg class="project-card__svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
                 <rect width="800" height="500" fill="#0D0D0D"/>
@@ -608,7 +648,8 @@
           </article>
 
           <!-- Project 6: CoreStack Client Portal (Digital Products / SaaS) -->
-          <article class="project-card" data-category="product" data-reveal style="--d:.2s" data-cursor="view">
+          <article class="project-card" data-category="product" data-reveal style="--d:.2s" data-cursor="view" data-tilt data-spotlight>
+            <div class="card-glow-overlay" aria-hidden="true"></div>
             <div class="project-card__visual">
               <svg class="project-card__svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
                 <rect width="800" height="500" fill="#0D0D0D"/>
@@ -643,7 +684,8 @@
     <!-- ===================== OUR PRODUCTS SECTION (EXCLUSIVE FOR DATACOOP) ===================== -->
     <section class="product-spotlight section" id="products">
       <div class="container">
-        <div class="datacoop-card" data-reveal>
+        <div class="datacoop-card" data-reveal data-tilt data-spotlight>
+          <div class="card-glow-overlay" aria-hidden="true"></div>
           <div class="datacoop-grid">
             <div class="datacoop__info">
               <span class="datacoop__badge">✦ Our In-House Products ✦</span>
@@ -655,28 +697,28 @@
               </p>
 
               <div class="datacoop__features">
-                <div class="datacoop__feat-item">
+                <div class="datacoop__feat-item" data-tilt>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
                   <div>
                     <strong>Real-Time Profit &amp; CAC</strong>
                     <p style="font-size:12px; color:var(--text-muted);">Auto-calculate net profit after ad spend &amp; COGS.</p>
                   </div>
                 </div>
-                <div class="datacoop__feat-item">
+                <div class="datacoop__feat-item" data-tilt>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24M14.83 9.17l4.24-4.24M14.83 14.83l4.24 4.24M9.17 14.83l-4.24 4.24"/></svg>
                   <div>
                     <strong>Predictive Churn Engine</strong>
                     <p style="font-size:12px; color:var(--text-muted);">Detect at-risk customers before they stop purchasing.</p>
                   </div>
                 </div>
-                <div class="datacoop__feat-item">
+                <div class="datacoop__feat-item" data-tilt>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
                   <div>
                     <strong>Multi-Touch Attribution</strong>
                     <p style="font-size:12px; color:var(--text-muted);">Understand exact ROAS across Meta, Google &amp; YouTube.</p>
                   </div>
                 </div>
-                <div class="datacoop__feat-item">
+                <div class="datacoop__feat-item" data-tilt>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 12 2 2 4-4"/></svg>
                   <div>
                     <strong>1-Click Executive PDF Briefs</strong>
@@ -686,31 +728,31 @@
               </div>
 
               <div class="datacoop__actions">
-                <a href="#contact" class="btn btn--primary magnetic" data-cursor>Request DataCoop Demo ↗</a>
+                <a href="#contact" class="btn btn--primary magnetic pulse-glow" data-cursor>Request DataCoop Demo ↗</a>
                 <span style="font-size: 13px; color: var(--text-muted);">Available for all PK Enterprise Growth Sprints</span>
               </div>
             </div>
 
             <!-- DataCoop Visual Mockup -->
-            <div class="datacoop-mockup">
+            <div class="datacoop-mockup" data-tilt>
               <div class="mockup__topbar">
                 <div class="mockup__dots">
                   <span></span><span></span><span></span>
                 </div>
                 <span class="mockup__title">DATACOOP // LIVE ANALYTICS SUITE</span>
-                <span style="font-size: 10px; color: var(--brand-red); font-weight: 700;">● LIVE SYNC</span>
+                <span class="mockup__live-tag">● LIVE SYNC</span>
               </div>
 
               <div class="mockup__kpis">
-                <div class="kpi-card">
+                <div class="kpi-card" data-tilt>
                   <div class="kpi-card__val"><span>₹</span>18.4L</div>
                   <div class="kpi-card__lbl">Monthly Rev</div>
                 </div>
-                <div class="kpi-card">
+                <div class="kpi-card" data-tilt>
                   <div class="kpi-card__val">4.2<span>x</span></div>
                   <div class="kpi-card__lbl">Ad Blended ROAS</div>
                 </div>
-                <div class="kpi-card">
+                <div class="kpi-card" data-tilt>
                   <div class="kpi-card__val">88.2<span>%</span></div>
                   <div class="kpi-card__lbl">Retention Rate</div>
                 </div>
@@ -719,17 +761,17 @@
               <div class="mockup__chart">
                 <div class="mockup__chart-head">
                   <span>REVENUE TRAJECTORY (Q1 - Q3)</span>
-                  <span style="color: var(--brand-red);">+138% Growth</span>
+                  <span style="color: var(--brand-red); font-weight:700;">+138% Growth</span>
                 </div>
                 <div class="mockup__bars">
-                  <div class="mockup__bar" style="height: 35%;"></div>
-                  <div class="mockup__bar" style="height: 48%;"></div>
-                  <div class="mockup__bar" style="height: 42%;"></div>
-                  <div class="mockup__bar" style="height: 65%;"></div>
-                  <div class="mockup__bar" style="height: 58%;"></div>
-                  <div class="mockup__bar" style="height: 82%;"></div>
-                  <div class="mockup__bar" style="height: 74%;"></div>
-                  <div class="mockup__bar" style="height: 95%;"></div>
+                  <div class="mockup__bar" style="--h: 35%;"></div>
+                  <div class="mockup__bar" style="--h: 48%;"></div>
+                  <div class="mockup__bar" style="--h: 42%;"></div>
+                  <div class="mockup__bar" style="--h: 65%;"></div>
+                  <div class="mockup__bar" style="--h: 58%;"></div>
+                  <div class="mockup__bar" style="--h: 82%;"></div>
+                  <div class="mockup__bar" style="--h: 74%;"></div>
+                  <div class="mockup__bar" style="--h: 95%;"></div>
                 </div>
               </div>
             </div>
@@ -747,22 +789,26 @@
         </div>
 
         <ol class="steps">
-          <li class="step" data-reveal>
+          <li class="step" data-reveal data-tilt data-spotlight>
+            <div class="card-glow-overlay" aria-hidden="true"></div>
             <p class="step__num">01</p>
             <h3 class="step__title">Audit &amp; Blueprint</h3>
             <p class="step__body">We dissect your current numbers, website conversions, ad costs, and content performance to identify immediate growth bottlenecks.</p>
           </li>
-          <li class="step" data-reveal style="--d:.1s">
+          <li class="step" data-reveal style="--d:.1s" data-tilt data-spotlight>
+            <div class="card-glow-overlay" aria-hidden="true"></div>
             <p class="step__num">02</p>
             <h3 class="step__title">Design &amp; Build</h3>
             <p class="step__body">Websites are coded, business analytics models connected, video edits crafted, and AI ads produced in rapid 14-day execution cycles.</p>
           </li>
-          <li class="step" data-reveal style="--d:.2s">
+          <li class="step" data-reveal style="--d:.2s" data-tilt data-spotlight>
+            <div class="card-glow-overlay" aria-hidden="true"></div>
             <p class="step__num">03</p>
             <h3 class="step__title">Launch &amp; Distribute</h3>
             <p class="step__body">Flawless deployment with zero downtime, high-speed CDN assets, conversion tracking, and multi-channel campaign rollout.</p>
           </li>
-          <li class="step" data-reveal style="--d:.3s">
+          <li class="step" data-reveal style="--d:.3s" data-tilt data-spotlight>
+            <div class="card-glow-overlay" aria-hidden="true"></div>
             <p class="step__num">04</p>
             <h3 class="step__title">Optimize &amp; Scale</h3>
             <p class="step__body">We review live performance data weekly — tuning ad copy, refining retention graphs, and maximizing ROI continuously.</p>
@@ -780,7 +826,8 @@
         </div>
 
         <div class="testimonials__grid">
-          <figure class="quote-card" data-reveal>
+          <figure class="quote-card" data-reveal data-tilt data-spotlight>
+            <div class="card-glow-overlay" aria-hidden="true"></div>
             <div>
               <div class="quote-card__stars">★★★★★</div>
               <blockquote class="quote-card__text">
@@ -796,7 +843,8 @@
             </figcaption>
           </figure>
 
-          <figure class="quote-card" data-reveal style="--d:.12s">
+          <figure class="quote-card" data-reveal style="--d:.12s" data-tilt data-spotlight>
+            <div class="card-glow-overlay" aria-hidden="true"></div>
             <div>
               <div class="quote-card__stars">★★★★★</div>
               <blockquote class="quote-card__text">
@@ -812,7 +860,8 @@
             </figcaption>
           </figure>
 
-          <figure class="quote-card" data-reveal style="--d:.24s">
+          <figure class="quote-card" data-reveal style="--d:.24s" data-tilt data-spotlight>
+            <div class="card-glow-overlay" aria-hidden="true"></div>
             <div>
               <div class="quote-card__stars">★★★★★</div>
               <blockquote class="quote-card__text">
